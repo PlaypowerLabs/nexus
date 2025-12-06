@@ -1,0 +1,19 @@
+{
+  "name": "k8-math-games-landing-pages",
+  "version": "1.0.0",
+  "description": "Collection of landing page designs for K-8 math educational games",
+  "private": true,
+  "scripts": {
+    "serve:hero": "npx serve apps/landing-hero-focused",
+    "serve:grid": "npx serve apps/landing-grid-showcase",
+    "serve:minimal": "npx serve apps/landing-minimal-clean"
+  },
+  "keywords": [
+    "landing-pages",
+    "educational-games",
+    "math-games",
+    "k8-education"
+  ],
+  "author": "K8 Games Team",
+  "license": "UNLICENSED"
+}
