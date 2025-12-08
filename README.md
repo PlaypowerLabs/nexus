@@ -79,19 +79,19 @@ See [Vercel Deployment Guide](shared/config/vercel-deploy.md) for step-by-step i
 
 ## 🌐 Deployment
 
-Each landing page is deployed independently on Vercel:
+All landing pages are deployed to AWS S3 with CloudFront CDN:
 
-- **Hero-Focused:** `landing-hero-focused.vercel.app`
-- **Grid Showcase:** `landing-grid-showcase.vercel.app`
-- **Minimal Clean:** `landing-minimal-clean.vercel.app`
+- **S3 Website:** `http://nexus-landing-pages.s3-website-us-east-1.amazonaws.com`
+- **CloudFront:** `https://YOUR_DISTRIBUTION_ID.cloudfront.net` (after setup)
+- **Available paths:** `/`, `/minimal`, `/grid`, `/hero`, `/gamified`, `/video`
 
 ### Auto-Deployment Workflow
 
-1. Push to `main` branch → Production deployment
-2. Create feature branch → Preview deployment
-3. Open PR → Automatic preview URL
+1. Push to `main` branch → Automatic deployment via GitHub Actions
+2. Manual trigger → GitHub Actions UI → "Run workflow"
+3. All landing pages deploy to single S3 bucket with path-based routing
 
-See [detailed deployment guide](shared/config/vercel-deploy.md).
+See [detailed deployment guide](DEPLOYMENT.md) and [AWS setup guide](AWS-SETUP.md).
 
 ## 🔧 Development Workflow
 
@@ -108,15 +108,9 @@ mkdir apps/landing-YOUR-NAME
 cd apps/landing-YOUR-NAME
 touch index.html styles.css
 
-# 4. Create vercel.json
-cat > vercel.json << EOF
-{
-  "version": 2,
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null
-}
-EOF
+# 4. Update build.sh and vercel.json.example
+# Add your app to build.sh (see DEPLOYMENT.md)
+# Add routing rule to vercel.json.example (see DEPLOYMENT.md)
 
 # 5. Commit and push
 git add .
@@ -138,7 +132,7 @@ git add apps/landing-hero-focused/
 git commit -m "feat(landing-hero-focused): update CTA button copy"
 git push origin landing-hero-focused/update-cta
 
-# 4. Vercel automatically creates preview URL
+# 4. GitHub Actions automatically deploys to AWS S3
 ```
 
 ## 📐 Code Style Guide

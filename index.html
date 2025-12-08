@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Pages - K-8 Math Games</title>
+    <meta name="description" content="Browse all available landing page designs for K-8 math educational games">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .landing-pages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .landing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .landing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .landing-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+        
+        .landing-card .path {
+            font-family: 'Courier New', monospace;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        
+        .landing-card .description {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+        
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .default-badge {
+            display: inline-block;
+            background: #4ecdc4;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Landing Pages</h1>
+            <p class="subtitle">K-8 Math Games - Choose Your Design</p>
+        </header>
+        
+        <div id="loading" class="loading">Loading landing pages...</div>
+        <div id="error" class="error" style="display: none;"></div>
+        <div id="landing-pages" class="landing-pages" style="display: none;"></div>
+    </div>
+    
+    <script>
+        // Fetch vercel.json to extract landing pages
+        fetch('/vercel.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load vercel.json');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const loadingEl = document.getElementById('loading');
+                const errorEl = document.getElementById('error');
+                const pagesEl = document.getElementById('landing-pages');
+                
+                loadingEl.style.display = 'none';
+                
+                if (!data.rewrites || !Array.isArray(data.rewrites)) {
+                    throw new Error('Invalid vercel.json format');
+                }
+                
+                // Extract landing pages from rewrites
+                const landingPages = data.rewrites
+                    .filter(rewrite => {
+                        // Filter out root path and only get actual landing pages
+                        const source = rewrite.source;
+                        return source !== '/' && !source.includes(':') && !source.includes('*');
+                    })
+                    .map(rewrite => {
+                        const path = rewrite.source;
+                        const name = path.substring(1).charAt(0).toUpperCase() + path.substring(1).slice(1);
+                        return {
+                            path: path,
+                            name: name,
+                            isDefault: path === '/minimal'
+                        };
+                    });
+                
+                // Render landing pages
+                if (landingPages.length === 0) {
+                    errorEl.textContent = 'No landing pages found in vercel.json';
+                    errorEl.style.display = 'block';
+                    return;
+                }
+                
+                pagesEl.innerHTML = landingPages.map(page => `
+                    <a href="${page.path}" class="landing-card">
+                        <h2>
+                            ${page.name}
+                            ${page.isDefault ? '<span class="default-badge">Default</span>' : ''}
+                        </h2>
+                        <div class="path">${page.path}</div>
+                        <div class="description">
+                            Click to view the ${page.name.toLowerCase()} landing page design.
+                        </div>
+                    </a>
+                `).join('');
+                
+                pagesEl.style.display = 'grid';
+            })
+            .catch(error => {
+                const loadingEl = document.getElementById('loading');
+                const errorEl = document.getElementById('error');
+                
+                loadingEl.style.display = 'none';
+                errorEl.textContent = `Error: ${error.message}`;
+                errorEl.style.display = 'block';
+            });
+    </script>
+</body>
+</html>
+

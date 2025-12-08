@@ -9,6 +9,8 @@ coverage/
 # Production
 dist/
 build/
+public/
+public-build/
 
 # Environment
 .env

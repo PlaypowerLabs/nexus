@@ -1,0 +1,85 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'build.sh'
+      - 'index.html'
+      - 'vercel.json'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: false
+        default: 'main'
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET_NAME || 'nexus-landing-pages' }}
+  CLOUDFRONT_DIST_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
+jobs:
+  deploy:
+    name: Deploy to S3 and CloudFront
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Build project
+        run: |
+          echo "🔨 Building project..."
+          chmod +x build.sh
+          bash build.sh
+          echo "✅ Build complete"
+      
+      - name: Deploy to S3
+        run: |
+          echo "📤 Deploying to S3 bucket: ${{ env.S3_BUCKET }}"
+          aws s3 sync public/ s3://${{ env.S3_BUCKET }}/ \
+            --delete \
+            --cache-control "public, max-age=3600" \
+            --exclude "*.html" \
+            --exclude "*.json"
+          
+          # Upload HTML and JSON files with no-cache
+          aws s3 sync public/ s3://${{ env.S3_BUCKET }}/ \
+            --delete \
+            --cache-control "no-cache, no-store, must-revalidate" \
+            --include "*.html" \
+            --include "*.json"
+          
+          echo "✅ Deployment to S3 complete"
+      
+      - name: Invalidate CloudFront cache
+        if: env.CLOUDFRONT_DIST_ID != ''
+        run: |
+          echo "🔄 Invalidating CloudFront cache..."
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DIST_ID }} \
+            --paths "/*"
+          echo "✅ CloudFront cache invalidated"
+      
+      - name: Deployment summary
+        run: |
+          echo "🎉 Deployment complete!"
+          echo ""
+          echo "📍 S3 Website: http://${{ env.S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com"
+          if [ -n "${{ env.CLOUDFRONT_DIST_ID }}" ]; then
+            echo "📍 CloudFront: https://${{ env.CLOUDFRONT_DIST_ID }}.cloudfront.net"
+          fi
+          echo ""
+          echo "✅ All landing pages deployed successfully!"
+
+
