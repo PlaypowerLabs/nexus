@@ -1,0 +1,44 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "buildCommand": "bash build.sh",
+  "outputDirectory": "public",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/minimal",
+      "destination": "/minimal/index.html"
+    },
+    {
+      "source": "/grid",
+      "destination": "/grid/index.html"
+    },
+    {
+      "source": "/hero",
+      "destination": "/hero/index.html"
+    },
+    {
+      "source": "/gamified",
+      "destination": "/gamified/index.html"
+    },
+    {
+      "source": "/video",
+      "destination": "/video/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
+
