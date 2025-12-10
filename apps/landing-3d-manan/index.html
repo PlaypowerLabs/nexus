@@ -59,11 +59,6 @@
         /* Custom Scrollbar hide */
         ::-webkit-scrollbar { display: none; }
         
-        .fade-enter { opacity: 0; transform: translateY(20px); transition: all 1s ease-out; }
-        .fade-enter-active { opacity: 1; transform: translateY(0); }
-        .fade-exit { opacity: 1; transform: translateY(0); transition: all 0.5s ease-in; }
-        .fade-exit-active { opacity: 0; transform: translateY(-20px); }
-
         .glass-panel {
             background: rgba(5, 11, 20, 0.6);
             backdrop-filter: blur(8px);
@@ -74,9 +69,37 @@
         .hologram-glow {
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
         }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #050B14;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
+        }
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 240, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00F0FF;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+    <!-- Initial Loader -->
+    <div id="loader">
+        <div class="loader-spinner"></div>
+        <p style="color: #00F0FF; font-family: 'Space Grotesk', sans-serif; margin-top: 1rem; letter-spacing: 0.2em;">INITIALIZING UNIVERSE...</p>
+    </div>
+
     <div id="root"></div>
 
     <script type="text/babel" data-type="module">
@@ -85,7 +108,7 @@
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
-        const { useState, useEffect, useRef, useMemo } = React;
+        const { useState, useEffect, useRef } = React;
 
         // --- COMPONENTS ---
 
@@ -138,7 +161,7 @@
             const colors = {
                 orange: 'text-solarOrange border-solarOrange/30 shadow-solarOrange/20',
                 cyan: 'text-electricCyan border-electricCyan/30 shadow-electricCyan/20',
-                purple: 'text-neonLime border-neonLime/30 shadow-neonLime/20' // Using Lime for contrast
+                purple: 'text-neonLime border-neonLime/30 shadow-neonLime/20' 
             };
 
             return (
@@ -156,7 +179,6 @@
                         <h2 className="text-4xl font-header font-bold text-white mb-4">{title}</h2>
                         <p className="text-gray-300 leading-relaxed mb-6">{desc}</p>
                         
-                        {/* Holographic Preview Mockup */}
                         <div className="relative w-full aspect-video bg-black/40 rounded-lg overflow-hidden border border-white/10 group interactive cursor-pointer">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center ${colors[color].split(' ')[0]} ${colors[color].split(' ')[1]}`}>
@@ -223,13 +245,13 @@
             const [activeSection, setActiveSection] = useState('hero');
             const containerRef = useRef(null);
             
-            // Refs for Three.js control
+            // Refs
             const sceneRef = useRef(null);
             const cameraRef = useRef(null);
             const rendererRef = useRef(null);
             const composerRef = useRef(null);
             const objectsRef = useRef([]);
-            const mouseRef = useRef({ x: 0, y: 0 }); // Track mouse for parallax
+            const mouseRef = useRef({ x: 0, y: 0 });
 
             // SCROLL HANDLING
             useEffect(() => {
@@ -237,24 +259,21 @@
                 let targetScroll = 0;
                 
                 const handleWheel = (e) => {
-                    targetScroll += e.deltaY * 0.05; // Sensitivity
-                    targetScroll = Math.max(0, Math.min(targetScroll, 100)); // Clamp 0-100
+                    targetScroll += e.deltaY * 0.01; 
+                    targetScroll = Math.max(0, Math.min(targetScroll, 100)); 
                 };
 
                 const handleWarp = () => {
-                    targetScroll = 20; // Jump start
+                    targetScroll = 20; 
                 };
 
                 window.addEventListener('wheel', handleWheel);
                 window.addEventListener('warp-speed', handleWarp);
                 
-                // Animation Loop for Smooth Scroll
                 const animateScroll = () => {
-                    // Lerp
-                    currentScroll += (targetScroll - currentScroll) * 0.08;
+                    currentScroll += (targetScroll - currentScroll) * 0.05;
                     setScrollProgress(currentScroll);
                     
-                    // Determine Active Section
                     if (currentScroll < 15) setActiveSection('hero');
                     else if (currentScroll < 35) setActiveSection('k2');
                     else if (currentScroll < 55) setActiveSection('35');
@@ -262,9 +281,7 @@
                     else if (currentScroll < 90) setActiveSection('trust');
                     else setActiveSection('footer');
 
-                    // Update 3D Camera Z Position
                     if (cameraRef.current) {
-                        // Map 0-100 scroll to Z 0 to -150
                         const targetZ = -(currentScroll * 1.5);
                         cameraRef.current.position.z = targetZ;
                     }
@@ -285,27 +302,26 @@
             useEffect(() => {
                 if (!containerRef.current) return;
 
-                // 1. Setup
+                // Setup
                 const scene = new THREE.Scene();
-                // Add fog for depth fading
                 scene.fog = new THREE.FogExp2(0x050B14, 0.015);
                 sceneRef.current = scene;
 
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 cameraRef.current = camera;
                 
-                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
                 renderer.toneMapping = THREE.ReinhardToneMapping;
                 containerRef.current.appendChild(renderer.domElement);
                 rendererRef.current = renderer;
 
-                // 2. Post Processing (Bloom)
+                // Post Processing
                 const renderScene = new RenderPass(scene, camera);
                 const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
                 bloomPass.threshold = 0.2;
-                bloomPass.strength = 1.4; // Slightly stronger glow
+                bloomPass.strength = 1.0; 
                 bloomPass.radius = 0.5;
 
                 const composer = new EffectComposer(renderer);
@@ -313,7 +329,7 @@
                 composer.addPass(bloomPass);
                 composerRef.current = composer;
 
-                // 3. Lighting
+                // Lighting
                 const ambientLight = new THREE.AmbientLight(0x404040, 2);
                 scene.add(ambientLight);
 
@@ -321,11 +337,23 @@
                 pointLight.position.set(0, 0, 0);
                 scene.add(pointLight);
 
-                // 4. Objects Generation
+                // --- OPTIMIZATION: SHARED GEOMETRIES & CACHED TEXTURES ---
                 const objects = [];
+                const textureCache = new Map();
 
-                // --- NEW: Helper for Math Textures ---
-                const createMathSprite = (text, color) => {
+                // Shared Geometries
+                const geoCache = {
+                    icosahedron: new THREE.IcosahedronGeometry(1, 0),
+                    torus: new THREE.TorusGeometry(0.3, 0.1, 8, 20),
+                    sphere: new THREE.SphereGeometry(1, 32, 32),
+                    cone: new THREE.ConeGeometry(0.8, 1.5, 4),
+                    plane: new THREE.PlaneGeometry(1, 1)
+                };
+
+                const getMathTexture = (text, colorHex) => {
+                    const key = `${text}-${colorHex}`;
+                    if (textureCache.has(key)) return textureCache.get(key);
+
                     const canvas = document.createElement('canvas');
                     canvas.width = 256;
                     canvas.height = 256;
@@ -333,25 +361,34 @@
                     ctx.font = 'bold 140px "Space Grotesk", sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillStyle = color === 0x00F0FF ? '#00F0FF' : color === 0xFF8A00 ? '#FF8A00' : '#39FF14';
+                    ctx.fillStyle = colorHex === 0x00F0FF ? '#00F0FF' : colorHex === 0xFF8A00 ? '#FF8A00' : '#39FF14';
                     ctx.shadowColor = ctx.fillStyle;
-                    ctx.shadowBlur = 20;
+                    ctx.shadowBlur = 10; 
                     ctx.fillText(text, 128, 128);
 
                     const texture = new THREE.CanvasTexture(canvas);
-                    const material = new THREE.SpriteMaterial({ 
+                    textureCache.set(key, texture);
+                    return texture;
+                };
+
+                const createMathMesh = (text, color) => {
+                    const texture = getMathTexture(text, color);
+                    const material = new THREE.MeshBasicMaterial({ 
                         map: texture, 
                         transparent: true, 
                         opacity: 0.9,
-                        blending: THREE.AdditiveBlending 
+                        blending: THREE.AdditiveBlending,
+                        side: THREE.DoubleSide,
+                        depthWrite: false
                     });
-                    const sprite = new THREE.Sprite(material);
-                    sprite.scale.set(3, 3, 1);
-                    return sprite;
+                    const mesh = new THREE.Mesh(geoCache.plane, material);
+                    mesh.scale.set(3, 3, 1);
+                    return mesh;
                 };
 
-                // Helper to create glowing mesh
-                const createGlowingMesh = (geometry, color, x, y, z, wireframe = false) => {
+                const createGlowingMesh = (baseGeometry, color, x, y, z, wireframe = false) => {
+                    // Note: Materials with animation still need to be unique or instanced. 
+                    // Keeping unique for simplicity of "pulse" effect logic without writing custom shader.
                     const material = new THREE.MeshStandardMaterial({
                         color: color,
                         roughness: 0.2,
@@ -360,8 +397,13 @@
                         emissiveIntensity: 0.8,
                         wireframe: wireframe
                     });
-                    const mesh = new THREE.Mesh(geometry, material);
+                    const mesh = new THREE.Mesh(baseGeometry, material);
                     mesh.position.set(x, y, z);
+                    
+                    // Random scale is applied to mesh, not geometry
+                    if (baseGeometry.type === 'IcosahedronGeometry') mesh.scale.setScalar(Math.random() * 0.5 + 0.2);
+                    if (baseGeometry.type === 'SphereGeometry') mesh.scale.setScalar(Math.random() * 0.5 + 0.5);
+
                     scene.add(mesh);
                     objects.push({ 
                         mesh, 
@@ -373,9 +415,10 @@
                     return mesh;
                 }
 
-                // --- HERO VORTEX MIX (Z: 0 to -15) ---
+                // --- SCENE GENERATION ---
+
+                // Hero Vortex
                 const mathSymbols = ['π', '∑', '∞', '∫', '√', '42', '+', '÷', '≠', 'x²'];
-                
                 for(let i=0; i<40; i++) {
                     const z = -Math.random() * 20;
                     const radius = 2 + Math.random() * 6;
@@ -383,129 +426,186 @@
                     const x = Math.cos(angle) * radius;
                     const y = Math.sin(angle) * radius;
                     
-                    // 30% chance of being a Math Sprite
                     if (Math.random() > 0.7) {
                         const symbol = mathSymbols[Math.floor(Math.random() * mathSymbols.length)];
-                        const sprite = createMathSprite(symbol, 0x00F0FF);
+                        const sprite = createMathMesh(symbol, 0x00F0FF);
                         sprite.position.set(x, y, z);
                         scene.add(sprite);
                         objects.push({
                             mesh: sprite,
-                            rotSpeed: 0, // Sprites always face camera, no rotation needed usually, but we can wobble them
+                            rotSpeed: Math.random() * 0.01,
                             initialY: y,
                             floatSpeed: Math.random() * 0.002,
                             floatOffset: Math.random() * 10
                         });
                     } else {
-                        // Regular Geometry
-                        const isWireframe = Math.random() > 0.5; // 50% wireframe for "blueprint" look
-                        const geo = i % 2 === 0 ? new THREE.IcosahedronGeometry(Math.random() * 0.5) : new THREE.TorusGeometry(0.3, 0.1, 8, 20);
+                        const isWireframe = Math.random() > 0.5;
+                        // Pick random geometry from cache
+                        const geo = i % 2 === 0 ? geoCache.icosahedron : geoCache.torus;
                         createGlowingMesh(geo, 0x00F0FF, x, y, z, isWireframe);
                     }
                 }
 
-                // --- K-2 SECTION (Z: -30) ---
-                // Add floating Numbers (1, 2, 3) around spheres
+                // K-2 Section
                 for(let i=0; i<8; i++) {
-                    const geo = new THREE.SphereGeometry(Math.random() * 1 + 0.5, 32, 32);
-                    createGlowingMesh(geo, 0xFF8A00, (Math.random()-0.5)*10 + 5, (Math.random()-0.5)*6, -35 + Math.random()*5);
+                    createGlowingMesh(geoCache.sphere, 0xFF8A00, (Math.random()-0.5)*10 + 5, (Math.random()-0.5)*6, -35 + Math.random()*5);
                 }
-                // Add K-2 Math Sprites
                 ['1', '2', '3', 'A', 'B'].forEach((sym, i) => {
-                     const sprite = createMathSprite(sym, 0xFF8A00);
+                     const sprite = createMathMesh(sym, 0xFF8A00);
                      sprite.position.set((Math.random()-0.5)*10 + 5, (Math.random()-0.5)*8, -35 + Math.random()*5);
                      scene.add(sprite);
-                     objects.push({ mesh: sprite, rotSpeed: 0, initialY: sprite.position.y, floatSpeed: 0.002, floatOffset: i });
+                     objects.push({ mesh: sprite, rotSpeed: Math.random() * 0.01, initialY: sprite.position.y, floatSpeed: 0.002, floatOffset: i });
                 });
 
-                // --- 3-5 SECTION (Z: -60) ---
-                // Structured geometry
+                // 3-5 Section
                 for(let i=0; i<8; i++) {
-                    const geo = new THREE.ConeGeometry(0.8, 1.5, 4);
-                    createGlowingMesh(geo, 0x00F0FF, (Math.random()-0.5)*10 - 5, (Math.random()-0.5)*6, -65 + Math.random()*5, true); // Wireframe cones
+                    createGlowingMesh(geoCache.cone, 0x00F0FF, (Math.random()-0.5)*10 - 5, (Math.random()-0.5)*6, -65 + Math.random()*5, true);
                 }
-                // Add 3-5 Math Sprites
                 ['¼', '×', '90°', '%'].forEach((sym, i) => {
-                     const sprite = createMathSprite(sym, 0x00F0FF);
+                     const sprite = createMathMesh(sym, 0x00F0FF);
                      sprite.position.set((Math.random()-0.5)*10 - 5, (Math.random()-0.5)*8, -65 + Math.random()*5);
                      scene.add(sprite);
-                     objects.push({ mesh: sprite, rotSpeed: 0, initialY: sprite.position.y, floatSpeed: 0.002, floatOffset: i });
+                     objects.push({ mesh: sprite, rotSpeed: Math.random() * 0.01, initialY: sprite.position.y, floatSpeed: 0.002, floatOffset: i });
                 });
+                // Gateway Arch (REPLACED with Multi-Layered Rainbow Portal)
+                const portalGroup = new THREE.Group();
+                portalGroup.position.set(0, -12, -140); // Lowered slightly to tower over camera
+                scene.add(portalGroup);
+                
+                // Mathverse "Rainbow" Palette
+                const portalColors = [0x00F0FF, 0x39FF14, 0xFF8A00, 0x8A2BE2, 0xFFFFFF];
+                const portalRings = [];
 
-                // --- 6-8 SECTION (Z: -90) ---
-                // Complex fractals
-                for(let i=0; i<8; i++) {
-                    const geo = new THREE.IcosahedronGeometry(1, 1); 
-                    createGlowingMesh(geo, 0x39FF14, (Math.random()-0.5)*10 + 5, (Math.random()-0.5)*6, -95 + Math.random()*5, true);
-                }
-                 // Add 6-8 Math Sprites
-                ['f(x)', 'y', 'z', '√'].forEach((sym, i) => {
-                     const sprite = createMathSprite(sym, 0x39FF14);
-                     sprite.position.set((Math.random()-0.5)*10 + 5, (Math.random()-0.5)*8, -95 + Math.random()*5);
-                     scene.add(sprite);
-                     objects.push({ mesh: sprite, rotSpeed: 0, initialY: sprite.position.y, floatSpeed: 0.002, floatOffset: i });
+                portalColors.forEach((color, i) => {
+                    const radius = 12 + (i * 2.5); // Increasing size
+                    const tube = 0.6 - (i * 0.05); // Inner rings thicker
+                    // Create Arch (Half Torus)
+                    const archGeo = new THREE.TorusGeometry(radius, tube, 32, 100, Math.PI); 
+                    const archMat = new THREE.MeshStandardMaterial({ 
+                        color: color, 
+                        emissive: color, 
+                        emissiveIntensity: 1.5 + (i * 0.5), // Outer rings glow brighter
+                        roughness: 0.1,
+                        metalness: 0.9,
+                        transparent: true,
+                        opacity: 0.9
+                    });
+                    const arch = new THREE.Mesh(archGeo, archMat);
+                    
+                    // Offset Z to create depth/tunnel effect
+                    arch.position.z = -i * 3; 
+                    
+                    portalGroup.add(arch);
+                    portalRings.push({ mesh: arch, baseIntensity: 1.5 + (i * 0.5), offset: i });
                 });
                 
-                // --- TUNNEL PARTICLES ---
-                const particlesGeo = new THREE.BufferGeometry();
-                const particlesCount = 2000;
-                const posArray = new Float32Array(particlesCount * 3);
-                
-                for(let i = 0; i < particlesCount * 3; i+=3) {
-                    posArray[i] = (Math.random() - 0.5) * 50;   // x
-                    posArray[i+1] = (Math.random() - 0.5) * 50; // y
-                    posArray[i+2] = (Math.random() - 0.5) * 200; // z (long tunnel)
-                }
-                
-                particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-                const particlesMat = new THREE.PointsMaterial({
-                    size: 0.05,
+                // Add Portal Floor Reflection (subtle grid line)
+                const gridHelper = new THREE.GridHelper(60, 20, 0x00F0FF, 0x1A0B2E);
+                gridHelper.position.set(0, -12, -150);
+                gridHelper.scale.set(1, 1, 2);
+                scene.add(gridHelper);
+
+                // Pi Crystal Artifact
+                const artifactGroup = new THREE.Group();
+                artifactGroup.position.set(0, 0, -20);
+                scene.add(artifactGroup);
+                objects.push({ mesh: artifactGroup, rotSpeed: 0, initialY: 0, floatSpeed: 0.001, floatOffset: 0 });
+
+                const shellMat = new THREE.MeshPhysicalMaterial({
                     color: 0xffffff,
-                    transparent: true,
-                    opacity: 0.6
+                    metalness: 0.1,
+                    roughness: 0,
+                    transmission: 0.9,
+                    thickness: 2.0,
+                    envMapIntensity: 1.0,
+                    clearcoat: 1.0,
+                    clearcoatRoughness: 0.1
                 });
-                const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
-                scene.add(particlesMesh);
+                // Use cached Icosahedron but scale it up
+                const shell = new THREE.Mesh(geoCache.icosahedron, shellMat);
+                shell.scale.setScalar(2.5);
+                artifactGroup.add(shell);
+
+                const piMesh = createMathMesh('π', 0x00F0FF);
+                piMesh.scale.set(2, 2, 1);
+                artifactGroup.add(piMesh);
+
+                const rings = [];
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0xFF8A00, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
                 
-                // --- GATEWAY ARCH (Z: -140) ---
-                const archGeo = new THREE.TorusGeometry(10, 0.5, 16, 100, Math.PI);
-                const archMat = new THREE.MeshStandardMaterial({ color: 0x00F0FF, emissive: 0x00F0FF, emissiveIntensity: 2 });
-                const arch = new THREE.Mesh(archGeo, archMat);
-                arch.position.set(0, -5, -140);
-                scene.add(arch);
+                for(let i=0; i<3; i++) {
+                    const ringGeo = new THREE.TorusGeometry(3.5 + (i*0.5), 0.02, 16, 100);
+                    const ring = new THREE.Mesh(ringGeo, ringMat);
+                    ring.rotation.x = Math.random() * Math.PI;
+                    ring.rotation.y = Math.random() * Math.PI;
+                    rings.push({ mesh: ring, speedX: (Math.random()*0.02)+0.01, speedY: (Math.random()*0.02)+0.01 });
+                    artifactGroup.add(ring);
+                }
 
+                const artifactPartGeo = new THREE.BufferGeometry();
+                const artifactPartCount = 50;
+                const artifactPosArray = new Float32Array(artifactPartCount * 3);
+                for(let i=0; i<artifactPartCount*3; i+=3) {
+                    const r = 4 + Math.random() * 2;
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.acos(2 * Math.random() - 1);
+                    artifactPosArray[i] = r * Math.sin(phi) * Math.cos(theta);
+                    artifactPosArray[i+1] = r * Math.sin(phi) * Math.sin(theta);
+                    artifactPosArray[i+2] = r * Math.cos(phi);
+                }
+                artifactPartGeo.setAttribute('position', new THREE.BufferAttribute(artifactPosArray, 3));
+                const artifactPartMat = new THREE.PointsMaterial({ size: 0.03, color: 0x00F0FF, transparent: true, opacity: 0.6 });
+                const artifactParticles = new THREE.Points(artifactPartGeo, artifactPartMat);
+                artifactGroup.add(artifactParticles);
 
-                // 5. Animation Loop
+                // --- REMOVE LOADER ---
+                const loader = document.getElementById('loader');
+                if(loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+
+                // Animation
                 const animate = () => {
                     requestAnimationFrame(animate);
                     const time = Date.now() * 0.001;
                     
-                    // Rotate and Float objects
                     objects.forEach(obj => {
-                        // Rotation
                         if(obj.mesh.type === 'Mesh') {
                              obj.mesh.rotation.x += obj.rotSpeed;
                              obj.mesh.rotation.y += obj.rotSpeed;
                              
-                             // Pulse Glow
-                             obj.mesh.material.emissiveIntensity = 0.8 + Math.sin(time * 2 + obj.floatOffset) * 0.4;
-                        } else if (obj.mesh.type === 'Sprite') {
-                             // Gentle wobble for sprites
-                             obj.mesh.material.rotation = Math.sin(time + obj.floatOffset) * 0.1;
+                             if (obj.mesh.geometry.type !== 'PlaneGeometry') {
+                                obj.mesh.material.emissiveIntensity = 0.8 + Math.sin(time * 2 + obj.floatOffset) * 0.4;
+                             }
+                        } else if (obj.mesh.type === 'Group') {
+                             obj.mesh.position.y = obj.initialY + Math.sin(time) * 0.3;
+                             shell.rotation.y -= 0.005;
+                             shell.rotation.z -= 0.002;
+                             rings.forEach(ring => {
+                                 ring.mesh.rotation.x += ring.speedX;
+                                 ring.mesh.rotation.y += ring.speedY;
+                             });
+                             piMesh.rotation.y += 0.01;
+                             artifactParticles.rotation.y += 0.002;
                         }
 
-                        // Floating Y movement
-                        obj.mesh.position.y = obj.initialY + Math.sin(time + obj.floatOffset) * 0.5;
+                        if(obj.mesh.type !== 'Group') {
+                             obj.mesh.position.y = obj.initialY + Math.sin(time + obj.floatOffset) * 0.5;
+                        }
+                    });
+
+                    // Animate Portal Rings (Pulse Effect)
+                    portalRings.forEach(ring => {
+                        // Create a flowing pulse from back to front
+                        ring.mesh.material.emissiveIntensity = ring.baseIntensity + Math.sin(time * 3 - ring.offset) * 0.5;
                     });
                     
-                    // Parallax Camera Movement
-                    // Smoothly interpolate current mouse offset to target
                     const targetX = (mouseRef.current.x * 2); 
                     const targetY = (mouseRef.current.y * 2);
                     camera.position.x += (targetX - camera.position.x) * 0.05;
                     camera.position.y += (targetY - camera.position.y) * 0.05;
 
-                    // Light follows camera
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z - 5);
 
                     composer.render();
@@ -514,7 +614,6 @@
                 animate();
                 objectsRef.current = objects;
 
-                // Handle Resize
                 const handleResize = () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
@@ -522,9 +621,7 @@
                     composer.setSize(window.innerWidth, window.innerHeight);
                 };
 
-                // Handle Mouse Move for Parallax
                 const handleMouseMove = (e) => {
-                    // Normalize mouse pos from -1 to 1
                     mouseRef.current = {
                         x: (e.clientX / window.innerWidth) * 2 - 1,
                         y: -(e.clientY / window.innerHeight) * 2 + 1
@@ -537,24 +634,18 @@
                 return () => {
                     window.removeEventListener('resize', handleResize);
                     window.removeEventListener('mousemove', handleMouseMove);
-                    containerRef.current.removeChild(renderer.domElement);
+                    if (containerRef.current && renderer.domElement) {
+                         containerRef.current.removeChild(renderer.domElement);
+                    }
                 }
             }, []);
 
             return (
                 <>
                     <Nav />
-                    
-                    {/* 3D Canvas Container */}
                     <div ref={containerRef} className="fixed inset-0 z-0 bg-deepSpace" />
-                    
-                    {/* UI Overlay Layer */}
                     <div id="ui-layer" className="z-10 text-white font-sans">
-                        
-                        {/* Section 1: Hero */}
                         <HeroSection active={activeSection === 'hero'} />
-
-                        {/* Section 2: K-2 */}
                         <GradeBand 
                             title="The Playground" 
                             age="Grades K-2" 
@@ -563,8 +654,6 @@
                             active={activeSection === 'k2'}
                             position="left"
                         />
-                        
-                        {/* Section 3: 3-5 */}
                         <GradeBand 
                             title="The Builders" 
                             age="Grades 3-5" 
@@ -573,8 +662,6 @@
                             active={activeSection === '35'}
                             position="right"
                         />
-                        
-                        {/* Section 4: 6-8 */}
                         <GradeBand 
                             title="The Fractal Void" 
                             age="Grades 6-8" 
@@ -583,18 +670,10 @@
                             active={activeSection === '68'}
                             position="left"
                         />
-                        
-                        {/* Section 5: Trust */}
                         <TrustSection active={activeSection === 'trust'} />
-                        
-                        {/* Section 6: Footer */}
                         <FooterSection active={activeSection === 'footer'} />
-                        
                     </div>
-                    
                     <ScrollIndicator />
-                    
-                    {/* Progress Bar */}
                     <div className="fixed bottom-0 left-0 h-1 bg-electricCyan z-50 transition-all duration-100 ease-out" style={{ width: `${scrollProgress}%` }}></div>
                 </>
             );
@@ -603,7 +682,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
 
-        // Initialize Lucide icons
         lucide.createIcons();
     </script>
 </body>
