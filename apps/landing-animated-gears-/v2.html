@@ -45,7 +45,6 @@
 
     <script>
         // --- CONFIGURATION ---
-        // RESTORED CONFIG OBJECT TO FIX REFERENCE ERROR
         const CONFIG = {
             colors: {
                 cyan: 0x00ffff,
@@ -84,11 +83,10 @@
         let symbols = [];
         let particles;
         let numberSprites = [];
-        let starGeo; // Reference for warp effect
+        let starGeo; 
         
-        // Mouse interaction
         let mouseX = 0, mouseY = 0;
-        let rawMouseX = 0, rawMouseY = 0; // For raycasting logic mapping
+        let rawMouseX = 0, rawMouseY = 0; 
         let targetRotationX = 0, targetRotationY = 0;
         let surgeFactor = 1.0;
 
@@ -124,7 +122,7 @@
             // --- BUILD ENGINE PARTS ---
             createCore();
             createMainGears();
-            createSquareGears(); // NEW: Square Gears
+            createSquareGears(); 
             createSatellites();
             createConduits();
             createFloatingNumbers();
@@ -211,7 +209,6 @@
             });
         }
 
-        // Standard Circular Gear
         function createGear(radius, teeth, width, color, speed, isRuler = false) {
             const shape = new THREE.Shape();
             const outerRadius = radius;
@@ -233,9 +230,11 @@
             const material = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.8, roughness: 0.4, emissive: 0x000000 });
             const mesh = new THREE.Mesh(geometry, material);
             
+            // Edges at children[0]
             const edgeMat = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.5 });
             mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMat));
             
+            // Ticks at children[1] (if Ruler)
             if (isRuler) {
                 const tickGroup = new THREE.Group();
                 const tickGeo = new THREE.BoxGeometry(0.1, 0.4, 0.05);
@@ -254,27 +253,20 @@
             const group = new THREE.Group();
             group.add(mesh);
             mesh.position.z = -width / 2;
-            group.userData = { rotSpeed: speed, baseColor: color }; // Store base color for theme switching
+            group.userData = { rotSpeed: speed, baseColor: color }; 
             return group;
         }
 
-        // NEW: Square Gear Generator
         function createSquareGears() {
-            // Create a square shape with teeth
             const size = 18;
             const teethPerSide = 5;
             const shape = new THREE.Shape();
-            
             const step = size / teethPerSide;
             
-            // Generate path
             shape.moveTo(-size/2, -size/2);
             
             const sides = [
-                {x: 1, y: 0}, // Bottom
-                {x: 0, y: 1}, // Right
-                {x: -1, y: 0}, // Top
-                {x: 0, y: -1}  // Left
+                {x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 0}, {x: 0, y: -1} 
             ];
 
             let currX = -size/2;
@@ -282,26 +274,21 @@
 
             sides.forEach(dir => {
                 for(let i=0; i<teethPerSide; i++) {
-                    // Flat part
                     currX += dir.x * (step * 0.6);
                     currY += dir.y * (step * 0.6);
                     shape.lineTo(currX, currY);
                     
-                    // Tooth out
-                    const tx = -dir.y * 1.5; // Normal vector
+                    const tx = -dir.y * 1.5; 
                     const ty = dir.x * 1.5;
                     
                     shape.lineTo(currX + tx, currY + ty);
-                    
                     currX += dir.x * (step * 0.4);
                     currY += dir.y * (step * 0.4);
-                    
                     shape.lineTo(currX + tx, currY + ty);
                     shape.lineTo(currX, currY);
                 }
             });
             
-            // Hole
             const holePath = new THREE.Path();
             holePath.moveTo(-size*0.4, -size*0.4);
             holePath.lineTo(size*0.4, -size*0.4);
@@ -320,9 +307,8 @@
             const group = new THREE.Group();
             group.add(mesh);
             mesh.position.z = -0.5;
-            group.position.z = -4; // Behind main gears
+            group.position.z = -4; 
             
-            // Create two rotating in opposite directions
             const g1 = group.clone();
             g1.userData = { rotSpeed: 0.005, baseColor: 0xff00ff };
             engineGroup.add(g1);
@@ -367,7 +353,7 @@
                 
                 const satGear = createGear(2, 10, 0.5, CONFIG.colors.cyan, 0.02);
                 satGear.position.x = pos.r;
-                satGear.userData.baseColor = CONFIG.colors.cyan; // For theming
+                satGear.userData.baseColor = CONFIG.colors.cyan; 
                 
                 const icoGeo = shapes[idx % shapes.length];
                 const icoMat = new THREE.MeshBasicMaterial({ color: CONFIG.colors.purple, wireframe: true, transparent: true, opacity: 0.8 });
@@ -378,7 +364,7 @@
                 ico.add(icoGlow);
                 
                 satGear.add(ico);
-                satGear.userData.innerIco = ico; // Ref for anim
+                satGear.userData.innerIco = ico; 
 
                 orbitGroup.add(satGear);
                 engineGroup.add(orbitGroup);
@@ -453,7 +439,6 @@
             }
             starGeo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
             starGeo.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
-            // Store original positions for warp effect
             starGeo.userData = { originalPos: pos.slice() };
             
             const tex = createTextTexture('.', 32, '#ffffff');
@@ -507,16 +492,28 @@
 
             // Update Geometries colors
             gears.forEach(g => {
-                const edge = g.children[0].children[1]; // Edge is 2nd child usually
-                if(edge) edge.material.color.setHex(theme.primary);
+                const gearMesh = g.children[0];
+                if(gearMesh && gearMesh.children.length > 0) {
+                    const edge = gearMesh.children[0]; // Edge is 1st child (index 0)
+                    if(edge && edge.material) edge.material.color.setHex(theme.primary);
+                }
             });
             squareGears.forEach(g => {
-                const edge = g.children[0].children[1];
-                if(edge) edge.material.color.setHex(theme.secondary);
+                const gearMesh = g.children[0];
+                if(gearMesh && gearMesh.children.length > 0) {
+                    const edge = gearMesh.children[0]; // Edge is 1st child (index 0)
+                    if(edge && edge.material) edge.material.color.setHex(theme.secondary);
+                }
             });
             satellites.forEach(s => {
-                s.gear.children[1].material.color.setHex(theme.secondary); // Wireframe ico
-                s.gear.children[1].children[0].material.color.setHex(theme.primary); // Inner glow
+                // s.gear is the Group. children[1] is the Icosahedron Mesh
+                const ico = s.gear.children[1];
+                if(ico && ico.material) {
+                    ico.material.color.setHex(theme.secondary); 
+                    if(ico.children[0] && ico.children[0].material) {
+                         ico.children[0].material.color.setHex(theme.primary); 
+                    }
+                }
             });
             
             numberSprites.forEach(s => s.material.color.setHex(theme.primary));
@@ -572,12 +569,10 @@
             const positions = particles.geometry.attributes.position.array;
             const original = particles.geometry.userData.originalPos;
             for(let i=0; i < positions.length; i+=3) {
-                // If surging, stretch z
                 if(surgeFactor > 1.1) {
                     positions[i+2] += (surgeFactor * 2); 
                     if(positions[i+2] > 50) positions[i+2] = -50;
                 } else {
-                    // Return to original (lerp)
                     positions[i+2] += (original[i+2] - positions[i+2]) * 0.1;
                 }
             }
@@ -585,7 +580,6 @@
             particles.rotation.y += 0.001 * surgeFactor;
 
             // Interactive Number Cloud
-            // Convert mouse to world space roughly for repulsion
             const vector = new THREE.Vector3(
                 (rawMouseX / window.innerWidth) * 2 - 1,
                 -(rawMouseY / window.innerHeight) * 2 + 1,
@@ -597,16 +591,13 @@
             const worldMouse = camera.position.clone().add(dir.multiplyScalar(distance));
 
             numberSprites.forEach(sprite => {
-                // Base movement
                 sprite.position.add(sprite.userData.velocity);
                 
-                // Repulsion logic
                 const d = sprite.position.distanceTo(worldMouse);
                 if (d < 5) {
                     const repel = sprite.position.clone().sub(worldMouse).normalize().multiplyScalar(0.2);
                     sprite.position.add(repel);
                 } else {
-                    // Slowly return to cloud center if too far
                     if(sprite.position.length() > 30) {
                         sprite.position.lerp(sprite.userData.basePos, 0.01);
                     }
