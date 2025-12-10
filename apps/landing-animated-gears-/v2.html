@@ -18,15 +18,55 @@
             color: rgba(255, 255, 255, 0.8); font-family: 'Courier New', monospace;
             font-size: 0.9rem; pointer-events: none; user-select: none;
             text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            z-index: 10;
         }
-        .key {
-            color: #fff; background: rgba(255,255,255,0.2); 
-            padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.4);
+        #controls {
+            position: absolute; bottom: 120px; left: 20px;
+            color: #00ffff; font-family: 'Courier New', monospace;
+            z-index: 10; width: 200px;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: rgba(0, 255, 255, 0.2);
+            height: 5px;
+            border-radius: 5px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        input[type=range]::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ffff;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffff;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            text-shadow: 0 0 5px #00ffff;
         }
     </style>
 </head>
 <body>
     <div id="loading">Initialising Hyper-Geometry...</div>
+    
+    <div id="controls">
+        <label for="cloudSlider">Number Density: <span id="densityVal">200</span></label>
+        <input type="range" id="cloudSlider" min="0" max="500" value="200">
+    </div>
+
     <div id="ui">
         SYSTEM: MATH CORE<br>
         [CLICK] to Warp Surge<br>
@@ -89,6 +129,10 @@
         let rawMouseX = 0, rawMouseY = 0; 
         let targetRotationX = 0, targetRotationY = 0;
         let surgeFactor = 1.0;
+        
+        // Slider Logic
+        const slider = document.getElementById('cloudSlider');
+        const densityDisplay = document.getElementById('densityVal');
 
         function init() {
             // Scene Setup
@@ -125,7 +169,7 @@
             createSquareGears(); 
             createSatellites();
             createConduits();
-            createFloatingNumbers();
+            createFloatingNumbers(); // Creates max pool
             createEnvironment();
 
             scene.add(engineGroup);
@@ -148,10 +192,20 @@
             document.addEventListener('mousedown', onMouseDown, false);
             window.addEventListener('keydown', onKeyDown, false);
             
+            // Slider Event
+            slider.addEventListener('input', (e) => {
+                const val = parseInt(e.target.value);
+                densityDisplay.innerText = val;
+                updateNumberVisibility(val);
+            });
+            
             // Hide loader
             setTimeout(() => {
                 document.getElementById('loading').style.opacity = 0;
             }, 1000);
+
+            // Initial visibility set
+            updateNumberVisibility(200);
 
             animate();
         }
@@ -406,7 +460,8 @@
 
         function createFloatingNumbers() {
             const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            for (let i = 0; i < 50; i++) {
+            // Create a pool of 500 sprites
+            for (let i = 0; i < 500; i++) {
                 const num = numbers[Math.floor(Math.random() * numbers.length)];
                 const texture = createTextTexture(num, 64, '#ffffff');
                 const material = new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, color: 0x4488ff });
@@ -421,8 +476,18 @@
                     basePos: sprite.position.clone(),
                     velocity: new THREE.Vector3((Math.random()-0.5)*0.01, (Math.random()-0.5)*0.01, (Math.random()-0.5)*0.01)
                 };
+                
+                // Initially hide all, let the init call handle visibility
+                sprite.visible = false;
+                
                 engineGroup.add(sprite);
                 numberSprites.push(sprite);
+            }
+        }
+        
+        function updateNumberVisibility(count) {
+            for(let i = 0; i < numberSprites.length; i++) {
+                numberSprites[i].visible = i < count;
             }
         }
 
@@ -591,6 +656,8 @@
             const worldMouse = camera.position.clone().add(dir.multiplyScalar(distance));
 
             numberSprites.forEach(sprite => {
+                if(!sprite.visible) return; // Skip invisible sprites
+
                 sprite.position.add(sprite.userData.velocity);
                 
                 const d = sprite.position.distanceTo(worldMouse);
