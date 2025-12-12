@@ -27,6 +27,10 @@
     {
       "source": "/video",
       "destination": "/video/index.html"
+    },
+    {
+      "source": "/wizard",
+      "destination": "/wizard/index.html"
     }
   ],
   "headers": [
