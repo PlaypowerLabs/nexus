@@ -39,10 +39,6 @@
     {
       "source": "/claude-manan/math-cosmos",
       "destination": "/claude-manan/math_cosmos_landing.html"
-    },
-    {
-      "source": "/wizard",
-      "destination": "/wizard/index.html"
     }
   ],
   "headers": [
