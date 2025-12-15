@@ -33,6 +33,10 @@ fi
 
 # Copy root index.html and vercel.json to public
 cp index.html public-build/index.html 2>/dev/null || true
+# Copy landing pages registry (metadata for all pages)
+cp landing-pages-registry.json public-build/landing-pages-registry.json 2>/dev/null || true
+# Copy documentation for adding new landing pages
+cp ADDING_LANDING_PAGES.md public-build/ADDING_LANDING_PAGES.md 2>/dev/null || true
 # Copy vercel.json.example as vercel.json for root page routing
 cp vercel.json.example public-build/vercel.json 2>/dev/null || true
 
