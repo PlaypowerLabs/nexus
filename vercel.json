@@ -9,40 +9,12 @@
       "destination": "/index.html"
     },
     {
-      "source": "/minimal",
-      "destination": "/minimal/index.html"
-    },
-    {
-      "source": "/grid",
-      "destination": "/grid/index.html"
-    },
-    {
-      "source": "/hero",
-      "destination": "/hero/index.html"
-    },
-    {
-      "source": "/gamified",
-      "destination": "/gamified/index.html"
-    },
-    {
-      "source": "/video",
-      "destination": "/video/index.html"
+      "source": "/games-dashboard",
+      "destination": "/games-dashboard/index.html"
     },
     {
       "source": "/3d-manan",
       "destination": "/3d-manan/index.html"
-    },
-    {
-      "source": "/claude-manan",
-      "destination": "/claude-manan/index.html"
-    },
-    {
-      "source": "/claude-manan/math-cosmos",
-      "destination": "/claude-manan/math_cosmos_landing.html"
-    },
-    {
-      "source": "/games-dashboard",
-      "destination": "/games-dashboard/index.html"
     }
   ],
   "headers": [
@@ -57,4 +29,3 @@
     }
   ]
 }
-

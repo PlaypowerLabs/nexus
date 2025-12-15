@@ -10,67 +10,13 @@
       "tags": ["games", "dashboard", "interactive"]
     },
     {
-      "path": "/claude-manan",
-      "name": "Claude Manan",
-      "description": "Modern landing page design created by Claude and Manan",
-      "owner": "Manan Shah",
-      "createdDate": "2024-12-10",
-      "lastUpdated": "2024-12-10",
-      "tags": ["modern", "design"]
-    },
-    {
       "path": "/3d-manan",
-      "name": "3D Manan",
+      "name": "3D Space Theme",
       "description": "3D interactive landing page with Three.js visualization and space theme",
       "owner": "Manan Shah",
       "createdDate": "2024-12-08",
       "lastUpdated": "2024-12-08",
-      "tags": ["3d", "interactive", "threejs"]
-    },
-    {
-      "path": "/minimal",
-      "name": "Minimal Clean",
-      "description": "Simple, clean minimal design landing page",
-      "owner": "PlayPower Team",
-      "createdDate": "2024-11-01",
-      "lastUpdated": "2024-11-15",
-      "tags": ["minimal", "clean"]
-    },
-    {
-      "path": "/grid",
-      "name": "Grid Showcase",
-      "description": "Grid-based layout showcasing multiple games",
-      "owner": "PlayPower Team",
-      "createdDate": "2024-11-01",
-      "lastUpdated": "2024-11-15",
-      "tags": ["grid", "showcase"]
-    },
-    {
-      "path": "/hero",
-      "name": "Hero Focused",
-      "description": "Hero-focused design with prominent call-to-action",
-      "owner": "PlayPower Team",
-      "createdDate": "2024-11-01",
-      "lastUpdated": "2024-11-15",
-      "tags": ["hero", "cta"]
-    },
-    {
-      "path": "/gamified",
-      "name": "Gamified Interactive",
-      "description": "Gamified experience with interactive elements",
-      "owner": "PlayPower Team",
-      "createdDate": "2024-11-01",
-      "lastUpdated": "2024-11-15",
-      "tags": ["gamified", "interactive"]
-    },
-    {
-      "path": "/video",
-      "name": "Video Story",
-      "description": "Video-centric storytelling landing page",
-      "owner": "PlayPower Team",
-      "createdDate": "2024-11-01",
-      "lastUpdated": "2024-11-15",
-      "tags": ["video", "story"]
+      "tags": ["3d", "interactive", "threejs", "space"]
     }
   ]
 }
