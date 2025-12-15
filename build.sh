@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build script to prepare files for deployment (AWS S3 / Vercel compatible)
+# Build script to prepare files for deployment (Vercel)
 # This creates a public directory structure that can be served statically
 
 # Create public directory structure (avoid overwriting existing public/assets)
@@ -31,8 +31,7 @@ fi
 
 # Copy root index.html and vercel.json to public
 cp index.html public-build/index.html 2>/dev/null || true
-# Copy vercel.json.example as vercel.json for root page routing
-cp vercel.json.example public-build/vercel.json 2>/dev/null || true
+cp vercel.json public-build/vercel.json 2>/dev/null || true
 
 # Move public-build to public (this will be the output)
 rm -rf public

@@ -36,3 +36,6 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+# Git credentials (per-repo)
+.git-credentials
