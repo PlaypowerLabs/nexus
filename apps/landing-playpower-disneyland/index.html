@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayPower MathLand - Where Learning Becomes an Adventure!</title>
+  <meta name="description" content="Discover the magic of learning at PlayPower MathLand - an enchanted theme park of K-8 math games where every child becomes a hero of their own learning adventure.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;500;600;700&family=Bangers&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Animated Background Effects -->
+  <div class="background-magic">
+    <div class="floating-shapes"></div>
+    <div class="animated-gradient"></div>
+  </div>
+
+  <!-- Park Entrance Gates -->
+  <div class="park-gates" id="parkGates">
+    <div class="gate gate-left"></div>
+    <div class="gate gate-right"></div>
+    <div class="gate-sign">
+      <h1 class="park-logo">MATHLAND</h1>
+      <p class="park-subtitle">Adventure Awaits!</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="park-content" id="parkContent">
+
+    <!-- Hero Section - Grand Entrance -->
+    <section class="hero-entrance">
+      <div class="hero-sky">
+        <div class="clouds"></div>
+        <div class="balloons"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="welcome-banner">
+          <div class="banner-sparkle"></div>
+          <h1 class="main-title">
+            Welcome to <span class="highlight">PlayPower MathLand</span>
+          </h1>
+          <p class="main-subtitle">
+            Where Every Child Becomes the Hero of Their Own Learning Adventure
+          </p>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn-primary entrance-btn" onclick="scrollToLands()">
+            <span class="btn-icon">🎢</span>
+            <span>Explore the Park</span>
+            <span class="btn-shine"></span>
+          </button>
+          <button class="btn-secondary" onclick="scrollToMap()">
+            <span class="btn-icon">🗺️</span>
+            <span>View Park Map</span>
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-icon">🎮</div>
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Epic Adventures</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-number">K-8</div>
+            <div class="stat-label">Grade Levels</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Fun Guaranteed</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Park Map Section -->
+    <section class="park-map-section" id="parkMap">
+      <div class="section-header">
+        <h2 class="section-title">Discover Our Magical Lands</h2>
+        <p class="section-subtitle">Each land is filled with exciting games tailored for different adventurers</p>
+      </div>
+
+      <div class="park-map-container">
+        <div class="land-selector">
+          <button class="land-btn active" data-land="space" onclick="selectLand('space')">
+            <span class="land-btn-icon">🚀</span>
+            <span>Space Odyssey</span>
+          </button>
+          <button class="land-btn" data-land="pirates" onclick="selectLand('pirates')">
+            <span class="land-btn-icon">🏴‍☠️</span>
+            <span>Pirate's Cove</span>
+          </button>
+          <button class="land-btn" data-land="multiverse" onclick="selectLand('multiverse')">
+            <span class="land-btn-icon">🌌</span>
+            <span>Multiverse Metropolis</span>
+          </button>
+          <button class="land-btn" data-land="creatures" onclick="selectLand('creatures')">
+            <span class="land-btn-icon">🦖</span>
+            <span>Creature Kingdom</span>
+          </button>
+          <button class="land-btn" data-land="arcade" onclick="selectLand('arcade')">
+            <span class="land-btn-icon">🎯</span>
+            <span>Skill Arcade</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Themed Lands - Attractions -->
+    <div class="lands-container" id="landsContainer">
+
+      <!-- Space Odyssey Land -->
+      <section class="themed-land land-space active" id="land-space" data-land="space">
+        <div class="land-background">
+          <div class="stars-field"></div>
+        </div>
+
+        <div class="land-content">
+          <div class="land-header">
+            <div class="land-icon">🚀</div>
+            <h2 class="land-title">Space Odyssey</h2>
+            <p class="land-description">Blast off into cosmic math adventures among the stars!</p>
+            <div class="land-badge">Grades K-3</div>
+          </div>
+
+          <div class="attractions-grid">
+            <div class="attraction-card" data-grade="k">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-k/space-party-topic-1-en.png" alt="Space Party" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Space Party</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade K</span>
+                  <span class="card-topic">Counting Fun</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="1">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-1/astro-math-topic-2-en.png" alt="Astro Math" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Astro Math</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 1</span>
+                  <span class="card-topic">Number Sense</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="1">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-1/count-the-crew-topic-7-en.png" alt="Count the Crew" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Count the Crew</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 1</span>
+                  <span class="card-topic">Counting Skills</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="3">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-3/astro-math-topic-2-en.png" alt="Astro Math Advanced" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Astro Math: Advanced</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 3</span>
+                  <span class="card-topic">Multiplication</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pirate's Cove Land -->
+      <section class="themed-land land-pirates" id="land-pirates" data-land="pirates">
+        <div class="land-background">
+          <div class="ocean-waves"></div>
+        </div>
+
+        <div class="land-content">
+          <div class="land-header">
+            <div class="land-icon">🏴‍☠️</div>
+            <h2 class="land-title">Pirate's Cove</h2>
+            <p class="land-description">Set sail on robotic pirate ships for treasure-filled math quests!</p>
+            <div class="land-badge">Grades 2-7</div>
+          </div>
+
+          <div class="attractions-grid">
+            <div class="attraction-card" data-grade="2">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-2/robo-pirates-topic-9-en.png" alt="Robo Pirates" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Robo Pirates: Treasure Hunt</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 2</span>
+                  <span class="card-topic">Addition & Subtraction</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="4">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-4/robo-pirates-topic-1-en.png" alt="Robo Pirates Advanced" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Robo Pirates: Division Quest</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 4</span>
+                  <span class="card-topic">Division</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="5">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-5/robo-pirates-topic-2-en.png" alt="Robo Pirates Decimals" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Robo Pirates: Decimal Seas</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 5</span>
+                  <span class="card-topic">Decimals</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="7">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-7/robo-pirates-topic-1-en.png" alt="Robo Pirates Ratios" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Robo Pirates: Ratio Raiders</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 7</span>
+                  <span class="card-topic">Ratios & Proportions</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Multiverse Metropolis Land -->
+      <section class="themed-land land-multiverse" id="land-multiverse" data-land="multiverse">
+        <div class="land-background">
+          <div class="portal-effects"></div>
+        </div>
+
+        <div class="land-content">
+          <div class="land-header">
+            <div class="land-icon">🌌</div>
+            <h2 class="land-title">Multiverse Metropolis</h2>
+            <p class="land-description">Jump through portals to alternate dimensions of mathematical wonder!</p>
+            <div class="land-badge">Grades 2-8</div>
+          </div>
+
+          <div class="attractions-grid">
+            <div class="attraction-card" data-grade="2">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-2/multiverse-topic-1-en.png" alt="Multiverse Explorer" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Multiverse Explorer</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 2</span>
+                  <span class="card-topic">Place Value</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="3">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-3/multiverse-topic-3-en.png" alt="Multiverse Dimensions" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Multiverse: Portal Jump</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 3</span>
+                  <span class="card-topic">Multiplication</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="6">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-6/grid-lock-topic-2-en.png" alt="Grid Lock" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Grid Lock Challenge</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 6</span>
+                  <span class="card-topic">Coordinate Plane</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="7">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-7/algebra-trials-topic-4-en.png" alt="Algebra Trials" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Algebra Trials</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 7</span>
+                  <span class="card-topic">Equations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Creature Kingdom Land -->
+      <section class="themed-land land-creatures" id="land-creatures" data-land="creatures">
+        <div class="land-background">
+          <div class="jungle-foliage"></div>
+        </div>
+
+        <div class="land-content">
+          <div class="land-header">
+            <div class="land-icon">🦖</div>
+            <h2 class="land-title">Creature Kingdom</h2>
+            <p class="land-description">Meet friendly creatures who make learning math a joyful adventure!</p>
+            <div class="land-badge">Grades K-4</div>
+          </div>
+
+          <div class="attractions-grid">
+            <div class="attraction-card" data-grade="k">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-k/bunny-jumping-topic-5-en.png" alt="Bunny Jumping" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Bunny Jumping</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade K</span>
+                  <span class="card-topic">Number Recognition</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="1">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-1/bunny-jumping-topic-3-en.png" alt="Bunny Jumping Plus" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Bunny Jumping Adventure</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 1</span>
+                  <span class="card-topic">Addition</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="2">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-2/emoji-battle-topic-3-en.png" alt="Emoji Battle" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Emoji Battle Arena</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 2</span>
+                  <span class="card-topic">Mental Math</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="4">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-4/dino-muncher-topic-6-en.png" alt="Dino Muncher" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Dino Muncher</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 4</span>
+                  <span class="card-topic">Fractions</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skill Arcade Land -->
+      <section class="themed-land land-arcade" id="land-arcade" data-land="arcade">
+        <div class="land-background">
+          <div class="arcade-lights"></div>
+        </div>
+
+        <div class="land-content">
+          <div class="land-header">
+            <div class="land-icon">🎯</div>
+            <h2 class="land-title">Skill Arcade</h2>
+            <p class="land-description">Test your math skills in our carnival of fast-paced learning games!</p>
+            <div class="land-badge">All Grades</div>
+          </div>
+
+          <div class="attractions-grid">
+            <div class="attraction-card" data-grade="2">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-2/fact-racer-topic-4-en.png" alt="Fact Racer" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Fact Racer</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 2</span>
+                  <span class="card-topic">Speed Math</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="3">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-3/fraction-frenzy-topic-10-en.png" alt="Fraction Frenzy" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Fraction Frenzy</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 3</span>
+                  <span class="card-topic">Fractions</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="5">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-5/digit-drive-topic-1-en.png" alt="Digit Drive" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Digit Drive</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 5</span>
+                  <span class="card-topic">Place Value</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="attraction-card" data-grade="8">
+              <div class="card-glow"></div>
+              <div class="card-image">
+                <img src="/assets/images/grade-8/number-knockout-topic-1-en.png" alt="Number Knockout" loading="lazy">
+                <div class="card-overlay">
+                  <button class="play-btn">Board This Ride!</button>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-title">Number Knockout</h3>
+                <div class="card-meta">
+                  <span class="grade-badge">Grade 8</span>
+                  <span class="card-topic">Integers</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Park Features Section -->
+    <section class="park-features">
+      <div class="section-header">
+        <h2 class="section-title">Park Amenities</h2>
+        <p class="section-subtitle">Everything your child needs for an amazing learning journey</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎓</div>
+          <h3 class="feature-title">Curriculum-Aligned</h3>
+          <p class="feature-description">Every game is carefully designed to match K-8 math standards</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">Safe & Ad-Free</h3>
+          <p class="feature-description">A protected environment where learning comes first, always</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Progress Tracking</h3>
+          <p class="feature-description">Watch your child's skills grow with detailed achievement reports</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎮</div>
+          <h3 class="feature-title">Engaging Games</h3>
+          <p class="feature-description">Each adventure is designed to make math feel like play</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🌟</div>
+          <h3 class="feature-title">Adaptive Learning</h3>
+          <p class="feature-description">Games adjust to your child's pace and skill level</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💪</div>
+          <h3 class="feature-title">Build Confidence</h3>
+          <p class="feature-description">Success builds upon success, creating lifelong learners</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Start the Adventure?</h2>
+        <p class="cta-subtitle">Join thousands of families who have discovered the joy of learning at MathLand</p>
+        <div class="cta-actions">
+          <button class="btn-primary large" onclick="scrollToLands()">
+            <span class="btn-icon">🎢</span>
+            <span>Explore All Attractions</span>
+            <span class="btn-shine"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="park-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <h3>MATHLAND</h3>
+        <p>Where Learning Becomes an Adventure</p>
+      </div>
+      <div class="footer-info">
+        <p>&copy; 2024 PlayPower MathLand. All rights reserved.</p>
+        <p>Empowering K-8 learners with educational excellence</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

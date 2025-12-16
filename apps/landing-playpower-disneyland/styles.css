@@ -1,0 +1,1142 @@
+/* ===================================
+   MATHLAND - Theme Park Landing Page
+   Disneyland-Inspired Design
+   =================================== */
+
+/* CSS Variables */
+:root {
+  /* Theme Park Colors */
+  --color-primary: #FF6B9D;
+  --color-secondary: #FEC130;
+  --color-accent-1: #4ECDC4;
+  --color-accent-2: #9B59B6;
+  --color-accent-3: #FF8C42;
+
+  /* Space Land Colors */
+  --space-primary: #1a0033;
+  --space-secondary: #6B46C1;
+  --space-accent: #FF10F0;
+
+  /* Pirates Land Colors */
+  --pirates-primary: #0C2D48;
+  --pirates-secondary: #2E8BC0;
+  --pirates-accent: #FFD700;
+
+  /* Multiverse Land Colors */
+  --multiverse-primary: #0a0e27;
+  --multiverse-secondary: #00FFA3;
+  --multiverse-accent: #B429F9;
+
+  /* Creatures Land Colors */
+  --creatures-primary: #1B4332;
+  --creatures-secondary: #52B788;
+  --creatures-accent: #FFB703;
+
+  /* Arcade Land Colors */
+  --arcade-primary: #590D22;
+  --arcade-secondary: #F72585;
+  --arcade-accent: #FFBE0B;
+
+  /* Neutral Colors */
+  --color-white: #FFFFFF;
+  --color-black: #0D0D0D;
+  --color-gray-light: #F5F5F5;
+  --color-gray: #9E9E9E;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.25);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--color-black);
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ===================================
+   ANIMATED BACKGROUND
+   =================================== */
+
+.background-magic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.animated-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 157, 0.3) 0%,
+    rgba(254, 193, 48, 0.3) 25%,
+    rgba(78, 205, 196, 0.3) 50%,
+    rgba(155, 89, 182, 0.3) 75%,
+    rgba(255, 140, 66, 0.3) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.floating-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.floating-shapes::before,
+.floating-shapes::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+  animation: float 20s ease-in-out infinite;
+}
+
+.floating-shapes::before {
+  width: 400px;
+  height: 400px;
+  background: var(--color-primary);
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-shapes::after {
+  width: 300px;
+  height: 300px;
+  background: var(--color-accent-1);
+  bottom: 10%;
+  right: 10%;
+  animation-delay: 7s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.1); }
+  66% { transform: translate(-30px, 50px) scale(0.9); }
+}
+
+/* ===================================
+   PARK GATES ENTRANCE ANIMATION
+   =================================== */
+
+.park-gates {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+.park-gates.open {
+  opacity: 0;
+}
+
+.gate {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #2C003E 0%, #4E0066 100%);
+  transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: inset 0 0 100px rgba(255, 255, 255, 0.1);
+}
+
+.gate-left {
+  left: 0;
+  transform-origin: left center;
+}
+
+.gate-right {
+  right: 0;
+  transform-origin: right center;
+}
+
+.park-gates.open .gate-left {
+  transform: translateX(-100%);
+}
+
+.park-gates.open .gate-right {
+  transform: translateX(100%);
+}
+
+.gate-sign {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.park-gates.open .gate-sign {
+  opacity: 0;
+}
+
+.park-logo {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(3rem, 10vw, 8rem);
+  color: var(--color-secondary);
+  text-shadow:
+    0 0 20px rgba(254, 193, 48, 0.8),
+    0 0 40px rgba(255, 107, 157, 0.6),
+    0 5px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.1em;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 20px rgba(254, 193, 48, 0.8),
+      0 0 40px rgba(255, 107, 157, 0.6),
+      0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  to {
+    text-shadow:
+      0 0 30px rgba(254, 193, 48, 1),
+      0 0 60px rgba(255, 107, 157, 0.8),
+      0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.park-subtitle {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(1rem, 3vw, 2rem);
+  color: var(--color-white);
+  margin-top: var(--spacing-sm);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ===================================
+   MAIN CONTENT
+   =================================== */
+
+.park-content {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+}
+
+.park-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===================================
+   HERO SECTION
+   =================================== */
+
+.hero-entrance {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.clouds,
+.balloons {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.welcome-banner {
+  position: relative;
+  margin-bottom: var(--spacing-lg);
+}
+
+.banner-sparkle {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 40px;
+  height: 40px;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(180deg); opacity: 0.7; }
+}
+
+.main-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-md);
+  text-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 107, 157, 0.5);
+  line-height: 1.2;
+}
+
+.main-title .highlight {
+  color: var(--color-secondary);
+  text-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(254, 193, 48, 0.8);
+}
+
+.main-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--color-white);
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.95;
+}
+
+/* Hero Actions */
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 1rem 2rem;
+  border-radius: var(--radius-xl);
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-3) 100%);
+  color: var(--color-white);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+}
+
+.btn-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover .btn-shine {
+  left: 100%;
+}
+
+.btn-icon {
+  font-size: 1.5rem;
+}
+
+.btn-primary.large {
+  padding: 1.25rem 2.5rem;
+  font-size: 1.25rem;
+}
+
+/* Hero Stats */
+.hero-stats {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  min-width: 150px;
+  text-align: center;
+  transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-number {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--color-white);
+  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================================
+   PARK MAP SECTION
+   =================================== */
+
+.park-map-section {
+  padding: var(--spacing-xl) var(--spacing-md);
+  position: relative;
+  z-index: 2;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--color-white);
+  opacity: 0.9;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.park-map-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.land-selector {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: var(--spacing-md);
+}
+
+.land-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0.875rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  color: var(--color-white);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+}
+
+.land-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.land-btn.active {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-3) 100%);
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+}
+
+.land-btn-icon {
+  font-size: 1.5rem;
+}
+
+/* ===================================
+   THEMED LANDS
+   =================================== */
+
+.lands-container {
+  position: relative;
+  z-index: 2;
+}
+
+.themed-land {
+  min-height: 100vh;
+  padding: var(--spacing-xl) var(--spacing-md);
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  display: none;
+}
+
+.themed-land.active {
+  display: block;
+  animation: landAppear 0.8s ease forwards;
+}
+
+@keyframes landAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.land-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Space Land Background */
+.land-space .land-background {
+  background: linear-gradient(135deg, var(--space-primary) 0%, var(--space-secondary) 100%);
+}
+
+.stars-field {
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 80%, white, transparent);
+  background-size: 200% 200%;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Pirates Land Background */
+.land-pirates .land-background {
+  background: linear-gradient(135deg, var(--pirates-primary) 0%, var(--pirates-secondary) 100%);
+}
+
+.ocean-waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 119, 182, 0.3) 100%);
+  animation: wave 3s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+}
+
+/* Multiverse Land Background */
+.land-multiverse .land-background {
+  background: linear-gradient(135deg, var(--multiverse-primary) 0%, #1a1a3e 100%);
+}
+
+.portal-effects {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0, 255, 163, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(180, 41, 249, 0.2) 0%, transparent 50%);
+  animation: portal 5s ease-in-out infinite;
+}
+
+@keyframes portal {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Creatures Land Background */
+.land-creatures .land-background {
+  background: linear-gradient(135deg, var(--creatures-primary) 0%, var(--creatures-secondary) 100%);
+}
+
+.jungle-foliage {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(180deg, transparent 0%, rgba(27, 67, 50, 0.4) 100%);
+}
+
+/* Arcade Land Background */
+.land-arcade .land-background {
+  background: linear-gradient(135deg, var(--arcade-primary) 0%, var(--arcade-secondary) 100%);
+}
+
+.arcade-lights {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0px, rgba(255, 190, 11, 0.1) 10px, transparent 20px),
+    repeating-linear-gradient(0deg, transparent 0px, rgba(247, 37, 133, 0.1) 10px, transparent 20px);
+  animation: arcadeLights 2s linear infinite;
+}
+
+@keyframes arcadeLights {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 20px 0, 0 20px; }
+}
+
+/* Land Content */
+.land-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.land-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.land-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-sm);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.land-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.land-description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--color-white);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-md);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.land-badge {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-xl);
+  color: var(--color-secondary);
+  font-weight: 700;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================================
+   ATTRACTIONS GRID
+   =================================== */
+
+.attractions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+}
+
+.attraction-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.attraction-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+}
+
+.attraction-card:hover .card-glow {
+  opacity: 1;
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.attraction-card:hover .card-image img {
+  transform: scale(1.1);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.9) 0%, rgba(254, 193, 48, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.attraction-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.play-btn {
+  padding: 0.875rem 1.75rem;
+  background: var(--color-white);
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-lg);
+}
+
+.play-btn:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-info {
+  padding: var(--spacing-md);
+}
+
+.card-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-meta {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.grade-badge,
+.card-topic {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.grade-badge {
+  background: var(--color-secondary);
+  color: var(--color-black);
+}
+
+.card-topic {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+}
+
+/* ===================================
+   PARK FEATURES
+   =================================== */
+
+.park-features {
+  padding: var(--spacing-xl) var(--spacing-md);
+  position: relative;
+  z-index: 2;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  text-align: center;
+  transition: all var(--transition-normal);
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.feature-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.feature-description {
+  color: var(--color-white);
+  opacity: 0.9;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===================================
+   CTA SECTION
+   =================================== */
+
+.cta-section {
+  padding: var(--spacing-xl) var(--spacing-md);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-md);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cta-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--color-white);
+  opacity: 0.9;
+  margin-bottom: var(--spacing-lg);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cta-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===================================
+   FOOTER
+   =================================== */
+
+.park-footer {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: var(--spacing-lg) var(--spacing-md);
+  position: relative;
+  z-index: 2;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-logo h3 {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-xs);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.footer-logo p {
+  color: var(--color-white);
+  opacity: 0.8;
+  font-size: 1rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-info p {
+  color: var(--color-white);
+  opacity: 0.7;
+  font-size: 0.875rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-lg: 3rem;
+    --spacing-xl: 4rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    width: 100%;
+  }
+
+  .land-selector {
+    flex-direction: column;
+  }
+
+  .land-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .attractions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .park-logo {
+    font-size: 3rem;
+  }
+
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .land-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+.text-center {
+  text-align: center;
+}

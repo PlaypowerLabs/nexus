@@ -12,6 +12,7 @@ mkdir -p public-build/3d-manan
 mkdir -p public-build/claude-manan
 mkdir -p public-build/wizard
 mkdir -p public-build/games-dashboard
+mkdir -p public-build/mathland
 
 # Copy each app to public-build directory
 cp -r apps/landing-minimal-clean/* public-build/minimal/ 2>/dev/null || true
@@ -24,6 +25,7 @@ cp -r apps/landing-claude-manan/* public-build/claude-manan/
 cp -r apps/landing-video-story/* public-build/video/
 cp -r apps/landing-wizard-academy/* public-build/wizard/
 cp -r apps/landing-games-dashboard/* public-build/games-dashboard/
+cp -r apps/landing-playpower-disneyland/* public-build/mathland/
 
 # Copy existing public assets
 if [ -d "public/assets" ]; then

@@ -43,6 +43,10 @@
     {
       "source": "/games-dashboard",
       "destination": "/games-dashboard/index.html"
+    },
+    {
+      "source": "/mathland",
+      "destination": "/mathland/index.html"
     }
   ],
   "headers": [
