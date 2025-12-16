@@ -5,10 +5,12 @@
 # Create public directory structure
 mkdir -p public-build/games-dashboard
 mkdir -p public-build/3d-manan
+mkdir -p public-build/playpower-park
 
 # Copy each app to public-build directory
 cp -r apps/landing-games-dashboard/* public-build/games-dashboard/
 cp -r apps/landing-3d-manan/* public-build/3d-manan/
+cp -r apps/landing-playpower-park/* public-build/playpower-park/
 
 # Copy existing public assets
 if [ -d "public/assets" ]; then
