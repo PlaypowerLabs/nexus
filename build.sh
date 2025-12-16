@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build script to prepare files for deployment (AWS S3 / Vercel compatible)
+# Build script to prepare files for deployment (Vercel)
 # This creates a public directory structure that can be served statically
 
 # Create public directory structure
