@@ -1,6 +1,15 @@
 {
   "landingPages": [
     {
+      "path": "/mathland",
+      "name": "MathLand Theme Park",
+      "description": "Disneyland-inspired theme park experience with 5 magical lands, animated entrance gates, and immersive game attractions",
+      "owner": "Claude AI",
+      "createdDate": "2024-12-16",
+      "lastUpdated": "2024-12-16",
+      "tags": ["theme-park", "disney", "animated", "immersive", "experimental"]
+    },
+    {
       "path": "/games-dashboard",
       "name": "Games Dashboard",
       "description": "Interactive dashboard showcasing K-8 math games with filtering and game cards",
