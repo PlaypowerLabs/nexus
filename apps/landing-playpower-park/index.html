@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayPower Park - Where Math Becomes an Adventure!</title>
+  <meta name="description" content="Welcome to PlayPower Park - a magical theme park of K-8 math games where learning feels like an adventure!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS VARIABLES & RESET
+    ======================================== */
+    :root {
+      --color-magic-purple: #6B4EE6;
+      --color-enchanted-blue: #3B82F6;
+      --color-adventure-teal: #14B8A6;
+      --color-sunny-yellow: #FBBF24;
+      --color-playful-pink: #EC4899;
+      --color-forest-green: #22C55E;
+      --color-sunset-orange: #F97316;
+      --color-deep-space: #1E1B4B;
+      --color-twilight: #312E81;
+      --color-cream: #FEF9E7;
+      --color-white: #FFFFFF;
+
+      --font-display: 'Bangers', cursive;
+      --font-heading: 'Fredoka', sans-serif;
+      --font-body: 'Quicksand', sans-serif;
+
+      --shadow-magical: 0 10px 40px rgba(107, 78, 230, 0.3);
+      --shadow-float: 0 20px 60px rgba(0, 0, 0, 0.2);
+      --shadow-glow: 0 0 30px rgba(251, 191, 36, 0.5);
+
+      --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-deep-space);
+      color: var(--color-white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       MAGICAL PARTICLES BACKGROUND
+    ======================================== */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float-particle linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ========================================
+       SKIP LINK (Accessibility)
+    ======================================== */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-magic-purple);
+      color: white;
+      padding: 8px 16px;
+      z-index: 100;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ========================================
+       NAVIGATION
+    ======================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: linear-gradient(to bottom, rgba(30, 27, 75, 0.95), transparent);
+      transition: var(--transition-smooth);
+    }
+
+    .nav.scrolled {
+      background: rgba(30, 27, 75, 0.98);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-glow);
+      animation: logo-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes logo-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--color-white);
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 var(--color-magic-purple);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--color-white);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-sunny-yellow);
+      background: rgba(251, 191, 36, 0.1);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: var(--color-sunny-yellow);
+      transition: var(--transition-smooth);
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+
+    .nav-links a:hover::after {
+      width: 60%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-white);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ========================================
+       HERO SECTION - GRAND ENTRANCE
+    ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(107, 78, 230, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, var(--color-twilight) 100%);
+    }
+
+    .hero-gates {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .gate {
+      position: absolute;
+      width: 120px;
+      height: 100%;
+      background: linear-gradient(to bottom,
+        var(--color-magic-purple) 0%,
+        var(--color-twilight) 100%);
+      opacity: 0.3;
+    }
+
+    .gate-left {
+      left: 0;
+      transform: skewX(5deg);
+      transform-origin: top left;
+    }
+
+    .gate-right {
+      right: 0;
+      transform: skewX(-5deg);
+      transform-origin: top right;
+    }
+
+    .gate-arch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      border: 4px solid rgba(251, 191, 36, 0.3);
+      border-bottom: none;
+      border-radius: 300px 300px 0 0;
+    }
+
+    .floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .floating-star {
+      position: absolute;
+      font-size: 2rem;
+      animation: float-star 3s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float-star {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(251, 191, 36, 0.2);
+      border: 2px solid var(--color-sunny-yellow);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      margin-bottom: 2rem;
+      animation: badge-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes badge-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: 4px;
+      text-shadow:
+        4px 4px 0 var(--color-magic-purple),
+        8px 8px 0 rgba(107, 78, 230, 0.3);
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition-bounce);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      color: var(--color-deep-space);
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(251, 191, 36, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-white);
+      border: 3px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-sunny-yellow);
+      color: var(--color-sunny-yellow);
+      transform: translateY(-5px);
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce-down 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(15px); }
+    }
+
+    .scroll-text {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .scroll-arrow {
+      width: 30px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .scroll-arrow::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 10px;
+      background: var(--color-sunny-yellow);
+      border-radius: 3px;
+      animation: scroll-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-dot {
+      0%, 100% { top: 8px; opacity: 1; }
+      50% { top: 25px; opacity: 0.5; }
+    }
+
+    /* ========================================
+       PARK MAP SECTION
+    ======================================== */
+    .park-map-section {
+      padding: 6rem 2rem;
+      position: relative;
+      background: linear-gradient(180deg, var(--color-twilight) 0%, var(--color-deep-space) 100%);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+      text-shadow: 3px 3px 0 var(--color-magic-purple);
+    }
+
+    .section-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .park-map {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    .land-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      padding: 2rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-bounce);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .land-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .land-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: var(--shadow-magical);
+    }
+
+    .land-card.kindergarten::before { background: linear-gradient(90deg, #FF6B6B, #FFE66D); }
+    .land-card.grade-1-2::before { background: linear-gradient(90deg, #4ECDC4, #44B7FF); }
+    .land-card.grade-3-4::before { background: linear-gradient(90deg, #95E1D3, #22C55E); }
+    .land-card.grade-5-6::before { background: linear-gradient(90deg, #A855F7, #EC4899); }
+    .land-card.grade-7-8::before { background: linear-gradient(90deg, #3B82F6, #6366F1); }
+
+    .land-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .land-card.kindergarten .land-icon { background: linear-gradient(135deg, #FF6B6B, #FFE66D); }
+    .land-card.grade-1-2 .land-icon { background: linear-gradient(135deg, #4ECDC4, #44B7FF); }
+    .land-card.grade-3-4 .land-icon { background: linear-gradient(135deg, #95E1D3, #22C55E); }
+    .land-card.grade-5-6 .land-icon { background: linear-gradient(135deg, #A855F7, #EC4899); }
+    .land-card.grade-7-8 .land-icon { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+
+    .land-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .land-grades {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .land-description {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .land-attractions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .attraction-tag {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: var(--font-heading);
+      font-weight: 500;
+    }
+
+    /* ========================================
+       ATTRACTIONS CAROUSEL
+    ======================================== */
+    .attractions-section {
+      padding: 6rem 2rem;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(107, 78, 230, 0.2) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, #0F0D29 100%);
+      overflow: hidden;
+    }
+
+    .attractions-wrapper {
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .carousel-container {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 2rem;
+      animation: scroll-carousel 40s linear infinite;
+      width: max-content;
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-carousel {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .attraction-card {
+      flex-shrink: 0;
+      width: 320px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-bounce);
+      position: relative;
+    }
+
+    .attraction-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      border-color: var(--color-sunny-yellow);
+      box-shadow: 0 30px 60px rgba(251, 191, 36, 0.3);
+    }
+
+    .attraction-image {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .attraction-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+
+    .attraction-card:hover .attraction-image img {
+      transform: scale(1.1);
+    }
+
+    .attraction-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--color-sunset-orange);
+      color: var(--color-white);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .attraction-content {
+      padding: 1.5rem;
+    }
+
+    .attraction-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .attraction-grade {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-adventure-teal);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .attraction-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       FEATURED LANDS SHOWCASE
+    ======================================== */
+    .lands-showcase {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #0F0D29 0%, var(--color-deep-space) 100%);
+    }
+
+    .showcase-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .land-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 8rem;
+    }
+
+    .land-showcase:nth-child(even) {
+      direction: rtl;
+    }
+
+    .land-showcase:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .showcase-visual {
+      position: relative;
+    }
+
+    .showcase-games-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .showcase-game {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition-bounce);
+      cursor: pointer;
+    }
+
+    .showcase-game:hover {
+      transform: scale(1.05) rotate(-2deg);
+      z-index: 10;
+    }
+
+    .showcase-game:nth-child(2):hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .showcase-game img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .showcase-game-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .showcase-game:hover .showcase-game-overlay {
+      opacity: 1;
+    }
+
+    .showcase-game-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .showcase-info {
+      padding: 2rem 0;
+    }
+
+    .showcase-land-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .showcase-land-tag.teal { background: linear-gradient(135deg, #4ECDC4, #44B7FF); color: #000; }
+    .showcase-land-tag.green { background: linear-gradient(135deg, #95E1D3, #22C55E); color: #000; }
+    .showcase-land-tag.purple { background: linear-gradient(135deg, #A855F7, #EC4899); color: #fff; }
+
+    .showcase-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .showcase-description {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .showcase-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .showcase-features li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .showcase-features li::before {
+      content: '✦';
+      color: var(--color-sunny-yellow);
+      font-size: 1.2rem;
+    }
+
+    /* ========================================
+       PARENT TRUST SECTION
+    ======================================== */
+    .trust-section {
+      padding: 6rem 2rem;
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, var(--color-twilight) 100%);
+    }
+
+    .trust-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .trust-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-smooth);
+      text-align: center;
+    }
+
+    .trust-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-magical);
+    }
+
+    .trust-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(135deg, var(--color-forest-green), var(--color-adventure-teal));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .trust-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .trust-description {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       FINAL CTA SECTION
+    ======================================== */
+    .final-cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(251, 191, 36, 0.3) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-twilight) 0%, var(--color-deep-space) 100%);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 3px;
+      margin-bottom: 1.5rem;
+      text-shadow: 3px 3px 0 var(--color-magic-purple);
+    }
+
+    .cta-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .footer {
+      background: #0A0820;
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-white);
+      letter-spacing: 2px;
+    }
+
+    .footer-tagline {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .footer-links h4 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--color-white);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-sunny-yellow);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+    ======================================== */
+    @media (max-width: 1024px) {
+      .land-showcase {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .land-showcase:nth-child(even) {
+        direction: ltr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(30, 27, 75, 0.98);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-cta-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .gate-arch {
+        width: 300px;
+        height: 100px;
+      }
+
+      .showcase-games-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 5rem 1rem 3rem;
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+      }
+
+      .land-card {
+        padding: 1.5rem;
+      }
+
+      .attraction-card {
+        width: 280px;
+      }
+    }
+
+    /* ========================================
+       UTILITIES & ANIMATIONS
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--color-sunny-yellow);
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Magical Particles Background -->
+  <div class="particles-container" id="particles"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-content">
+      <a href="#" class="logo" aria-label="PlayPower Park Home">
+        <div class="logo-icon">🎢</div>
+        <span class="logo-text">PLAYPOWER PARK</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#lands">Explore Lands</a></li>
+        <li><a href="#attractions">Attractions</a></li>
+        <li><a href="#showcase">Adventures</a></li>
+        <li><a href="#parents">For Parents</a></li>
+      </ul>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section - Grand Entrance -->
+  <header class="hero" id="main-content">
+    <div class="hero-gates">
+      <div class="gate gate-left"></div>
+      <div class="gate gate-right"></div>
+      <div class="gate-arch"></div>
+    </div>
+
+    <div class="floating-elements" id="floating-elements">
+      <span class="floating-star" style="top: 15%; left: 10%;">⭐</span>
+      <span class="floating-star" style="top: 25%; right: 15%; animation-delay: 0.5s;">✨</span>
+      <span class="floating-star" style="top: 60%; left: 8%; animation-delay: 1s;">🌟</span>
+      <span class="floating-star" style="top: 70%; right: 10%; animation-delay: 1.5s;">💫</span>
+      <span class="floating-star" style="top: 40%; left: 5%; animation-delay: 0.3s;">⭐</span>
+      <span class="floating-star" style="top: 50%; right: 5%; animation-delay: 0.8s;">✨</span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>🎟️</span>
+        <span>Welcome to the Adventure!</span>
+      </div>
+
+      <h1 class="hero-title">
+        WHERE <span class="highlight">MATH</span><br>
+        BECOMES MAGIC
+      </h1>
+
+      <p class="hero-subtitle">
+        Step into PlayPower Park — a magical theme park of K-8 math games
+        where every equation is an adventure and learning feels like play!
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#lands" class="btn btn-primary">
+          <span>🗺️</span>
+          <span>Explore the Park Map</span>
+        </a>
+        <a href="#attractions" class="btn btn-secondary">
+          <span>🎠</span>
+          <span>View All Attractions</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span class="scroll-text">Scroll to Begin Your Adventure</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </header>
+
+  <!-- Park Map Section -->
+  <section class="park-map-section" id="lands">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Navigate Your Journey</span>
+      <h2 class="section-title">EXPLORE THE LANDS</h2>
+      <p class="section-subtitle">
+        Each land is designed for a different age group, filled with magical math adventures waiting to be discovered!
+      </p>
+    </div>
+
+    <div class="park-map">
+      <div class="land-card kindergarten reveal" data-grade="k">
+        <div class="land-icon">🏰</div>
+        <h3 class="land-name">STARTER CASTLE</h3>
+        <p class="land-grades">Kindergarten</p>
+        <p class="land-description">
+          A magical kingdom where young adventurers begin their math journey with counting, shapes, and number fun!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Space Party</span>
+          <span class="attraction-tag">Bunny Jumping</span>
+          <span class="attraction-tag">Count the Crew</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-1-2 reveal" data-grade="1-2">
+        <div class="land-icon">🚀</div>
+        <h3 class="land-name">DISCOVERY STATION</h3>
+        <p class="land-grades">Grades 1-2</p>
+        <p class="land-description">
+          Blast off into addition, subtraction, and early multiplication in this cosmic adventure zone!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Astro Math</span>
+          <span class="attraction-tag">Emoji Battle</span>
+          <span class="attraction-tag">Fact Racer</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-3-4 reveal" data-grade="3-4">
+        <div class="land-icon">🌲</div>
+        <h3 class="land-name">ADVENTURE FOREST</h3>
+        <p class="land-grades">Grades 3-4</p>
+        <p class="land-description">
+          Explore the enchanted forest where fractions, multiplication, and division come alive!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Fraction Frenzy</span>
+          <span class="attraction-tag">Dino Muncher</span>
+          <span class="attraction-tag">Robo Pirates</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-5-6 reveal" data-grade="5-6">
+        <div class="land-icon">🔮</div>
+        <h3 class="land-name">WIZARD'S ACADEMY</h3>
+        <p class="land-grades">Grades 5-6</p>
+        <p class="land-description">
+          Master the mystical arts of decimals, algebra basics, and coordinate geometry!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Digit Drive</span>
+          <span class="attraction-tag">Grid Lock</span>
+          <span class="attraction-tag">Algebra Trials</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-7-8 reveal" data-grade="7-8">
+        <div class="land-icon">⚡</div>
+        <h3 class="land-name">SUMMIT SPIRE</h3>
+        <p class="land-grades">Grades 7-8</p>
+        <p class="land-description">
+          Reach the peak of mathematical mastery with pre-algebra, geometry, and advanced problem-solving!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Number Knockout</span>
+          <span class="attraction-tag">Pythagoras Path</span>
+          <span class="attraction-tag">Multiverse</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Attractions Carousel -->
+  <section class="attractions-section" id="attractions">
+    <div class="attractions-wrapper">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Featured Attractions</span>
+        <h2 class="section-title">RIDE THE GAMES!</h2>
+        <p class="section-subtitle">
+          Our most popular attractions — where math concepts come alive through play!
+        </p>
+      </div>
+
+      <div class="carousel-container">
+        <div class="carousel-track" id="carousel-track">
+          <!-- Carousel items will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Lands Showcase -->
+  <section class="lands-showcase" id="showcase">
+    <div class="showcase-container">
+      <!-- Discovery Station Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-1/astro-math-topic-2-en.png" alt="Astro Math game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Astro Math</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-2/emoji-battle-topic-3-en.png" alt="Emoji Battle game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Emoji Battle</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-1/robo-pirates-topic-9-en.png" alt="Robo Pirates game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Robo Pirates</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-2/fact-racer-topic-4-en.png" alt="Fact Racer game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Fact Racer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag teal">Discovery Station</span>
+          <h3 class="showcase-title">BLAST OFF INTO NUMBERS!</h3>
+          <p class="showcase-description">
+            Young mathematicians embark on cosmic quests through addition, subtraction, and early multiplication.
+            Race through space, battle with emojis, and master math facts in this action-packed adventure zone!
+          </p>
+          <ul class="showcase-features">
+            <li>Interactive space-themed challenges</li>
+            <li>Competitive multiplayer modes</li>
+            <li>Progress tracking for parents</li>
+            <li>Adaptive difficulty levels</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Adventure Forest Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-3/fraction-frenzy-topic-10-en.png" alt="Fraction Frenzy game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Fraction Frenzy</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-4/dino-muncher-topic-6-en.png" alt="Dino Muncher game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Dino Muncher</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-3/multiverse-topic-3-en.png" alt="Multiverse game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Multiverse</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-4/robo-pirates-topic-7-en.png" alt="Robo Pirates game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Robo Pirates</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag green">Adventure Forest</span>
+          <h3 class="showcase-title">EXPLORE THE ENCHANTED MATH!</h3>
+          <p class="showcase-description">
+            Journey deep into the magical forest where fractions become friendly, multiplication tables turn into treasure hunts,
+            and division puzzles unlock ancient secrets. Every path leads to discovery!
+          </p>
+          <ul class="showcase-features">
+            <li>Immersive story-driven gameplay</li>
+            <li>Visual fraction manipulatives</li>
+            <li>Dinosaur-themed challenges</li>
+            <li>Achievement badges and rewards</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Wizard's Academy Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-5/digit-drive-topic-1-en.png" alt="Digit Drive game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Digit Drive</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-6/algebra-trials-topic-4-en.png" alt="Algebra Trials game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Algebra Trials</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-5/grid-lock-topic-10-en.png" alt="Grid Lock game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Grid Lock</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-6/multiverse-topic-1-en.png" alt="Multiverse game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Multiverse</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag purple">Wizard's Academy</span>
+          <h3 class="showcase-title">MASTER THE MYSTICAL ARTS!</h3>
+          <p class="showcase-description">
+            Step into the prestigious academy where young wizards learn the arcane secrets of decimals,
+            the ancient formulas of algebra, and the geometric spells that shape our world!
+          </p>
+          <ul class="showcase-features">
+            <li>High-speed racing challenges</li>
+            <li>Logic and reasoning puzzles</li>
+            <li>Coordinate plane adventures</li>
+            <li>Pre-algebra preparation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parent Trust Section -->
+  <section class="trust-section" id="parents">
+    <div class="trust-container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">For Parents</span>
+        <h2 class="section-title">WHY CHOOSE PLAYPOWER?</h2>
+        <p class="section-subtitle">
+          Designed by educators, loved by kids, trusted by parents
+        </p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-icon">📚</div>
+          <h3 class="trust-title">CURRICULUM ALIGNED</h3>
+          <p class="trust-description">
+            Every game aligns with Common Core and state standards, ensuring your child practices exactly what they're learning in school.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">🎯</div>
+          <h3 class="trust-title">ADAPTIVE LEARNING</h3>
+          <p class="trust-description">
+            Our games automatically adjust difficulty based on your child's performance, keeping them challenged but never frustrated.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">🔒</div>
+          <h3 class="trust-title">SAFE & AD-FREE</h3>
+          <p class="trust-description">
+            A completely safe environment with no ads, no in-app purchases, and no external links. Just pure learning fun!
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">📊</div>
+          <h3 class="trust-title">PROGRESS TRACKING</h3>
+          <p class="trust-description">
+            Monitor your child's progress with detailed reports showing skills mastered, time spent, and areas for growth.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">🏆</div>
+          <h3 class="trust-title">PROVEN RESULTS</h3>
+          <p class="trust-description">
+            Research shows that game-based learning improves retention and engagement. Our students show measurable improvement!
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">🌍</div>
+          <h3 class="trust-title">BILINGUAL SUPPORT</h3>
+          <p class="trust-description">
+            Full support for English and Spanish, making math accessible to more learners and supporting bilingual education.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="final-cta">
+    <div class="cta-content reveal">
+      <h2 class="cta-title">READY FOR THE ADVENTURE?</h2>
+      <p class="cta-subtitle">
+        Join thousands of families who've discovered that math doesn't have to be boring.
+        Start your journey through PlayPower Park today!
+      </p>
+      <div class="hero-cta-group">
+        <a href="#lands" class="btn btn-primary">
+          <span>🎢</span>
+          <span>Start Exploring</span>
+        </a>
+        <a href="#parents" class="btn btn-secondary">
+          <span>👨‍👩‍👧‍👦</span>
+          <span>Learn More</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">🎢</div>
+          <span class="footer-logo-text">PLAYPOWER PARK</span>
+        </div>
+        <p class="footer-tagline">
+          Where math becomes an adventure! K-8 educational games that make learning feel like play.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#lands">Park Map</a></li>
+          <li><a href="#attractions">Attractions</a></li>
+          <li><a href="#showcase">Adventures</a></li>
+          <li><a href="#parents">For Parents</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Grade Levels</h4>
+        <ul>
+          <li><a href="#lands">Kindergarten</a></li>
+          <li><a href="#lands">Grades 1-2</a></li>
+          <li><a href="#lands">Grades 3-4</a></li>
+          <li><a href="#lands">Grades 5-8</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 PlayPower Games. All rights reserved. Making math magical for K-8 learners everywhere.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ========================================
+    // MAGICAL PARTICLES
+    // ========================================
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#FBBF24', '#EC4899', '#6B4EE6', '#14B8A6', '#3B82F6'];
+
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 8 + 4;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const duration = Math.random() * 20 + 15;
+        const delay = Math.random() * 20;
+
+        particle.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          left: ${left}%;
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+        `;
+
+        container.appendChild(particle);
+      }
+    }
+
+    // ========================================
+    // NAVIGATION SCROLL EFFECT
+    // ========================================
+    function handleNavScroll() {
+      const nav = document.querySelector('.nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    }
+
+    // ========================================
+    // MOBILE MENU TOGGLE
+    // ========================================
+    function setupMobileMenu() {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const navLinks = document.getElementById('nav-links');
+
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const isExpanded = navLinks.classList.contains('active');
+        menuBtn.setAttribute('aria-expanded', isExpanded);
+        menuBtn.textContent = isExpanded ? '✕' : '☰';
+      });
+
+      // Close menu when clicking a link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          menuBtn.setAttribute('aria-expanded', 'false');
+          menuBtn.textContent = '☰';
+        });
+      });
+    }
+
+    // ========================================
+    // REVEAL ON SCROLL
+    // ========================================
+    function setupRevealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      reveals.forEach(reveal => observer.observe(reveal));
+    }
+
+    // ========================================
+    // ATTRACTIONS CAROUSEL
+    // ========================================
+    function populateCarousel() {
+      const track = document.getElementById('carousel-track');
+
+      const attractions = [
+        { image: '/assets/images/grade-k/space-party-topic-1-en.png', title: 'Space Party', grade: 'Kindergarten', desc: 'Count and celebrate with alien friends!' },
+        { image: '/assets/images/grade-1/astro-math-topic-2-en.png', title: 'Astro Math', grade: 'Grade 1', desc: 'Addition adventures among the stars!' },
+        { image: '/assets/images/grade-2/emoji-battle-topic-3-en.png', title: 'Emoji Battle', grade: 'Grade 2', desc: 'Math battles with expressive fun!' },
+        { image: '/assets/images/grade-2/fact-racer-topic-4-en.png', title: 'Fact Racer', grade: 'Grade 2', desc: 'Race to master math facts!' },
+        { image: '/assets/images/grade-3/fraction-frenzy-topic-10-en.png', title: 'Fraction Frenzy', grade: 'Grade 3', desc: 'Fractions made fun and fast!' },
+        { image: '/assets/images/grade-3/robo-pirates-topic-9-en.png', title: 'Robo Pirates', grade: 'Grade 3', desc: 'Pirate adventures with numbers!' },
+        { image: '/assets/images/grade-4/dino-muncher-topic-6-en.png', title: 'Dino Muncher', grade: 'Grade 4', desc: 'Feed dinos with correct answers!' },
+        { image: '/assets/images/grade-5/digit-drive-topic-1-en.png', title: 'Digit Drive', grade: 'Grade 5', desc: 'High-speed decimal racing!' },
+        { image: '/assets/images/grade-5/grid-lock-topic-10-en.png', title: 'Grid Lock', grade: 'Grade 5', desc: 'Coordinate plane puzzles!' },
+        { image: '/assets/images/grade-6/algebra-trials-topic-4-en.png', title: 'Algebra Trials', grade: 'Grade 6', desc: 'Conquer algebraic challenges!' },
+        { image: '/assets/images/grade-7/number-knockout-topic-3-en.png', title: 'Number Knockout', grade: 'Grade 7', desc: 'Knock out math problems!' },
+        { image: '/assets/images/grade-8/pythagoras-path-topic-7-en.png', title: 'Pythagoras Path', grade: 'Grade 8', desc: 'Master geometric theorems!' },
+      ];
+
+      // Double the items for seamless loop
+      const doubledAttractions = [...attractions, ...attractions];
+
+      doubledAttractions.forEach(attraction => {
+        const card = document.createElement('div');
+        card.className = 'attraction-card';
+        card.innerHTML = `
+          <div class="attraction-image">
+            <img src="${attraction.image}" alt="${attraction.title} game screenshot" loading="lazy">
+            <span class="attraction-badge">Popular</span>
+          </div>
+          <div class="attraction-content">
+            <h3 class="attraction-title">${attraction.title}</h3>
+            <p class="attraction-grade">${attraction.grade}</p>
+            <p class="attraction-desc">${attraction.desc}</p>
+          </div>
+        `;
+        track.appendChild(card);
+      });
+    }
+
+    // ========================================
+    // LAND CARD INTERACTIONS
+    // ========================================
+    function setupLandCards() {
+      const landCards = document.querySelectorAll('.land-card');
+
+      landCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Scroll to showcase section
+          document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    }
+
+    // ========================================
+    // SMOOTH SCROLL FOR ANCHOR LINKS
+    // ========================================
+    function setupSmoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // ========================================
+    // INITIALIZE ALL FEATURES
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      handleNavScroll();
+      setupMobileMenu();
+      setupRevealOnScroll();
+      populateCarousel();
+      setupLandCards();
+      setupSmoothScroll();
+    });
+  </script>
+</body>
+</html>

@@ -15,6 +15,10 @@
     {
       "source": "/3d-manan",
       "destination": "/3d-manan/index.html"
+    },
+    {
+      "source": "/playpower-park",
+      "destination": "/playpower-park/index.html"
     }
   ],
   "headers": [
