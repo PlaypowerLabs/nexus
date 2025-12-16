@@ -1,217 +1,170 @@
-# 🎮 K-8 Math Games - Landing Pages Portfolio
+# 🎮 Nexus - Landing Pages Playground
 
-A collection of independent landing page designs for educational math games (Grades K-8).
-
-## 📁 Repository Structure
-
-```
-nexus/
-├── apps/                                    # Independent landing pages
-│   ├── landing-hero-focused/               # Hero-first design
-│   ├── landing-grid-showcase/              # Game grid layout
-│   ├── landing-minimal-clean/              # Accessible, minimal design
-│   ├── landing-gamified-interactive/       # (To be developed)
-│   └── landing-video-story/                # (To be developed)
-│
-├── shared/                                  # Shared resources
-│   ├── assets/                             # Common images/fonts
-│   └── config/                             # Configuration & guides
-│
-└── docs/                                    # Documentation
-```
+A minimal landing pages repository for rapid prototyping and deploying landing page designs to Vercel. Built for experimentation with Claude Code.
 
 ## 🚀 Quick Start
 
-### For Developers
-
 ```bash
-# Clone repository
+# Clone and view
 git clone <repository-url>
 cd nexus
 
-# Each landing page is independent - just open the HTML file
-open apps/landing-hero-focused/index.html
+# Build all pages
+bash build.sh
 
-# Or serve with any static server
-npx serve apps/landing-hero-focused
+# View locally
+cd public && python3 -m http.server 8000
+# Open http://localhost:8000
 ```
 
-### For Non-Technical Team Members
+## 📁 Structure
 
-See [Vercel Deployment Guide](shared/config/vercel-deploy.md) for step-by-step instructions.
+```
+nexus/
+├── apps/                           # Landing page sources
+│   ├── landing-games-dashboard/    # Games catalog with filters
+│   └── landing-3d-manan/          # 3D space-themed page
+├── public/                         # Build output (auto-generated)
+├── build.sh                        # Build script
+├── vercel.json                     # Deployment config
+├── landing-pages-registry.json     # Page metadata
+├── index.html                      # Root table view
+└── claude.md                       # 📖 Full instructions
+```
 
-## 🎨 Landing Page Variants
+## 🎨 Current Landing Pages
 
-### 1. Hero-Focused Landing ✅ Complete
-**Location:** `apps/landing-hero-focused/`
-- Large hero section with gradient background
-- Animated preview cards
-- Focus on emotional appeal and engagement
-- Target: Parents and younger students (K-5)
+| Path | Name | Description |
+|------|------|-------------|
+| `/games-dashboard` | Games Dashboard | Interactive K-8 math games catalog |
+| `/3d-manan` | 3D Space Theme | Three.js 3D interactive experience |
 
-### 2. Grid Showcase Landing ✅ Complete
-**Location:** `apps/landing-grid-showcase/`
-- Game catalog with filter/sort options
-- Grade-level badges
-- Ratings and play counts
-- Target: All ages, browsing-focused users
+View all pages at the root `/` path - displays a sortable table with metadata.
 
-### 3. Minimal Clean Landing ✅ Complete
-**Location:** `apps/landing-minimal-clean/`
-- Accessibility-first design
-- WCAG 2.1 AA compliant
-- Screen reader optimized
-- Target: Educators, accessibility-conscious users
+## ➕ Adding New Pages
 
-### 4. Gamified Interactive Landing 🚧 Planned
-**Location:** `apps/landing-gamified-interactive/`
-- Animations and interactions
-- Character mascots
-- Particle effects
-- Target: Younger students who respond to visual stimulation
+**Quick version:**
+1. Create folder: `apps/landing-[name]/`
+2. Update `build.sh`, `vercel.json`, `landing-pages-registry.json`
+3. Run `bash build.sh`
+4. Commit and push
 
-### 5. Video Story Landing 🚧 Planned
-**Location:** `apps/landing-video-story/`
-- Video-driven narrative
-- Student testimonials
-- Success stories
-- Target: Decision-making parents and educators
+**Full instructions:** See [claude.md](./claude.md) for complete step-by-step guide.
+
+## 🤖 For Claude Code
+
+This repository is optimized for Claude Code development. Read [claude.md](./claude.md) for:
+- Complete workflow instructions
+- How to add new landing pages
+- Git branching requirements
+- Creating GitHub PRs
+- Vercel deployment details
 
 ## 🌐 Deployment
 
-All landing pages are deployed to AWS S3 with CloudFront CDN:
+**Vercel (Automatic):**
+- Deploys on push to `main`
+- Preview deployments for all PRs
+- Build command: `bash build.sh`
+- Output: `public/`
 
-- **S3 Website:** `http://nexus-landing-pages.s3-website-us-east-1.amazonaws.com`
-- **CloudFront:** `https://YOUR_DISTRIBUTION_ID.cloudfront.net` (after setup)
-- **Available paths:** `/`, `/minimal`, `/grid`, `/hero`, `/gamified`, `/video`
+**Manual Deploy:**
+```bash
+npm i -g vercel
+vercel --prod
+```
 
-### Auto-Deployment Workflow
+## 📚 Documentation
 
-1. Push to `main` branch → Automatic deployment via GitHub Actions
-2. Manual trigger → GitHub Actions UI → "Run workflow"
-3. All landing pages deploy to single S3 bucket with path-based routing
+- **[claude.md](./claude.md)** - Complete guide for Claude Code and developers
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deployment details
+- **[AWS-SETUP.md](./AWS-SETUP.md)** - AWS S3 setup (optional)
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines
 
-See [detailed deployment guide](DEPLOYMENT.md) and [AWS setup guide](AWS-SETUP.md).
+## 🎯 Features
 
-## 🔧 Development Workflow
+- ✅ Minimal setup - only 2 landing pages
+- ✅ Self-contained HTML pages
+- ✅ Registry-based metadata system
+- ✅ Automatic Vercel deployment
+- ✅ Table view of all pages at root
+- ✅ Claude Code optimized workflow
 
-### Creating a New Landing Page
+## 🔧 Key Files
+
+| File | Purpose |
+|------|---------|
+| `apps/landing-*/index.html` | Landing page source files |
+| `build.sh` | Copies pages to public/ |
+| `vercel.json` | Routes and build config |
+| `landing-pages-registry.json` | Metadata for all pages |
+| `index.html` | Root page table view |
+| `claude.md` | Full instructions |
+
+## 📝 Git Workflow
 
 ```bash
-# 1. Create new branch
-git checkout -b landing-YOUR-NAME/initial-setup
+# Branch naming (IMPORTANT!)
+git checkout -b claude/feature-name-[session-id]
 
-# 2. Create folder
-mkdir apps/landing-YOUR-NAME
-
-# 3. Add your HTML/CSS/JS files
-cd apps/landing-YOUR-NAME
-touch index.html styles.css
-
-# 4. Update build.sh and vercel.json.example
-# Add your app to build.sh (see DEPLOYMENT.md)
-# Add routing rule to vercel.json.example (see DEPLOYMENT.md)
-
-# 5. Commit and push
+# Make changes, then commit
 git add .
-git commit -m "feat(landing-YOUR-NAME): add initial landing page"
-git push origin landing-YOUR-NAME/initial-setup
+git commit -m "feat: add new landing page"
+
+# Push
+git push -u origin claude/feature-name-[session-id]
+
+# Create PR
+gh pr create --title "Title" --body "Description"
 ```
-
-### Updating Existing Landing Page
-
-```bash
-# 1. Create feature branch
-git checkout -b landing-hero-focused/update-cta
-
-# 2. Make changes
-# Edit files in apps/landing-hero-focused/
-
-# 3. Commit with descriptive message
-git add apps/landing-hero-focused/
-git commit -m "feat(landing-hero-focused): update CTA button copy"
-git push origin landing-hero-focused/update-cta
-
-# 4. GitHub Actions automatically deploys to AWS S3
-```
-
-## 📐 Code Style Guide
-
-Following [Udacity HTML/CSS Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/):
-
-### HTML
-- Use lowercase for element names
-- Close all elements
-- Use semantic HTML5 elements
-- Include `alt` text for images
-- Proper indentation (2 spaces)
-
-### CSS
-- Use lowercase with hyphens for class names
-- Group related properties
-- Use shorthand properties where possible
-- Add comments for major sections
-- Mobile-first responsive design
-
-### Git Commits
-Follow [Udacity Git Commit Message Style Guide](https://udacity.github.io/git-styleguide/):
-
-```
-type: subject line (max 50 chars)
-
-Body explaining what and why (max 72 chars per line)
-
-- Bullet points for details
-- Each change on separate line
-```
-
-**Types:** feat, fix, docs, style, refactor, test, chore
 
 ## 🤝 Contributing
 
-### For Developers
+1. Read [claude.md](./claude.md) for complete instructions
+2. Follow the 5-step process for new pages
+3. Test with `bash build.sh` before pushing
+4. Use conventional commit messages
+5. Update registry metadata
 
-1. Follow folder-based strategy (one folder per landing page)
-2. Never edit other team members' folders
-3. Use descriptive branch names: `landing-NAME/feature-description`
-4. Write clear commit messages following Udacity style guide
-5. Test on multiple devices before pushing
+## 📊 Registry System
 
-### For Non-Developers
+All landing pages are tracked in `landing-pages-registry.json`:
+- Name, path, description
+- Owner and dates
+- Tags for categorization
+- Powers the root table view
 
-1. Use GitHub web editor for text changes
-2. Use GitHub Desktop for file uploads
-3. Write clear commit messages
-4. Preview changes before committing
+## 🐛 Troubleshooting
 
-## 🎯 Project Goals
+- **Build fails?** Check paths in `build.sh`
+- **404 errors?** Verify route in `vercel.json`
+- **Images missing?** Use `/assets/` paths
+- **Registry not showing?** Check JSON syntax
 
-- ✅ Independent landing pages (no shared dependencies)
-- ✅ Zero-conflict development (separate folders)
-- ✅ Automatic deployments (Vercel integration)
-- ✅ Multiple design approaches (A/B testing)
-- ✅ Accessibility-first design
-- ✅ Bilingual support (EN/ES)
+Full troubleshooting: [claude.md](./claude.md#troubleshooting)
 
-## 📚 Resources
+## 📖 Philosophy
 
-- [Vercel Documentation](https://vercel.com/docs)
-- [Udacity HTML/CSS Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/)
-- [Udacity Git Style Guide](https://udacity.github.io/git-styleguide/)
-- [WCAG Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+Keep it minimal. Each landing page is:
+- Self-contained (inline CSS/JS preferred)
+- Independently deployable
+- Easy to add/remove
+- Metadata-driven
 
-## 📝 License
+## 🎨 Design Guidelines
 
-Educational use only. Copyright © 2024
+- Mobile-first responsive
+- Self-contained when possible
+- Use `/assets/` for shared resources
+- Keep initial load fast
+- Follow naming conventions
 
-## 🐛 Issues & Support
-
-- Create GitHub Issues for bugs
-- Tag issues with landing page name
-- Include screenshots for visual issues
-- Check existing issues before creating new ones
+See [claude.md](./claude.md#design-guidelines) for details.
 
 ---
 
-**Last Updated:** December 2024  
+**For full instructions, workflows, and examples, see [claude.md](./claude.md)**
+
 **Status:** Active Development
+**Last Updated:** December 2024
+**License:** Educational use only
