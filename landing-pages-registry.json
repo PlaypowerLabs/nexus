@@ -1,6 +1,15 @@
 {
   "landingPages": [
     {
+      "path": "/playpower-park",
+      "name": "PlayPower Park",
+      "description": "Disneyland-inspired magical theme park landing page with animated attractions carousel, themed grade lands, and immersive scroll experience",
+      "owner": "Claude AI",
+      "createdDate": "2024-12-16",
+      "lastUpdated": "2024-12-16",
+      "tags": ["theme-park", "animated", "carousel", "immersive", "magical"]
+    },
+    {
       "path": "/games-dashboard",
       "name": "Games Dashboard",
       "description": "Interactive dashboard showcasing K-8 math games with filtering and game cards",
