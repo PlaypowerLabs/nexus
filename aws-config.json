@@ -1,9 +1,0 @@
-{
-  "bucketName": "nexus-landing-pages",
-  "region": "us-east-1",
-  "cloudFrontDistributionId": "",
-  "websiteEndpoint": "nexus-landing-pages.s3-website-us-east-1.amazonaws.com",
-  "note": "Update cloudFrontDistributionId after creating CloudFront distribution"
-}
-
-
