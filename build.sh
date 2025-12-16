@@ -11,6 +11,7 @@ mkdir -p public-build/video
 mkdir -p public-build/3d-manan
 mkdir -p public-build/claude-manan
 mkdir -p public-build/wizard
+mkdir -p public-build/games-dashboard
 
 # Copy each app to public-build directory
 cp -r apps/landing-minimal-clean/* public-build/minimal/ 2>/dev/null || true
@@ -22,6 +23,7 @@ cp -r apps/landing-3d-manan/* public-build/3d-manan/
 cp -r apps/landing-claude-manan/* public-build/claude-manan/
 cp -r apps/landing-video-story/* public-build/video/
 cp -r apps/landing-wizard-academy/* public-build/wizard/
+cp -r apps/landing-games-dashboard/* public-build/games-dashboard/
 
 # Copy existing public assets
 if [ -d "public/assets" ]; then
@@ -31,7 +33,12 @@ fi
 
 # Copy root index.html and vercel.json to public
 cp index.html public-build/index.html 2>/dev/null || true
-cp vercel.json public-build/vercel.json 2>/dev/null || true
+# Copy landing pages registry (metadata for all pages)
+cp landing-pages-registry.json public-build/landing-pages-registry.json 2>/dev/null || true
+# Copy documentation for adding new landing pages
+cp ADDING_LANDING_PAGES.md public-build/ADDING_LANDING_PAGES.md 2>/dev/null || true
+# Copy vercel.json.example as vercel.json for root page routing
+cp vercel.json.example public-build/vercel.json 2>/dev/null || true
 
 # Move public-build to public (this will be the output)
 rm -rf public

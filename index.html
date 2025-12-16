@@ -11,7 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -19,97 +19,340 @@
             padding: 2rem;
             color: #333;
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             color: white;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
-        
+
         h1 {
             font-size: 3rem;
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        
+
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
+            margin-bottom: 1rem;
         }
-        
-        .landing-pages {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        .stats {
+            display: flex;
+            justify-content: center;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
-        
-        .landing-card {
-            background: white;
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
             border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .actions {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
             text-decoration: none;
-            color: inherit;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .search-box {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 0.95rem;
+            min-width: 250px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            vertical-align: top;
+        }
+
+        .page-name {
+            font-weight: 600;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .page-name:hover {
+            text-decoration: underline;
+        }
+
+        .page-link {
+            font-family: 'Courier New', monospace;
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
             display: block;
         }
-        
-        .landing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+
+        .description {
+            color: #6c757d;
+            line-height: 1.5;
+            max-width: 400px;
         }
-        
-        .landing-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #667eea;
+
+        .owner {
+            color: #495057;
+            font-weight: 500;
         }
-        
-        .landing-card .path {
-            font-family: 'Courier New', monospace;
-            color: #666;
+
+        .date {
+            color: #6c757d;
             font-size: 0.9rem;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: #f5f5f5;
+            white-space: nowrap;
+        }
+
+        .date-updated {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .new-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.5rem;
             border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
         }
-        
-        .landing-card .description {
-            color: #555;
-            line-height: 1.6;
-        }
-        
+
         .loading {
             text-align: center;
             color: white;
             font-size: 1.2rem;
-            padding: 2rem;
+            padding: 4rem 2rem;
         }
-        
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .error {
-            background: #ff6b6b;
+            background: #dc3545;
             color: white;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 1.5rem;
+            border-radius: 12px;
             margin: 2rem 0;
             text-align: center;
         }
-        
-        .default-badge {
-            display: inline-block;
-            background: #4ecdc4;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            margin-left: 0.5rem;
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 1rem;
+            }
+
+            .tags {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            /* Stack table for mobile */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 1rem;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            td {
+                text-align: right;
+                padding: 0.75rem 1rem;
+                position: relative;
+                padding-left: 50%;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            td:last-child {
+                border-bottom: none;
+            }
+
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: #6c757d;
+                text-align: left;
+            }
+
+            .description {
+                text-align: left;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -117,82 +360,174 @@
     <div class="container">
         <header>
             <h1>🎮 Landing Pages</h1>
-            <p class="subtitle">K-8 Math Games - Choose Your Design</p>
+            <p class="subtitle">K-8 Math Games - Browse All Available Designs</p>
         </header>
-        
-        <div id="loading" class="loading">Loading landing pages...</div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="total-pages">0</div>
+                <div class="stat-label">Landing Pages</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-owners">0</div>
+                <div class="stat-label">Contributors</div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="/ADDING_LANDING_PAGES.md" class="btn" target="_blank">📖 How to Add New Page</a>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading landing pages...</p>
+        </div>
+
         <div id="error" class="error" style="display: none;"></div>
-        <div id="landing-pages" class="landing-pages" style="display: none;"></div>
+
+        <div id="table-wrapper" style="display: none;">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">All Landing Pages</div>
+                    <input type="text" class="search-box" id="search" placeholder="Search pages...">
+                </div>
+                <table id="pages-table">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Description</th>
+                            <th>Owner</th>
+                            <th>Created</th>
+                            <th>Last Updated</th>
+                            <th>Tags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    
+
     <script>
-        // Fetch vercel.json to extract landing pages
-        fetch('/vercel.json')
+        // Fetch landing pages registry
+        fetch('/landing-pages-registry.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to load vercel.json');
+                    throw new Error('Failed to load landing pages registry');
                 }
                 return response.json();
             })
             .then(data => {
                 const loadingEl = document.getElementById('loading');
                 const errorEl = document.getElementById('error');
-                const pagesEl = document.getElementById('landing-pages');
-                
+                const tableWrapper = document.getElementById('table-wrapper');
+                const tableBody = document.getElementById('table-body');
+
                 loadingEl.style.display = 'none';
-                
-                if (!data.rewrites || !Array.isArray(data.rewrites)) {
-                    throw new Error('Invalid vercel.json format');
+
+                if (!data.landingPages || !Array.isArray(data.landingPages)) {
+                    throw new Error('Invalid registry format');
                 }
-                
-                // Extract landing pages from rewrites
-                const landingPages = data.rewrites
-                    .filter(rewrite => {
-                        // Filter out root path and only get actual landing pages
-                        const source = rewrite.source;
-                        return source !== '/' && !source.includes(':') && !source.includes('*');
-                    })
-                    .map(rewrite => {
-                        const path = rewrite.source;
-                        const name = path.substring(1).charAt(0).toUpperCase() + path.substring(1).slice(1);
-                        return {
-                            path: path,
-                            name: name,
-                            isDefault: path === '/minimal'
-                        };
-                    });
-                
-                // Render landing pages
-                if (landingPages.length === 0) {
-                    errorEl.textContent = 'No landing pages found in vercel.json';
+
+                // Sort by last updated (newest first)
+                const pages = data.landingPages.sort((a, b) => {
+                    return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+                });
+
+                if (pages.length === 0) {
+                    errorEl.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📄</div>
+                            <h2>No Landing Pages Found</h2>
+                            <p>Get started by creating your first landing page!</p>
+                        </div>
+                    `;
                     errorEl.style.display = 'block';
                     return;
                 }
-                
-                pagesEl.innerHTML = landingPages.map(page => `
-                    <a href="${page.path}" class="landing-card">
-                        <h2>
-                            ${page.name}
-                            ${page.isDefault ? '<span class="default-badge">Default</span>' : ''}
-                        </h2>
-                        <div class="path">${page.path}</div>
-                        <div class="description">
-                            Click to view the ${page.name.toLowerCase()} landing page design.
-                        </div>
-                    </a>
-                `).join('');
-                
-                pagesEl.style.display = 'grid';
+
+                // Update stats
+                document.getElementById('total-pages').textContent = pages.length;
+                const uniqueOwners = new Set(pages.map(p => p.owner));
+                document.getElementById('total-owners').textContent = uniqueOwners.size;
+
+                // Check if page is new (created within last 7 days)
+                const isNew = (dateStr) => {
+                    const daysDiff = (new Date() - new Date(dateStr)) / (1000 * 60 * 60 * 24);
+                    return daysDiff <= 7;
+                };
+
+                // Format date
+                const formatDate = (dateStr) => {
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                };
+
+                // Render table rows
+                const renderPages = (pagesToRender) => {
+                    tableBody.innerHTML = pagesToRender.map(page => `
+                        <tr>
+                            <td data-label="Page">
+                                <a href="${page.path}" class="page-name">
+                                    ${page.name}
+                                    ${isNew(page.createdDate) ? '<span class="new-badge">New</span>' : ''}
+                                </a>
+                                <span class="page-link">${page.path}</span>
+                            </td>
+                            <td data-label="Description">
+                                <div class="description">${page.description}</div>
+                            </td>
+                            <td data-label="Owner">
+                                <div class="owner">${page.owner}</div>
+                            </td>
+                            <td data-label="Created">
+                                <div class="date">${formatDate(page.createdDate)}</div>
+                            </td>
+                            <td data-label="Last Updated">
+                                <div class="date date-updated">${formatDate(page.lastUpdated)}</div>
+                            </td>
+                            <td data-label="Tags">
+                                <div class="tags">
+                                    ${page.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                };
+
+                renderPages(pages);
+                tableWrapper.style.display = 'block';
+
+                // Search functionality
+                const searchInput = document.getElementById('search');
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filtered = pages.filter(page => {
+                        return page.name.toLowerCase().includes(searchTerm) ||
+                               page.description.toLowerCase().includes(searchTerm) ||
+                               page.owner.toLowerCase().includes(searchTerm) ||
+                               page.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                    });
+                    renderPages(filtered);
+                });
             })
             .catch(error => {
                 const loadingEl = document.getElementById('loading');
                 const errorEl = document.getElementById('error');
-                
+
                 loadingEl.style.display = 'none';
-                errorEl.textContent = `Error: ${error.message}`;
+                errorEl.innerHTML = `
+                    <strong>Error Loading Pages</strong><br>
+                    ${error.message}<br>
+                    <small>Please ensure landing-pages-registry.json exists and is properly formatted.</small>
+                `;
                 errorEl.style.display = 'block';
             });
     </script>
 </body>
 </html>
-

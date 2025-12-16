@@ -41,8 +41,8 @@
       "destination": "/claude-manan/math_cosmos_landing.html"
     },
     {
-      "source": "/wizard",
-      "destination": "/wizard/index.html"
+      "source": "/games-dashboard",
+      "destination": "/games-dashboard/index.html"
     }
   ],
   "headers": [

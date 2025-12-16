@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Nexus - K-8 Math Games Dashboard</title>
+    <meta name="description" content="Explore our collection of engaging K-8 math educational games">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #667eea;
+            --primary-pink: #764ba2;
+            --accent-blue: #4facfe;
+            --accent-green: #43e97b;
+            --dark-bg: #0f0f23;
+            --card-bg: #1a1a2e;
+            --text-light: #ffffff;
+            --text-gray: #a8a8b3;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .bg-animation::before,
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .bg-animation::before {
+            background: var(--accent-blue);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation::after {
+            background: var(--accent-green);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(100px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 100px) scale(0.9); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .game-card {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+        }
+
+        .game-content {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .game-description {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .game-meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .meta-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-tag.grade {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .meta-tag.topic {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .meta-tag.language {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .play-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 2rem 0;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="logo">🎮 Games Nexus</h1>
+            <p class="tagline">Explore Amazing Math Adventures</p>
+            <div class="grade-badge">K-8 Educational Games</div>
+        </header>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="total-games">0</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-topics">0</div>
+                <div class="stat-label">Topics Covered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Languages</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">All Games</button>
+            <button class="filter-btn" data-filter="en">English</button>
+            <button class="filter-btn" data-filter="es">Español</button>
+            <button class="filter-btn" data-filter="grade-1">Grade 1</button>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading amazing games...</p>
+        </div>
+
+        <div id="games-grid" class="games-grid" style="display: none;"></div>
+
+        <footer>
+            <p>© 2024 PlayPower Games - Making Learning Fun</p>
+        </footer>
+    </div>
+
+    <script>
+        // Game data structure
+        const gamesData = {
+            'astro-math': {
+                name: 'Astro Math',
+                description: 'Blast off into space and solve math problems among the stars! Help astronauts complete their missions by mastering addition, subtraction, and number sense.',
+                topics: ['Addition', 'Subtraction', 'Number Sense'],
+                grade: 'Grade 1'
+            },
+            'bunny-jumping': {
+                name: 'Bunny Jumping',
+                description: 'Join the adorable bunny on an exciting jumping adventure! Hop through colorful levels while solving math challenges to collect carrots and reach new heights.',
+                topics: ['Counting', 'Number Recognition', 'Basic Operations'],
+                grade: 'Grade 1'
+            }
+        };
+
+        // Language labels
+        const languageLabels = {
+            'en': 'English',
+            'es': 'Español'
+        };
+
+        // Function to create game card
+        function createGameCard(gameName, topic, language, imageUrl) {
+            const gameKey = gameName.toLowerCase().replace(' ', '-');
+            const gameInfo = gamesData[gameKey] || {
+                name: gameName,
+                description: 'An exciting educational game to help students learn math concepts.',
+                topics: ['Math'],
+                grade: 'Grade 1'
+            };
+
+            return `
+                <div class="game-card" data-language="${language}" data-grade="grade-1">
+                    <img src="${imageUrl}" alt="${gameInfo.name}" class="game-image" onerror="this.style.display='none'">
+                    <div class="game-content">
+                        <h3 class="game-title">${gameInfo.name}</h3>
+                        <p class="game-description">${gameInfo.description}</p>
+                        <div class="game-meta">
+                            <span class="meta-tag grade">${gameInfo.grade}</span>
+                            <span class="meta-tag topic">Topic ${topic}</span>
+                            <span class="meta-tag language">${languageLabels[language]}</span>
+                        </div>
+                        <button class="play-btn" onclick="playGame('${gameKey}', '${language}', ${topic})">
+                            ▶ Play Now
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to load games
+        async function loadGames() {
+            const gamesGrid = document.getElementById('games-grid');
+            const loading = document.getElementById('loading');
+
+            try {
+                // Simulated game data based on available assets
+                const games = [
+                    { name: 'Astro Math', topic: '2', language: 'en', image: '/assets/images/grade-1/astro-math-topic-2-en.png' },
+                    { name: 'Astro Math', topic: '2', language: 'es', image: '/assets/images/grade-1/astro-math-topic-2-es.png' },
+                    { name: 'Bunny Jumping', topic: '3', language: 'en', image: '/assets/images/grade-1/bunny-jumping-topic-3-en.png' },
+                    { name: 'Bunny Jumping', topic: '3', language: 'es', image: '/assets/images/grade-1/bunny-jumping-topic-3-es.png' },
+                    { name: 'Bunny Jumping', topic: '4', language: 'en', image: '/assets/images/grade-1/bunny-jumping-topic-4-en.png' },
+                    { name: 'Bunny Jumping', topic: '4', language: 'es', image: '/assets/images/grade-1/bunny-jumping-topic-4-es.png' }
+                ];
+
+                // Generate game cards
+                gamesGrid.innerHTML = games.map(game =>
+                    createGameCard(game.name, game.topic, game.language, game.image)
+                ).join('');
+
+                // Update stats
+                document.getElementById('total-games').textContent = games.length;
+                const uniqueTopics = new Set(games.map(g => g.topic));
+                document.getElementById('total-topics').textContent = uniqueTopics.size;
+
+                // Hide loading, show grid
+                loading.style.display = 'none';
+                gamesGrid.style.display = 'grid';
+
+            } catch (error) {
+                console.error('Error loading games:', error);
+                loading.innerHTML = '<p>Error loading games. Please refresh the page.</p>';
+            }
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                const cards = document.querySelectorAll('.game-card');
+
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else if (filter.startsWith('grade-')) {
+                        card.style.display = card.dataset.grade === filter ? 'block' : 'none';
+                    } else {
+                        card.style.display = card.dataset.language === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Play game function
+        function playGame(gameName, language, topic) {
+            alert(`Launching ${gameName} in ${languageLabels[language]} - Topic ${topic}!\n\nGame integration coming soon...`);
+            // Here you would integrate with your actual game launching logic
+        }
+
+        // Load games on page load
+        window.addEventListener('DOMContentLoaded', loadGames);
+    </script>
+</body>
+</html>
