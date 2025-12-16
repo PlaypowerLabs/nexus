@@ -134,39 +134,152 @@ The `vercel.json` file defines URL path mappings:
 
 ## Adding a New Landing Page
 
-When creating a new landing page:
+**IMPORTANT:** When creating a new landing page, you MUST complete ALL of the following steps. Missing any step will result in the landing page not being properly deployed or discoverable.
 
-1. **Create app directory:**
-   ```bash
-   mkdir -p apps/landing-your-name
-   ```
+### Required Files to Update
 
-2. **Add your files:**
-   ```
-   apps/landing-your-name/
-   ├── index.html
-   ├── styles.css
-   └── (other assets)
-   ```
+| File | Purpose |
+|------|---------|
+| `apps/landing-{name}/index.html` | Your landing page source files |
+| `landing-pages-registry.json` | Root page directory listing |
+| `build.sh` | Build script for deployment |
+| `vercel.json` | URL routing configuration |
 
-3. **Update `build.sh`:**
-   ```bash
-   # Add in mkdir section
-   mkdir -p public-build/your-route
+### Step-by-Step Checklist
 
-   # Add in copy section
-   cp -r apps/landing-your-name/* public-build/your-route/
-   ```
+#### 1. Create the Landing Page Directory
 
-4. **Update `vercel.json`:**
-   ```json
-   {
-     "source": "/your-route",
-     "destination": "/your-route/index.html"
-   }
-   ```
+```bash
+mkdir -p apps/landing-your-name
+```
 
-5. **Commit and push** - Vercel will automatically deploy
+#### 2. Add Your Landing Page Files
+
+```
+apps/landing-your-name/
+├── index.html      # Main HTML file (required)
+├── styles.css      # Styles (can be inline in HTML)
+└── (other assets)  # Images, scripts, etc.
+```
+
+#### 3. Update `landing-pages-registry.json` (REQUIRED)
+
+Add your landing page entry to the `landingPages` array. This makes it appear in the root directory listing at `/`.
+
+```json
+{
+  "landingPages": [
+    {
+      "path": "/your-route",
+      "name": "Your Landing Page Name",
+      "description": "Brief description of your landing page design and features",
+      "owner": "Your Name or Claude AI",
+      "createdDate": "YYYY-MM-DD",
+      "lastUpdated": "YYYY-MM-DD",
+      "tags": ["tag1", "tag2", "tag3"]
+    },
+    // ... existing entries
+  ]
+}
+```
+
+**Registry Fields:**
+- `path`: URL route (must match vercel.json and build.sh)
+- `name`: Display name for the directory listing
+- `description`: Brief description of design approach/features
+- `owner`: Creator name
+- `createdDate`: ISO date format (YYYY-MM-DD)
+- `lastUpdated`: ISO date format (YYYY-MM-DD)
+- `tags`: Array of descriptive tags for filtering
+
+#### 4. Update `build.sh` (REQUIRED)
+
+Add TWO lines to the build script:
+
+```bash
+# Add in the mkdir section (around line 6-8)
+mkdir -p public-build/your-route
+
+# Add in the copy section (around line 10-13)
+cp -r apps/landing-your-name/* public-build/your-route/
+```
+
+#### 5. Update `vercel.json` (REQUIRED)
+
+Add a rewrite rule in the `rewrites` array:
+
+```json
+{
+  "rewrites": [
+    // ... existing rewrites
+    {
+      "source": "/your-route",
+      "destination": "/your-route/index.html"
+    }
+  ]
+}
+```
+
+#### 6. Commit and Push
+
+```bash
+git add apps/landing-your-name/ landing-pages-registry.json build.sh vercel.json
+git commit -m "feat(landing-your-name): add new landing page
+
+- Created landing page with [describe key features]
+- Added to landing pages registry
+- Updated build.sh and vercel.json for deployment"
+git push origin your-branch
+```
+
+### Verification Checklist
+
+Before pushing, verify:
+
+- [ ] Landing page directory exists: `apps/landing-{name}/`
+- [ ] `index.html` exists in the directory
+- [ ] Entry added to `landing-pages-registry.json`
+- [ ] `mkdir` line added to `build.sh`
+- [ ] `cp -r` line added to `build.sh`
+- [ ] Rewrite rule added to `vercel.json`
+- [ ] Route name is consistent across all files
+
+### Common Mistakes to Avoid
+
+1. **Forgetting the registry entry** - Page won't appear in root directory
+2. **Mismatched route names** - Use same route in registry, build.sh, and vercel.json
+3. **Missing build.sh updates** - Page won't be copied to public directory
+4. **Missing vercel.json rewrite** - URL routing will fail with 404
+
+### Example: Adding "playpower-park" Landing Page
+
+```bash
+# 1. Create directory
+mkdir -p apps/landing-playpower-park
+
+# 2. Create index.html (and other files)
+
+# 3. Update landing-pages-registry.json
+{
+  "path": "/playpower-park",
+  "name": "PlayPower Park",
+  "description": "Disneyland-inspired theme park landing page",
+  "owner": "Claude AI",
+  "createdDate": "2024-12-16",
+  "lastUpdated": "2024-12-16",
+  "tags": ["theme-park", "animated", "carousel"]
+}
+
+# 4. Update build.sh
+mkdir -p public-build/playpower-park
+cp -r apps/landing-playpower-park/* public-build/playpower-park/
+
+# 5. Update vercel.json
+{
+  "source": "/playpower-park",
+  "destination": "/playpower-park/index.html"
+}
+```
 
 ## Style Guide and Conventions
 
