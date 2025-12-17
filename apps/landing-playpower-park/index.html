@@ -1816,28 +1816,38 @@
       const sparklesContainer = document.getElementById('splash-sparkles');
       const splashScreen = document.getElementById('splash-screen');
 
+      // Detect if running locally or on server
+      const isLocal = window.location.protocol === 'file:';
+      const basePath = isLocal ? '../../public/assets/images/' : '/assets/images/';
+
       // Game thumbnails for the mosaic
-      const thumbnails = [
-        '/assets/images/grade-k/space-party-topic-1-en.png',
-        '/assets/images/grade-1/astro-math-topic-2-en.png',
-        '/assets/images/grade-2/emoji-battle-topic-3-en.png',
-        '/assets/images/grade-3/robo-pirates-topic-9-en.png',
-        '/assets/images/grade-4/dino-muncher-topic-6-en.png',
-        '/assets/images/grade-5/digit-drive-topic-1-en.png',
-        '/assets/images/grade-6/algebra-trials-topic-4-en.png',
-        '/assets/images/grade-7/number-knockout-topic-3-en.png',
-        '/assets/images/grade-2/fact-racer-topic-4-en.png',
-        '/assets/images/grade-3/fraction-frenzy-topic-10-en.png',
-        '/assets/images/grade-5/grid-lock-topic-10-en.png',
-        '/assets/images/grade-8/pythagoras-path-topic-7-en.png'
+      const thumbnailPaths = [
+        'grade-k/space-party-topic-1-en.png',
+        'grade-1/astro-math-topic-2-en.png',
+        'grade-2/emoji-battle-topic-3-en.png',
+        'grade-3/robo-pirates-topic-9-en.png',
+        'grade-4/dino-muncher-topic-6-en.png',
+        'grade-5/digit-drive-topic-1-en.png',
+        'grade-6/algebra-trials-topic-4-en.png',
+        'grade-7/number-knockout-topic-3-en.png',
+        'grade-2/fact-racer-topic-4-en.png',
+        'grade-3/fraction-frenzy-topic-10-en.png',
+        'grade-5/grid-lock-topic-10-en.png',
+        'grade-8/pythagoras-path-topic-7-en.png'
       ];
+
+      const thumbnails = thumbnailPaths.map(path => basePath + path);
 
       // Preload all images before showing animation
       let loadedCount = 0;
       const totalImages = thumbnails.length;
       const preloadedImages = [];
+      let animationStarted = false;
 
       function startAnimation() {
+        if (animationStarted) return;
+        animationStarted = true;
+
         // Create mosaic tiles with preloaded images
         preloadedImages.forEach((img, index) => {
           const tile = document.createElement('div');
@@ -1864,7 +1874,6 @@
         img.onload = () => {
           loadedCount++;
           preloadedImages[index] = img;
-          // Start animation when all images loaded OR after 800ms max wait
           if (loadedCount === totalImages) {
             startAnimation();
           }
@@ -1886,7 +1895,7 @@
 
       // Fallback: start animation after 800ms even if not all images loaded
       setTimeout(() => {
-        if (loadedCount < totalImages) {
+        if (!animationStarted) {
           // Fill remaining slots with placeholders
           for (let i = 0; i < totalImages; i++) {
             if (!preloadedImages[i]) {
@@ -2009,19 +2018,23 @@
     function populateCarousel() {
       const track = document.getElementById('carousel-track');
 
+      // Detect if running locally or on server
+      const isLocal = window.location.protocol === 'file:';
+      const basePath = isLocal ? '../../public/assets/images/' : '/assets/images/';
+
       const attractions = [
-        { image: '/assets/images/grade-k/space-party-topic-1-en.png', title: 'Space Party', grade: 'Kindergarten', desc: 'Count and celebrate with alien friends!' },
-        { image: '/assets/images/grade-1/astro-math-topic-2-en.png', title: 'Astro Math', grade: 'Grade 1', desc: 'Addition adventures among the stars!' },
-        { image: '/assets/images/grade-2/emoji-battle-topic-3-en.png', title: 'Emoji Battle', grade: 'Grade 2', desc: 'Math battles with expressive fun!' },
-        { image: '/assets/images/grade-2/fact-racer-topic-4-en.png', title: 'Fact Racer', grade: 'Grade 2', desc: 'Race to master math facts!' },
-        { image: '/assets/images/grade-3/fraction-frenzy-topic-10-en.png', title: 'Fraction Frenzy', grade: 'Grade 3', desc: 'Fractions made fun and fast!' },
-        { image: '/assets/images/grade-3/robo-pirates-topic-9-en.png', title: 'Robo Pirates', grade: 'Grade 3', desc: 'Pirate adventures with numbers!' },
-        { image: '/assets/images/grade-4/dino-muncher-topic-6-en.png', title: 'Dino Muncher', grade: 'Grade 4', desc: 'Feed dinos with correct answers!' },
-        { image: '/assets/images/grade-5/digit-drive-topic-1-en.png', title: 'Digit Drive', grade: 'Grade 5', desc: 'High-speed decimal racing!' },
-        { image: '/assets/images/grade-5/grid-lock-topic-10-en.png', title: 'Grid Lock', grade: 'Grade 5', desc: 'Coordinate plane puzzles!' },
-        { image: '/assets/images/grade-6/algebra-trials-topic-4-en.png', title: 'Algebra Trials', grade: 'Grade 6', desc: 'Conquer algebraic challenges!' },
-        { image: '/assets/images/grade-7/number-knockout-topic-3-en.png', title: 'Number Knockout', grade: 'Grade 7', desc: 'Knock out math problems!' },
-        { image: '/assets/images/grade-8/pythagoras-path-topic-7-en.png', title: 'Pythagoras Path', grade: 'Grade 8', desc: 'Master geometric theorems!' },
+        { image: basePath + 'grade-k/space-party-topic-1-en.png', title: 'Space Party', grade: 'Kindergarten', desc: 'Count and celebrate with alien friends!' },
+        { image: basePath + 'grade-1/astro-math-topic-2-en.png', title: 'Astro Math', grade: 'Grade 1', desc: 'Addition adventures among the stars!' },
+        { image: basePath + 'grade-2/emoji-battle-topic-3-en.png', title: 'Emoji Battle', grade: 'Grade 2', desc: 'Math battles with expressive fun!' },
+        { image: basePath + 'grade-2/fact-racer-topic-4-en.png', title: 'Fact Racer', grade: 'Grade 2', desc: 'Race to master math facts!' },
+        { image: basePath + 'grade-3/fraction-frenzy-topic-10-en.png', title: 'Fraction Frenzy', grade: 'Grade 3', desc: 'Fractions made fun and fast!' },
+        { image: basePath + 'grade-3/robo-pirates-topic-9-en.png', title: 'Robo Pirates', grade: 'Grade 3', desc: 'Pirate adventures with numbers!' },
+        { image: basePath + 'grade-4/dino-muncher-topic-6-en.png', title: 'Dino Muncher', grade: 'Grade 4', desc: 'Feed dinos with correct answers!' },
+        { image: basePath + 'grade-5/digit-drive-topic-1-en.png', title: 'Digit Drive', grade: 'Grade 5', desc: 'High-speed decimal racing!' },
+        { image: basePath + 'grade-5/grid-lock-topic-10-en.png', title: 'Grid Lock', grade: 'Grade 5', desc: 'Coordinate plane puzzles!' },
+        { image: basePath + 'grade-6/algebra-trials-topic-4-en.png', title: 'Algebra Trials', grade: 'Grade 6', desc: 'Conquer algebraic challenges!' },
+        { image: basePath + 'grade-7/number-knockout-topic-3-en.png', title: 'Number Knockout', grade: 'Grade 7', desc: 'Knock out math problems!' },
+        { image: basePath + 'grade-8/pythagoras-path-topic-7-en.png', title: 'Pythagoras Path', grade: 'Grade 8', desc: 'Master geometric theorems!' },
       ];
 
       // Double the items for seamless loop
@@ -2075,9 +2088,23 @@
     }
 
     // ========================================
+    // FIX IMAGE PATHS FOR LOCAL/SERVER
+    // ========================================
+    function fixImagePaths() {
+      const isLocal = window.location.protocol === 'file:';
+      if (!isLocal) return; // Only fix for local file access
+
+      // Fix all images with /assets/ paths
+      document.querySelectorAll('img[src^="/assets/"]').forEach(img => {
+        img.src = img.src.replace('/assets/', '../../public/assets/');
+      });
+    }
+
+    // ========================================
     // INITIALIZE ALL FEATURES
     // ========================================
     document.addEventListener('DOMContentLoaded', () => {
+      fixImagePaths();
       createParticles();
       handleNavScroll();
       setupMobileMenu();
