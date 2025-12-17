@@ -1832,23 +1832,76 @@
         '/assets/images/grade-8/pythagoras-path-topic-7-en.png'
       ];
 
-      // Create mosaic tiles with staggered animation
-      thumbnails.forEach((src, index) => {
-        const tile = document.createElement('div');
-        tile.className = 'splash-tile';
-        tile.style.animationDelay = `${index * 0.08}s`;
+      // Preload all images before showing animation
+      let loadedCount = 0;
+      const totalImages = thumbnails.length;
+      const preloadedImages = [];
 
+      function startAnimation() {
+        // Create mosaic tiles with preloaded images
+        preloadedImages.forEach((img, index) => {
+          const tile = document.createElement('div');
+          tile.className = 'splash-tile';
+          tile.style.animationDelay = `${index * 0.06}s`;
+          tile.appendChild(img);
+          mosaic.appendChild(tile);
+        });
+
+        // Fade out splash screen after animation completes
+        setTimeout(() => {
+          splashScreen.classList.add('fade-out');
+          setTimeout(() => {
+            splashScreen.remove();
+          }, 600);
+        }, 1800);
+      }
+
+      // Preload images
+      thumbnails.forEach((src, index) => {
         const img = document.createElement('img');
-        img.src = src;
         img.alt = 'Game thumbnail';
 
-        tile.appendChild(img);
-        mosaic.appendChild(tile);
+        img.onload = () => {
+          loadedCount++;
+          preloadedImages[index] = img;
+          // Start animation when all images loaded OR after 800ms max wait
+          if (loadedCount === totalImages) {
+            startAnimation();
+          }
+        };
+
+        img.onerror = () => {
+          loadedCount++;
+          // Create placeholder for failed images
+          const placeholder = document.createElement('div');
+          placeholder.style.cssText = 'width:100%;height:100%;background:linear-gradient(135deg,#6B4EE6,#EC4899);';
+          preloadedImages[index] = placeholder;
+          if (loadedCount === totalImages) {
+            startAnimation();
+          }
+        };
+
+        img.src = src;
       });
 
-      // Create floating sparkles
+      // Fallback: start animation after 800ms even if not all images loaded
+      setTimeout(() => {
+        if (loadedCount < totalImages) {
+          // Fill remaining slots with placeholders
+          for (let i = 0; i < totalImages; i++) {
+            if (!preloadedImages[i]) {
+              const placeholder = document.createElement('div');
+              placeholder.style.cssText = 'width:100%;height:100%;background:linear-gradient(135deg,#6B4EE6,#EC4899);';
+              preloadedImages[i] = placeholder;
+            }
+          }
+          startAnimation();
+        }
+      }, 800);
+
+      // Create floating sparkles immediately
       const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '✦'];
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 12; i++) {
         const sparkle = document.createElement('span');
         sparkle.className = 'splash-sparkle';
         sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
@@ -1857,15 +1910,6 @@
         sparkle.style.animationDelay = `${Math.random() * 2}s`;
         sparklesContainer.appendChild(sparkle);
       }
-
-      // Fade out splash screen after animation completes
-      setTimeout(() => {
-        splashScreen.classList.add('fade-out');
-        // Remove from DOM after transition
-        setTimeout(() => {
-          splashScreen.remove();
-        }, 800);
-      }, 2200);
     }
 
     // Initialize splash immediately
