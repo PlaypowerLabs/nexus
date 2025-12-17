@@ -1126,6 +1126,429 @@
     }
 
     /* ========================================
+       HERO WELCOME CHARACTERS
+    ======================================== */
+    .hero-characters {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .hero-character {
+      position: absolute;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .hero-character img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* Captain Pelican - Bottom Left, waving */
+    .hero-character.captain {
+      left: 3%;
+      bottom: 8%;
+      height: 220px;
+      animation: captain-wave 3s ease-in-out infinite;
+    }
+
+    @keyframes captain-wave {
+      0%, 100% { transform: rotate(-3deg) translateY(0); }
+      25% { transform: rotate(2deg) translateY(-5px); }
+      50% { transform: rotate(-2deg) translateY(-10px); }
+      75% { transform: rotate(3deg) translateY(-5px); }
+    }
+
+    /* Astro Bot - Top Right, floating */
+    .hero-character.astro {
+      right: 5%;
+      top: 18%;
+      height: 160px;
+      animation: astro-float 4s ease-in-out infinite;
+    }
+
+    @keyframes astro-float {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+      25% { transform: translate(-10px, -15px) rotate(0deg); }
+      50% { transform: translate(5px, -25px) rotate(5deg); }
+      75% { transform: translate(15px, -10px) rotate(0deg); }
+    }
+
+    /* Carrot Bunny - Bottom Right, hopping */
+    .hero-character.bunny {
+      right: 4%;
+      bottom: 12%;
+      height: 180px;
+      animation: bunny-hop 1.8s ease-in-out infinite;
+    }
+
+    @keyframes bunny-hop {
+      0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); }
+      20% { transform: translateY(0) rotate(-2deg) scaleY(0.95); }
+      50% { transform: translateY(-35px) rotate(3deg) scaleY(1.05); }
+      80% { transform: translateY(0) rotate(-1deg) scaleY(0.98); }
+    }
+
+    /* Speech bubble for Captain */
+    .hero-character .speech-bubble {
+      position: absolute;
+      top: -15px;
+      left: 60%;
+      background: var(--color-white);
+      color: var(--color-deep-space);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(10px) scale(0.8);
+      animation: speech-appear 4s ease-in-out 2s infinite;
+    }
+
+    .hero-character .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid var(--color-white);
+    }
+
+    @keyframes speech-appear {
+      0%, 15%, 100% { opacity: 0; transform: translateY(10px) scale(0.8); }
+      20%, 80% { opacity: 1; transform: translateY(0) scale(1); }
+      85% { opacity: 0; transform: translateY(-5px) scale(0.9); }
+    }
+
+    /* ========================================
+       MEET THE CREW STRIP
+    ======================================== */
+    .meet-the-crew {
+      background: linear-gradient(180deg, var(--color-twilight) 0%, rgba(49, 46, 129, 0.5) 100%);
+      border-top: 1px solid rgba(251, 191, 36, 0.2);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meet-the-crew::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .crew-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .crew-label {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-sunny-yellow);
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .crew-avatars {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .crew-avatar {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: visible;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+    }
+
+    .crew-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, rgba(107, 78, 230, 0.5), rgba(236, 72, 153, 0.5));
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .crew-avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .crew-avatar img {
+      width: 130%;
+      height: 130%;
+      object-fit: cover;
+      object-position: top center;
+      position: absolute;
+      top: -5%;
+      left: -15%;
+    }
+
+    .crew-avatar:hover {
+      transform: scale(1.25) translateY(-15px);
+      z-index: 10;
+    }
+
+    .crew-avatar:hover .crew-avatar-inner {
+      border-color: var(--color-sunny-yellow);
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    .crew-avatar-name {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-deep-space);
+      color: var(--color-white);
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: var(--transition-smooth);
+      border: 2px solid var(--color-sunny-yellow);
+    }
+
+    .crew-avatar:hover .crew-avatar-name {
+      opacity: 1;
+    }
+
+    /* Stagger the avatar positions for visual interest */
+    .crew-avatar:nth-child(2) { transform-origin: bottom; }
+    .crew-avatar:nth-child(3) { margin-bottom: 8px; }
+    .crew-avatar:nth-child(4) { margin-bottom: 4px; }
+    .crew-avatar:nth-child(5) { margin-bottom: 10px; }
+    .crew-avatar:nth-child(6) { margin-bottom: 2px; }
+    .crew-avatar:nth-child(7) { margin-bottom: 6px; }
+
+    .crew-avatar:nth-child(2):hover { transform: scale(1.25) translateY(-15px); }
+    .crew-avatar:nth-child(3):hover { transform: scale(1.25) translateY(-23px); }
+    .crew-avatar:nth-child(4):hover { transform: scale(1.25) translateY(-19px); }
+    .crew-avatar:nth-child(5):hover { transform: scale(1.25) translateY(-25px); }
+    .crew-avatar:nth-child(6):hover { transform: scale(1.25) translateY(-17px); }
+    .crew-avatar:nth-child(7):hover { transform: scale(1.25) translateY(-21px); }
+
+    /* ========================================
+       FOOTER CHARACTER PARADE
+    ======================================== */
+    .character-parade {
+      padding: 2.5rem 0;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(180deg, transparent 0%, rgba(251, 191, 36, 0.05) 50%, transparent 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .parade-label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .parade-label span {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .parade-track-wrapper {
+      position: relative;
+    }
+
+    .parade-track-wrapper::before,
+    .parade-track-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .parade-track-wrapper::before {
+      left: 0;
+      background: linear-gradient(90deg, #0A0820 0%, transparent 100%);
+    }
+
+    .parade-track-wrapper::after {
+      right: 0;
+      background: linear-gradient(270deg, #0A0820 0%, transparent 100%);
+    }
+
+    .parade-track {
+      display: flex;
+      gap: 4rem;
+      animation: parade-march 35s linear infinite;
+      width: max-content;
+      align-items: flex-end;
+      padding: 0 2rem;
+    }
+
+    .parade-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes parade-march {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .parade-character {
+      flex-shrink: 0;
+      height: 90px;
+      opacity: 0.7;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .parade-character img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+    }
+
+    .parade-character:hover {
+      opacity: 1;
+      transform: scale(1.2) translateY(-10px);
+    }
+
+    .parade-character::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      color: var(--color-sunny-yellow);
+      white-space: nowrap;
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .parade-character:hover::after {
+      opacity: 1;
+    }
+
+    /* Different walking animations for each character */
+    .parade-character:nth-child(odd) {
+      animation: char-walk-a 1s ease-in-out infinite;
+    }
+
+    .parade-character:nth-child(even) {
+      animation: char-walk-b 1.2s ease-in-out infinite;
+    }
+
+    @keyframes char-walk-a {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes char-walk-b {
+      0%, 100% { transform: translateY(-3px); }
+      50% { transform: translateY(2px); }
+    }
+
+    .parade-character:hover {
+      animation: none;
+      transform: scale(1.2) translateY(-10px);
+    }
+
+    /* Responsive adjustments for characters */
+    @media (max-width: 1200px) {
+      .hero-character.captain { height: 180px; left: 2%; }
+      .hero-character.astro { height: 130px; }
+      .hero-character.bunny { height: 150px; right: 2%; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-character.captain { height: 140px; bottom: 5%; }
+      .hero-character.astro { height: 100px; top: 12%; right: 3%; }
+      .hero-character.bunny { height: 120px; bottom: 8%; }
+      .hero-character .speech-bubble { display: none; }
+
+      .crew-content {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .crew-avatars {
+        gap: 0.6rem;
+      }
+
+      .crew-avatar {
+        width: 55px;
+        height: 55px;
+      }
+
+      .parade-character {
+        height: 70px;
+      }
+
+      .parade-track {
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-character.captain { height: 100px; left: 1%; }
+      .hero-character.astro { height: 70px; }
+      .hero-character.bunny { height: 90px; right: 1%; }
+
+      .crew-avatar {
+        width: 45px;
+        height: 45px;
+      }
+
+      .crew-label {
+        font-size: 1.1rem;
+      }
+
+      .parade-character {
+        height: 55px;
+      }
+    }
+
+    /* ========================================
        SPLASH LOADING SCREEN
     ======================================== */
     .splash-screen {
@@ -1403,24 +1826,43 @@
     </div>
 
     <div class="floating-elements" id="floating-elements">
-      <span class="floating-star" style="top: 15%; left: 10%;">
+      <span class="floating-star" style="top: 15%; left: 12%;">
         <svg viewBox="0 0 24 24" fill="#FBBF24" width="32" height="32"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 25%; right: 15%; animation-delay: 0.5s;">
+      <span class="floating-star" style="top: 30%; right: 18%; animation-delay: 0.5s;">
         <svg viewBox="0 0 24 24" fill="#EC4899" width="28" height="28"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 60%; left: 8%; animation-delay: 1s;">
+      <span class="floating-star" style="top: 55%; left: 15%; animation-delay: 1s;">
         <svg viewBox="0 0 24 24" fill="#14B8A6" width="36" height="36"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 70%; right: 10%; animation-delay: 1.5s;">
+      <span class="floating-star" style="top: 65%; right: 15%; animation-delay: 1.5s;">
         <svg viewBox="0 0 24 24" fill="#6B4EE6" width="30" height="30"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 40%; left: 5%; animation-delay: 0.3s;">
+      <span class="floating-star" style="top: 35%; left: 18%; animation-delay: 0.3s;">
         <svg viewBox="0 0 24 24" fill="#F97316" width="26" height="26"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 50%; right: 5%; animation-delay: 0.8s;">
+      <span class="floating-star" style="top: 45%; right: 18%; animation-delay: 0.8s;">
         <svg viewBox="0 0 24 24" fill="#3B82F6" width="24" height="24"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
+    </div>
+
+    <!-- Hero Welcome Characters -->
+    <div class="hero-characters">
+      <!-- Captain Pelican - Waving from left -->
+      <div class="hero-character captain">
+        <img src="/assets/images/characters/captain-pelican.png" alt="Captain Pelican welcoming you">
+        <div class="speech-bubble">Welcome aboard! 🎉</div>
+      </div>
+      
+      <!-- Astro Bot - Floating top right -->
+      <div class="hero-character astro">
+        <img src="/assets/images/characters/astro-bot.png" alt="Astro Bot floating">
+      </div>
+      
+      <!-- Carrot Bunny - Hopping bottom right -->
+      <div class="hero-character bunny">
+        <img src="/assets/images/characters/carrot-bunny.png" alt="Carrot Bunny hopping">
+      </div>
     </div>
 
     <div class="hero-content">
@@ -1458,6 +1900,57 @@
       <div class="scroll-arrow"></div>
     </div>
   </header>
+
+  <!-- Meet the Crew Strip -->
+  <section class="meet-the-crew">
+    <div class="crew-content">
+      <span class="crew-label">MEET THE CREW</span>
+      <div class="crew-avatars">
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/carrot-bunny.png" alt="Carrot Bunny">
+          </div>
+          <span class="crew-avatar-name">Carrot Bunny</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/captain-pelican.png" alt="Captain Pelican">
+          </div>
+          <span class="crew-avatar-name">Captain Pelican</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/astro-bot.png" alt="Astro Bot">
+          </div>
+          <span class="crew-avatar-name">Astro Bot</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/chompy-dino.png" alt="Chompy Dino">
+          </div>
+          <span class="crew-avatar-name">Chompy Dino</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/professor-cat.png" alt="Professor Cat">
+          </div>
+          <span class="crew-avatar-name">Professor Cat</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/biker-fox.png" alt="Biker Fox">
+          </div>
+          <span class="crew-avatar-name">Biker Fox</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/temple-bird.png" alt="Temple Bird">
+          </div>
+          <span class="crew-avatar-name">Temple Bird</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Park Map Section -->
   <section class="park-map-section" id="lands">
@@ -1878,6 +2371,18 @@
       </div>
     </div>
 
+    <!-- Character Parade -->
+    <div class="character-parade">
+      <div class="parade-label">
+        <span>Your Adventure Guides</span>
+      </div>
+      <div class="parade-track-wrapper">
+        <div class="parade-track" id="parade-track">
+          <!-- Characters populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
     <div class="footer-bottom">
       <p>&copy; 2024 Play Power Games. All rights reserved. Making math magical for K-8 learners everywhere.</p>
     </div>
@@ -2183,9 +2688,45 @@
       const isLocal = window.location.protocol === 'file:';
       if (!isLocal) return; // Only fix for local file access
 
-      // Fix all images with /assets/ paths
-      document.querySelectorAll('img[src^="/assets/"]').forEach(img => {
-        img.src = img.src.replace('/assets/', '../../public/assets/');
+      // Fix all images with /assets/ paths - use getAttribute to get original HTML attribute
+      const images = document.querySelectorAll('img[src^="/assets/"]');
+      
+      images.forEach((img) => {
+        const oldAttr = img.getAttribute('src');
+        const newPath = oldAttr.replace('/assets/', '../../public/assets/');
+        img.setAttribute('src', newPath);
+      });
+    }
+
+    // ========================================
+    // FOOTER CHARACTER PARADE
+    // ========================================
+    function populateCharacterParade() {
+      const track = document.getElementById('parade-track');
+      if (!track) return;
+
+      const isLocal = window.location.protocol === 'file:';
+      const basePath = isLocal ? '../../public/assets/images/characters/' : '/assets/images/characters/';
+
+      const characters = [
+        { name: 'Carrot Bunny', file: 'carrot-bunny.png' },
+        { name: 'Captain Pelican', file: 'captain-pelican.png' },
+        { name: 'Astro Bot', file: 'astro-bot.png' },
+        { name: 'Chompy Dino', file: 'chompy-dino.png' },
+        { name: 'Professor Cat', file: 'professor-cat.png' },
+        { name: 'Biker Fox', file: 'biker-fox.png' },
+        { name: 'Temple Bird', file: 'temple-bird.png' }
+      ];
+
+      // Triple the characters for seamless infinite scroll
+      const allCharacters = [...characters, ...characters, ...characters];
+
+      allCharacters.forEach(char => {
+        const charDiv = document.createElement('div');
+        charDiv.className = 'parade-character';
+        charDiv.setAttribute('data-name', char.name);
+        charDiv.innerHTML = `<img src="${basePath}${char.file}" alt="${char.name}" loading="lazy">`;
+        track.appendChild(charDiv);
       });
     }
 
@@ -2201,6 +2742,7 @@
       populateCarousel();
       setupLandCards();
       setupSmoothScroll();
+      populateCharacterParade();
     });
   </script>
 </body>
