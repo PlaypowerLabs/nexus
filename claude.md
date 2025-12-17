@@ -1,340 +1,457 @@
-# Claude Code Instructions - Nexus Landing Pages
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Repository Overview
 
-This is a **Landing Pages Playground** for rapid prototyping and deploying landing pages to Vercel. Each landing page is a self-contained HTML file showcasing different design patterns for K-8 math educational games.
+This repository contains a collection of independent landing page designs for K-8 math educational games. Each landing page is a standalone HTML/CSS project with no shared dependencies between pages.
 
-### Current Structure
-```
-nexus/
-├── apps/                               # Landing page sources
-│   ├── landing-games-dashboard/        # Games catalog dashboard
-│   └── landing-3d-manan/              # 3D space-themed page
-├── public/                             # Build output (auto-generated)
-├── build.sh                            # Build script
-├── vercel.json                         # Vercel deployment config
-├── landing-pages-registry.json         # Metadata for all pages
-└── index.html                          # Root page (table view)
-```
+**Key Principle:** Independent folder strategy - each landing page lives in `apps/landing-*/` and can be developed in isolation without affecting other pages.
 
-### Key Files
-- **apps/landing-*/**: Source folders for each landing page
-- **build.sh**: Copies landing pages to public/ directory
-- **vercel.json**: Routes and deployment configuration
-- **landing-pages-registry.json**: Metadata (name, owner, dates, tags)
-- **index.html**: Root page showing all landing pages in a table
+## Deployment Architecture
 
----
+The repository uses Vercel for deployment:
 
-## How to Add a New Landing Page
+- **Primary Deployment:** Vercel
+- **Auto-Deploy:** Vercel automatically deploys on push to connected branches
+- **Build Script:** `build.sh` (copies apps to `public/` directory)
+- **Configuration:** `vercel.json` (routing and build settings)
 
-### Quick Steps
+## Common Commands
 
-1. **Create Folder**
-   ```bash
-   mkdir -p apps/landing-[your-page-name]
-   ```
-
-2. **Create HTML File**
-   ```bash
-   # Create apps/landing-[your-page-name]/index.html
-   # Make it self-contained with inline CSS/JS
-   ```
-
-3. **Update build.sh**
-   Add these two lines:
-   ```bash
-   mkdir -p public-build/[your-page-name]
-   cp -r apps/landing-[your-page-name]/* public-build/[your-page-name]/
-   ```
-
-4. **Update vercel.json**
-   Add route in `rewrites` array:
-   ```json
-   {
-     "source": "/[your-page-name]",
-     "destination": "/[your-page-name]/index.html"
-   }
-   ```
-
-5. **Update landing-pages-registry.json**
-   Add entry (always at the top for newest first):
-   ```json
-   {
-     "path": "/[your-page-name]",
-     "name": "Your Page Name",
-     "description": "Brief description",
-     "owner": "Your Name",
-     "createdDate": "YYYY-MM-DD",
-     "lastUpdated": "YYYY-MM-DD",
-     "tags": ["tag1", "tag2"]
-   }
-   ```
-
-6. **Test Build**
-   ```bash
-   bash build.sh
-   ```
-
-7. **Commit Changes**
-   ```bash
-   git add apps/landing-[your-page-name]/ build.sh vercel.json landing-pages-registry.json
-   git commit -m "feat: add [your-page-name] landing page"
-   ```
-
-### Example: Adding "Wizard Academy" Page
+### Serving Landing Pages Locally
 
 ```bash
-# 1. Create folder
-mkdir -p apps/landing-wizard-academy
+# Serve individual landing pages
+npx serve apps/landing-hero-focused
+npx serve apps/landing-grid-showcase
+npx serve apps/landing-minimal-clean
 
-# 2. Create index.html in that folder with your design
+# Or use package.json scripts
+npm run serve:hero
+npm run serve:grid
+npm run serve:minimal
+```
 
-# 3. Update build.sh - add these lines after line 7:
-mkdir -p public-build/wizard-academy
-cp -r apps/landing-wizard-academy/* public-build/wizard-academy/
+### Building for Deployment
 
-# 4. Update vercel.json - add in rewrites array:
-{
-  "source": "/wizard-academy",
-  "destination": "/wizard-academy/index.html"
-}
-
-# 5. Update landing-pages-registry.json - add at top of landingPages array:
-{
-  "path": "/wizard-academy",
-  "name": "Wizard Academy",
-  "description": "Magic-themed learning adventure",
-  "owner": "Claude AI",
-  "createdDate": "2024-12-15",
-  "lastUpdated": "2024-12-15",
-  "tags": ["wizard", "magic", "adventure"]
-}
-
-# 6. Test
+```bash
+# Build all landing pages into public/ directory
 bash build.sh
 
-# 7. Commit
-git add apps/landing-wizard-academy/ build.sh vercel.json landing-pages-registry.json
-git commit -m "feat: add wizard academy landing page"
+# The build script:
+# - Creates public-build/ directories for each app
+# - Copies app files to their respective paths
+# - Copies shared assets from public/assets/
+# - Moves public-build/ to public/
 ```
 
----
+### Vercel Deployment
 
-## Creating a GitHub Pull Request
-
-### Standard Workflow
-
-1. **Ensure you're on the correct branch**
-   ```bash
-   # Branch name MUST start with 'claude/' and end with session ID
-   # Example: claude/add-new-feature-s5yiC
-   git branch
-   ```
-
-2. **Check status and commit**
-   ```bash
-   git status
-   git add [files]
-   git commit -m "feat: descriptive commit message"
-   ```
-
-3. **Push to remote**
-   ```bash
-   git push -u origin <branch-name>
-   ```
-
-4. **Create PR using GitHub CLI**
-   ```bash
-   gh pr create --title "Add [Feature Name]" --body "$(cat <<'EOF'
-   ## Summary
-   - Added new landing page: [name]
-   - Updated build configuration
-   - Updated registry with metadata
-
-   ## Changes
-   - Created apps/landing-[name]/
-   - Updated build.sh, vercel.json, landing-pages-registry.json
-
-   ## Test Plan
-   - Ran bash build.sh successfully
-   - Verified routes in vercel.json
-   - Checked registry metadata
-   EOF
-   )"
-   ```
-
-### PR Best Practices
-
-- **Title**: Clear and descriptive (e.g., "Add wizard academy landing page")
-- **Description**: Include summary, changes, and test plan
-- **Commits**: Use conventional commits (feat:, fix:, chore:, docs:)
-- **Testing**: Always run `bash build.sh` before pushing
-
----
-
-## Vercel Deployment
-
-### Automatic Deployment
-- Vercel automatically deploys on push to `main` branch
-- Preview deployments created for all PRs
-
-### Manual Deployment
 ```bash
-# Install Vercel CLI if needed
+# Install Vercel CLI (if needed)
 npm i -g vercel
 
-# Deploy
+# Deploy to Vercel (production)
+vercel --prod
+
+# Deploy to Vercel (preview)
 vercel
 
-# Production deploy
-vercel --prod
+# Check deployment status
+vercel ls
 ```
 
-### Configuration
-- Build command: `bash build.sh`
-- Output directory: `public`
-- Routes defined in `vercel.json`
+### GitHub CLI Commands
 
----
+```bash
+# View repository info
+gh repo view
 
-## Design Guidelines
+# Create pull request
+gh pr create --title "Your PR title" --body "Description"
 
-### Self-Contained Pages
-- Use inline CSS and JavaScript
-- Minimal external dependencies
-- CDN links are OK (fonts, libraries)
-
-### Responsive Design
-- Mobile-first approach
-- Test on mobile, tablet, desktop
-
-### Performance
-- Optimize images (use public/assets/ for shared images)
-- Lazy load heavy resources
-- Keep initial load fast
-
-### Naming Conventions
-- Folder: `landing-[descriptive-name]`
-- Route: `/[descriptive-name]` (no "landing-" prefix)
-- Use kebab-case
-
----
-
-## Common Tasks
-
-### Update Existing Page
-1. Edit `apps/landing-[name]/index.html`
-2. Update `lastUpdated` date in registry
-3. Run `bash build.sh` to test
-4. Commit and push
-
-### Remove a Page
-1. Delete folder: `rm -rf apps/landing-[name]/`
-2. Remove from `build.sh` (mkdir and cp lines)
-3. Remove from `vercel.json` (rewrite entry)
-4. Remove from `landing-pages-registry.json`
-5. Commit and push
-
-### View All Pages Locally
-1. Run `bash build.sh`
-2. Serve the public directory:
-   ```bash
-   cd public && python3 -m http.server 8000
-   ```
-3. Open http://localhost:8000
-
----
-
-## Troubleshooting
-
-### Build Fails
-- Check file paths in `build.sh`
-- Ensure all referenced folders exist
-- Verify JSON syntax in registry and vercel.json
-
-### Page Not Found (404)
-- Verify route exists in `vercel.json`
-- Check folder name matches route
-- Run `bash build.sh` again
-
-### Images Not Loading
-- Use absolute paths: `/assets/images/...`
-- Or relative paths: `./image.png`
-- Shared images go in `public/assets/`
-
-### Registry Not Updating
-- Ensure `landing-pages-registry.json` is valid JSON
-- Check it's being copied in `build.sh`
-- Clear browser cache
-
----
-
-## Git Branch Naming
-
-**CRITICAL**: Branch names MUST follow this pattern:
+# Check PR status
+gh pr status
 ```
-claude/[feature-description]-[session-id]
+
+## Code Architecture
+
+### Repository Structure
+
+```
+apps/                                   # Independent landing pages (source)
+├── landing-hero-focused/               # Hero-first emotional design
+├── landing-grid-showcase/              # Game catalog browser
+├── landing-minimal-clean/              # Accessibility-first design
+├── landing-gamified-interactive/       # Animated, playful design
+├── landing-video-story/                # Video-driven narrative
+├── landing-wizard-academy/             # Wizard academy theme
+├── landing-3d-manan/                   # 3D Manan experimental page
+└── landing-claude-manan/               # Claude Manan experimental page
+
+public/                                 # Build output (gitignored)
+├── hero/                               # Built from landing-hero-focused
+├── grid/                               # Built from landing-grid-showcase
+├── minimal/                            # Built from landing-minimal-clean
+├── gamified/                           # Built from landing-gamified-interactive
+├── video/                              # Built from landing-video-story
+├── wizard/                             # Built from landing-wizard-academy
+├── 3d-manan/                           # Built from landing-3d-manan
+├── claude-manan/                       # Built from landing-claude-manan
+└── assets/                             # Shared images/fonts
+
+data/                                   # Game data
+├── games.ts                            # Game catalog with grade levels
+└── scorm.json                          # SCORM metadata
+
+vercel.json                             # Vercel deployment configuration
+```
+
+### URL Routing
+
+The `vercel.json` file defines URL path mappings:
+
+- `/` → Root directory listing
+- `/hero` → `apps/landing-hero-focused/index.html`
+- `/grid` → `apps/landing-grid-showcase/index.html`
+- `/minimal` → `apps/landing-minimal-clean/index.html`
+- `/gamified` → `apps/landing-gamified-interactive/index.html`
+- `/video` → `apps/landing-video-story/index.html`
+- `/wizard` → `apps/landing-wizard-academy/index.html`
+- `/3d-manan` → `apps/landing-3d-manan/index.html`
+- `/claude-manan` → `apps/landing-claude-manan/index.html`
+- `/claude-manan/math-cosmos` → `apps/landing-claude-manan/math_cosmos_landing.html`
+
+### Build Process Flow
+
+1. `build.sh` creates `public-build/` directories for each app route
+2. App files are copied from `apps/landing-*/` to `public-build/{route}/`
+3. Shared assets from `public/assets/` are copied to `public-build/assets/`
+4. Root `index.html` and `vercel.json` are copied
+5. `public-build/` is renamed to `public/`
+6. Vercel automatically builds and deploys when changes are pushed
+
+## Adding a New Landing Page
+
+**IMPORTANT:** When creating a new landing page, you MUST complete ALL of the following steps. Missing any step will result in the landing page not being properly deployed or discoverable.
+
+### Required Files to Update
+
+| File | Purpose |
+|------|---------|
+| `apps/landing-{name}/index.html` | Your landing page source files |
+| `landing-pages-registry.json` | Root page directory listing |
+| `build.sh` | Build script for deployment |
+| `vercel.json` | URL routing configuration |
+
+### Step-by-Step Checklist
+
+#### 1. Create the Landing Page Directory
+
+```bash
+mkdir -p apps/landing-your-name
+```
+
+#### 2. Add Your Landing Page Files
+
+```
+apps/landing-your-name/
+├── index.html      # Main HTML file (required)
+├── styles.css      # Styles (can be inline in HTML)
+└── (other assets)  # Images, scripts, etc.
+```
+
+#### 3. Update `landing-pages-registry.json` (REQUIRED)
+
+Add your landing page entry to the `landingPages` array. This makes it appear in the root directory listing at `/`.
+
+```json
+{
+  "landingPages": [
+    {
+      "path": "/your-route",
+      "name": "Your Landing Page Name",
+      "description": "Brief description of your landing page design and features",
+      "owner": "Your Name or Claude AI",
+      "createdDate": "YYYY-MM-DD",
+      "lastUpdated": "YYYY-MM-DD",
+      "tags": ["tag1", "tag2", "tag3"]
+    },
+    // ... existing entries
+  ]
+}
+```
+
+**Registry Fields:**
+- `path`: URL route (must match vercel.json and build.sh)
+- `name`: Display name for the directory listing
+- `description`: Brief description of design approach/features
+- `owner`: Creator name
+- `createdDate`: ISO date format (YYYY-MM-DD)
+- `lastUpdated`: ISO date format (YYYY-MM-DD)
+- `tags`: Array of descriptive tags for filtering
+
+#### 4. Update `build.sh` (REQUIRED)
+
+Add TWO lines to the build script:
+
+```bash
+# Add in the mkdir section (around line 6-8)
+mkdir -p public-build/your-route
+
+# Add in the copy section (around line 10-13)
+cp -r apps/landing-your-name/* public-build/your-route/
+```
+
+#### 5. Update `vercel.json` (REQUIRED)
+
+Add a rewrite rule in the `rewrites` array:
+
+```json
+{
+  "rewrites": [
+    // ... existing rewrites
+    {
+      "source": "/your-route",
+      "destination": "/your-route/index.html"
+    }
+  ]
+}
+```
+
+#### 6. Commit and Push
+
+```bash
+git add apps/landing-your-name/ landing-pages-registry.json build.sh vercel.json
+git commit -m "feat(landing-your-name): add new landing page
+
+- Created landing page with [describe key features]
+- Added to landing pages registry
+- Updated build.sh and vercel.json for deployment"
+git push origin your-branch
+```
+
+### Verification Checklist
+
+Before pushing, verify:
+
+- [ ] Landing page directory exists: `apps/landing-{name}/`
+- [ ] `index.html` exists in the directory
+- [ ] Entry added to `landing-pages-registry.json`
+- [ ] `mkdir` line added to `build.sh`
+- [ ] `cp -r` line added to `build.sh`
+- [ ] Rewrite rule added to `vercel.json`
+- [ ] Route name is consistent across all files
+
+### Common Mistakes to Avoid
+
+1. **Forgetting the registry entry** - Page won't appear in root directory
+2. **Mismatched route names** - Use same route in registry, build.sh, and vercel.json
+3. **Missing build.sh updates** - Page won't be copied to public directory
+4. **Missing vercel.json rewrite** - URL routing will fail with 404
+
+### Example: Adding "playpower-park" Landing Page
+
+```bash
+# 1. Create directory
+mkdir -p apps/landing-playpower-park
+
+# 2. Create index.html (and other files)
+
+# 3. Update landing-pages-registry.json
+{
+  "path": "/playpower-park",
+  "name": "PlayPower Park",
+  "description": "Disneyland-inspired theme park landing page",
+  "owner": "Claude AI",
+  "createdDate": "2024-12-16",
+  "lastUpdated": "2024-12-16",
+  "tags": ["theme-park", "animated", "carousel"]
+}
+
+# 4. Update build.sh
+mkdir -p public-build/playpower-park
+cp -r apps/landing-playpower-park/* public-build/playpower-park/
+
+# 5. Update vercel.json
+{
+  "source": "/playpower-park",
+  "destination": "/playpower-park/index.html"
+}
+```
+
+## Style Guide and Conventions
+
+### HTML/CSS Standards
+
+Following [Udacity HTML/CSS Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/):
+
+- Use lowercase for element names
+- Close all elements
+- Use semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<article>`)
+- Include `alt` text for all images
+- Use 2 spaces for indentation (not tabs)
+- CSS class names: lowercase with hyphens (e.g., `hero-section`)
+- Mobile-first responsive design
+
+### Git Commit Message Format
+
+Following [Udacity Git Style Guide](https://udacity.github.io/git-styleguide/):
+
+```
+type(scope): subject line (max 50 chars)
+
+Body explaining what and why, not how.
+Wrap at 72 characters per line.
+
+- Bullet points for multiple changes
+```
+
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+**Scopes:** Use landing page name (e.g., `landing-hero-focused`)
+
+**Example:**
+```
+feat(landing-hero-focused): add Spanish language toggle
+
+Added language selector in navigation bar that switches
+between English and Spanish content.
+
+- Added language toggle button to nav
+- Implemented Spanish translations for hero section
+- Updated CTA buttons with bilingual support
+```
+
+### Branch Naming Convention
+
+```
+landing-{PAGE_NAME}/{feature-description}
 ```
 
 Examples:
-- `claude/add-wizard-page-s5yiC`
-- `claude/update-dashboard-s5yiC`
-- `claude/fix-mobile-layout-s5yiC`
+- `landing-hero-focused/update-cta-button`
+- `landing-grid-showcase/fix-card-aspect-ratio`
+- `landing-minimal-clean/add-dark-mode`
 
-The session ID is provided in your instructions. Without it, pushes will fail with 403 error.
+## Accessibility Requirements
 
----
+All landing pages must meet WCAG 2.1 AA standards:
 
-## Quick Reference
+- Include skip links for keyboard navigation
+- Use semantic HTML5 elements
+- Provide alt text for all images
+- Ensure sufficient color contrast
+- Support keyboard navigation
+- Include ARIA labels where needed
+- Test with screen readers
 
-### File Locations
-- Landing pages: `apps/landing-*/index.html`
-- Build script: `build.sh`
-- Routes: `vercel.json`
-- Metadata: `landing-pages-registry.json`
-- Root page: `index.html`
+## Development Workflow
 
-### Commands
+### Isolation Strategy
+
+**Golden Rule:** Only edit files in your assigned landing page folder. Never modify other team members' folders.
+
 ```bash
-# Build
-bash build.sh
-
-# Test locally
-cd public && python3 -m http.server 8000
-
-# Create branch
-git checkout -b claude/feature-name-s5yiC
-
-# Commit
-git add .
-git commit -m "feat: description"
-
-# Push
-git push -u origin claude/feature-name-s5yiC
-
-# Create PR
-gh pr create --title "Title" --body "Description"
+✅ apps/landing-hero-focused/index.html
+✅ apps/landing-hero-focused/styles.css
+❌ apps/landing-grid-showcase/anything.html  # Don't touch!
 ```
 
----
+### Testing Before Commit
 
-## Notes for Claude Code
+Test in multiple browsers:
+- Chrome
+- Firefox
+- Safari (on Mac)
+- Mobile view (Chrome DevTools)
 
-- **Always** run `bash build.sh` after making changes
-- **Always** update the registry when adding/modifying pages
-- **Always** test routes in vercel.json are correct
-- **Always** use the correct branch naming pattern
-- Prefer self-contained HTML files over external dependencies
-- Keep the registry sorted by `lastUpdated` (newest first)
-- Tag pages appropriately for discoverability
+### Typical Development Flow
 
----
+```bash
+# 1. Create branch
+git checkout -b landing-hero-focused/new-feature
 
-## Support
+# 2. Make changes in your folder
+# Edit apps/landing-hero-focused/...
 
-For questions or issues:
-- Check this file first
-- Review existing landing pages for examples
-- Test locally before pushing
-- Verify all 4 files are updated (folder, build.sh, vercel.json, registry)
+# 3. Test locally
+npx serve apps/landing-hero-focused
+
+# 4. Commit with descriptive message
+git add apps/landing-hero-focused/
+git commit -m "feat(landing-hero-focused): add new feature"
+
+# 5. Push and create PR
+git push origin landing-hero-focused/new-feature
+
+# 6. Vercel will auto-deploy on push
+```
+
+## Vercel Deployment
+
+### Vercel Configuration
+
+The `vercel.json` file contains:
+
+- **Build command:** `bash build.sh`
+- **Output directory:** `public`
+- **Rewrites:** URL path mappings for each landing page
+- **Headers:** Cache control for static assets
+
+### Deployment Triggers
+
+Automatic deployment occurs when:
+- Push to any branch connected to Vercel
+- Manual deployment via Vercel CLI or dashboard
+- Pull request creation (preview deployments)
+
+### Cache Strategy
+
+Vercel uses cache headers defined in `vercel.json`:
+
+- **Static assets (`/assets/*`):** `Cache-Control: public, max-age=31536000, immutable`
+
+### Preview Deployments
+
+Every pull request gets its own preview URL for testing before merging.
+
+## Game Data Architecture
+
+### Game Catalog (`data/games.ts`)
+
+The `games.ts` file exports a TypeScript array of game objects organized by grade level (K-8). Each game includes:
+
+- `id` - Unique identifier
+- `path` - Game URL (uses `PPL_GAMES_URL` constant)
+- `image` - Screenshot/thumbnail path
+- `grade` - Grade level (K-8)
+- `title` / `titleEs` - English/Spanish titles
+- `description` / `descriptionEs` - English/Spanish descriptions
+- `scormUrl` - SCORM package URL (optional)
+- `disabled` - Boolean flag for unavailable games
+
+Games are referenced by landing pages to display available content per grade level.
+
+### SCORM Metadata (`data/scorm.json`)
+
+Contains SCORM package metadata for LMS integration.
+
+## Bilingual Support
+
+All landing pages support English and Spanish:
+
+- Use `title` / `titleEs` for titles
+- Use `description` / `descriptionEs` for descriptions
+- Texas-specific titles use `txTitle` / `txTitleEs` prefixes
+- Language toggle functionality should be implemented per landing page
+
+## Important Notes
+
+- The `public/` directory is generated by `build.sh` and should NOT be committed to git
+- Each landing page is completely independent - no shared JavaScript or CSS dependencies
+- The root `index.html` provides a directory listing of all available landing pages
+- `vercel.json` contains routing configuration and is used by Vercel for deployment
+- Vercel is the primary deployment method
+- Preview deployments are automatically created for pull requests
