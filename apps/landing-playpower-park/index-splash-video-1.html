@@ -1,0 +1,2715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Play Power Games - Where Math Becomes an Adventure!</title>
+  <meta name="description" content="Welcome to Play Power Games - a magical theme park of K-8 math games where learning feels like an adventure!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS VARIABLES & RESET
+    ======================================== */
+    :root {
+      --color-magic-purple: #6B4EE6;
+      --color-enchanted-blue: #3B82F6;
+      --color-adventure-teal: #14B8A6;
+      --color-sunny-yellow: #FBBF24;
+      --color-playful-pink: #EC4899;
+      --color-forest-green: #22C55E;
+      --color-sunset-orange: #F97316;
+      --color-deep-space: #1E1B4B;
+      --color-twilight: #312E81;
+      --color-cream: #FEF9E7;
+      --color-white: #FFFFFF;
+
+      --font-display: 'Bangers', cursive;
+      --font-heading: 'Fredoka', sans-serif;
+      --font-body: 'Quicksand', sans-serif;
+
+      --shadow-magical: 0 10px 40px rgba(107, 78, 230, 0.3);
+      --shadow-float: 0 20px 60px rgba(0, 0, 0, 0.2);
+      --shadow-glow: 0 0 30px rgba(251, 191, 36, 0.5);
+
+      --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-deep-space);
+      color: var(--color-white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       MAGICAL PARTICLES BACKGROUND
+    ======================================== */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float-particle linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ========================================
+       SKIP LINK (Accessibility)
+    ======================================== */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--color-magic-purple);
+      color: white;
+      padding: 8px 16px;
+      z-index: 100;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ========================================
+       NAVIGATION
+    ======================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: linear-gradient(to bottom, rgba(30, 27, 75, 0.95), transparent);
+      transition: var(--transition-smooth);
+    }
+
+    .nav.scrolled {
+      background: rgba(30, 27, 75, 0.98);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-glow);
+      animation: logo-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes logo-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--color-white);
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 var(--color-magic-purple);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--color-white);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-sunny-yellow);
+      background: rgba(251, 191, 36, 0.1);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: var(--color-sunny-yellow);
+      transition: var(--transition-smooth);
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+
+    .nav-links a:hover::after {
+      width: 60%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-white);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ========================================
+       HERO SECTION - GRAND ENTRANCE
+    ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(107, 78, 230, 0.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 70%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, var(--color-twilight) 100%);
+    }
+
+    .hero-gates {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .gate {
+      position: absolute;
+      width: 120px;
+      height: 100%;
+      background: linear-gradient(to bottom,
+        var(--color-magic-purple) 0%,
+        var(--color-twilight) 100%);
+      opacity: 0.3;
+    }
+
+    .gate-left {
+      left: 0;
+      transform: skewX(5deg);
+      transform-origin: top left;
+    }
+
+    .gate-right {
+      right: 0;
+      transform: skewX(-5deg);
+      transform-origin: top right;
+    }
+
+    .gate-arch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      border: 4px solid rgba(251, 191, 36, 0.3);
+      border-bottom: none;
+      border-radius: 300px 300px 0 0;
+    }
+
+    .floating-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .floating-star {
+      position: absolute;
+      font-size: 2rem;
+      animation: float-star 3s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float-star {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(251, 191, 36, 0.2);
+      border: 2px solid var(--color-sunny-yellow);
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      margin-bottom: 2rem;
+      animation: badge-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes badge-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: 4px;
+      text-shadow:
+        4px 4px 0 var(--color-magic-purple),
+        8px 8px 0 rgba(107, 78, 230, 0.3);
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition-bounce);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      color: var(--color-deep-space);
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(251, 191, 36, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-white);
+      border: 3px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-sunny-yellow);
+      color: var(--color-sunny-yellow);
+      transform: translateY(-5px);
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce-down 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(15px); }
+    }
+
+    .scroll-text {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .scroll-arrow {
+      width: 30px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .scroll-arrow::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 10px;
+      background: var(--color-sunny-yellow);
+      border-radius: 3px;
+      animation: scroll-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-dot {
+      0%, 100% { top: 8px; opacity: 1; }
+      50% { top: 25px; opacity: 0.5; }
+    }
+
+    /* ========================================
+       PARK MAP SECTION
+    ======================================== */
+    .park-map-section {
+      padding: 6rem 2rem;
+      position: relative;
+      background: linear-gradient(180deg, var(--color-twilight) 0%, var(--color-deep-space) 100%);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+      text-shadow: 3px 3px 0 var(--color-magic-purple);
+    }
+
+    .section-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .park-map {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      position: relative;
+    }
+
+    .land-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      padding: 2rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-bounce);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .land-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .land-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: var(--shadow-magical);
+    }
+
+    .land-card.kindergarten::before { background: linear-gradient(90deg, #FF6B6B, #FFE66D); }
+    .land-card.grade-1-2::before { background: linear-gradient(90deg, #4ECDC4, #44B7FF); }
+    .land-card.grade-3-4::before { background: linear-gradient(90deg, #95E1D3, #22C55E); }
+    .land-card.grade-5-6::before { background: linear-gradient(90deg, #A855F7, #EC4899); }
+    .land-card.grade-7-8::before { background: linear-gradient(90deg, #3B82F6, #6366F1); }
+
+    .land-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .land-card.kindergarten .land-icon { background: linear-gradient(135deg, #FF6B6B, #FFE66D); }
+    .land-card.grade-1-2 .land-icon { background: linear-gradient(135deg, #4ECDC4, #44B7FF); }
+    .land-card.grade-3-4 .land-icon { background: linear-gradient(135deg, #95E1D3, #22C55E); }
+    .land-card.grade-5-6 .land-icon { background: linear-gradient(135deg, #A855F7, #EC4899); }
+    .land-card.grade-7-8 .land-icon { background: linear-gradient(135deg, #3B82F6, #6366F1); }
+
+    .land-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .land-grades {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-sunny-yellow);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .land-description {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .land-attractions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .attraction-tag {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: var(--font-heading);
+      font-weight: 500;
+    }
+
+    /* ========================================
+       ATTRACTIONS CAROUSEL
+    ======================================== */
+    .attractions-section {
+      padding: 6rem 2rem;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(107, 78, 230, 0.2) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, #0F0D29 100%);
+      overflow: hidden;
+    }
+
+    .attractions-wrapper {
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .carousel-container {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 2rem;
+      animation: scroll-carousel 40s linear infinite;
+      width: max-content;
+    }
+
+    .carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll-carousel {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .attraction-card {
+      flex-shrink: 0;
+      width: 320px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-bounce);
+      position: relative;
+    }
+
+    .attraction-card:hover {
+      transform: translateY(-15px) scale(1.03);
+      border-color: var(--color-sunny-yellow);
+      box-shadow: 0 30px 60px rgba(251, 191, 36, 0.3);
+    }
+
+    .attraction-image {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .attraction-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-smooth);
+    }
+
+    .attraction-card:hover .attraction-image img {
+      transform: scale(1.1);
+    }
+
+    .attraction-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--color-sunset-orange);
+      color: var(--color-white);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .attraction-content {
+      padding: 1.5rem;
+    }
+
+    .attraction-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .attraction-grade {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--color-adventure-teal);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .attraction-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       FEATURED LANDS SHOWCASE
+    ======================================== */
+    .lands-showcase {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #0F0D29 0%, var(--color-deep-space) 100%);
+    }
+
+    .showcase-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .land-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 8rem;
+    }
+
+    .land-showcase:nth-child(even) {
+      direction: rtl;
+    }
+
+    .land-showcase:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .showcase-visual {
+      position: relative;
+    }
+
+    .showcase-games-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .showcase-game {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition-bounce);
+      cursor: pointer;
+    }
+
+    .showcase-game:hover {
+      transform: scale(1.05) rotate(-2deg);
+      z-index: 10;
+    }
+
+    .showcase-game:nth-child(2):hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .showcase-game img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .showcase-game-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+
+    .showcase-game:hover .showcase-game-overlay {
+      opacity: 1;
+    }
+
+    .showcase-game-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .showcase-info {
+      padding: 2rem 0;
+    }
+
+    .showcase-land-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .showcase-land-tag.teal { background: linear-gradient(135deg, #4ECDC4, #44B7FF); color: #000; }
+    .showcase-land-tag.green { background: linear-gradient(135deg, #95E1D3, #22C55E); color: #000; }
+    .showcase-land-tag.purple { background: linear-gradient(135deg, #A855F7, #EC4899); color: #fff; }
+
+    .showcase-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .showcase-description {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .showcase-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .showcase-features li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .showcase-features li::before {
+      content: '✦';
+      color: var(--color-sunny-yellow);
+      font-size: 1.2rem;
+    }
+
+    /* ========================================
+       PARENT TRUST SECTION
+    ======================================== */
+    .trust-section {
+      padding: 6rem 2rem;
+      background:
+        radial-gradient(ellipse at 70% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-deep-space) 0%, var(--color-twilight) 100%);
+    }
+
+    .trust-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .trust-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition-smooth);
+      text-align: center;
+    }
+
+    .trust-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-magical);
+    }
+
+    .trust-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(135deg, var(--color-forest-green), var(--color-adventure-teal));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .trust-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+
+    .trust-description {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       FINAL CTA SECTION
+    ======================================== */
+    .final-cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 100%, rgba(251, 191, 36, 0.3) 0%, transparent 50%),
+        linear-gradient(180deg, var(--color-twilight) 0%, var(--color-deep-space) 100%);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: 3px;
+      margin-bottom: 1.5rem;
+      text-shadow: 3px 3px 0 var(--color-magic-purple);
+    }
+
+    .cta-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .footer {
+      background: #0A0820;
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-white);
+      letter-spacing: 2px;
+    }
+
+    .footer-tagline {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .footer-links h4 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--color-white);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      font-size: 0.95rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-sunny-yellow);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+    ======================================== */
+    @media (max-width: 1024px) {
+      .land-showcase {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .land-showcase:nth-child(even) {
+        direction: ltr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(30, 27, 75, 0.98);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-cta-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .gate-arch {
+        width: 300px;
+        height: 100px;
+      }
+
+      .showcase-games-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 5rem 1rem 3rem;
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+      }
+
+      .land-card {
+        padding: 1.5rem;
+      }
+
+      .attraction-card {
+        width: 280px;
+      }
+    }
+
+    /* ========================================
+       UTILITIES & ANIMATIONS
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--color-sunny-yellow);
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ========================================
+       HERO WELCOME CHARACTERS
+    ======================================== */
+    .hero-characters {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .hero-character {
+      position: absolute;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .hero-character img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* Captain Pelican - Bottom Left, waving */
+    .hero-character.captain {
+      left: 3%;
+      bottom: 8%;
+      height: 220px;
+      animation: captain-wave 3s ease-in-out infinite;
+    }
+
+    @keyframes captain-wave {
+      0%, 100% { transform: rotate(-3deg) translateY(0); }
+      25% { transform: rotate(2deg) translateY(-5px); }
+      50% { transform: rotate(-2deg) translateY(-10px); }
+      75% { transform: rotate(3deg) translateY(-5px); }
+    }
+
+    /* Astro Bot - Top Right, floating */
+    .hero-character.astro {
+      right: 5%;
+      top: 18%;
+      height: 160px;
+      animation: astro-float 4s ease-in-out infinite;
+    }
+
+    @keyframes astro-float {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+      25% { transform: translate(-10px, -15px) rotate(0deg); }
+      50% { transform: translate(5px, -25px) rotate(5deg); }
+      75% { transform: translate(15px, -10px) rotate(0deg); }
+    }
+
+    /* Carrot Bunny - Bottom Right, hopping */
+    .hero-character.bunny {
+      right: 4%;
+      bottom: 12%;
+      height: 180px;
+      animation: bunny-hop 1.8s ease-in-out infinite;
+    }
+
+    @keyframes bunny-hop {
+      0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); }
+      20% { transform: translateY(0) rotate(-2deg) scaleY(0.95); }
+      50% { transform: translateY(-35px) rotate(3deg) scaleY(1.05); }
+      80% { transform: translateY(0) rotate(-1deg) scaleY(0.98); }
+    }
+
+    /* Speech bubble for Captain */
+    .hero-character .speech-bubble {
+      position: absolute;
+      top: -15px;
+      left: 60%;
+      background: var(--color-white);
+      color: var(--color-deep-space);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(10px) scale(0.8);
+      animation: speech-appear 4s ease-in-out 2s infinite;
+    }
+
+    .hero-character .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid var(--color-white);
+    }
+
+    @keyframes speech-appear {
+      0%, 15%, 100% { opacity: 0; transform: translateY(10px) scale(0.8); }
+      20%, 80% { opacity: 1; transform: translateY(0) scale(1); }
+      85% { opacity: 0; transform: translateY(-5px) scale(0.9); }
+    }
+
+    /* ========================================
+       MEET THE CREW STRIP
+    ======================================== */
+    .meet-the-crew {
+      background: linear-gradient(180deg, var(--color-twilight) 0%, rgba(49, 46, 129, 0.5) 100%);
+      border-top: 1px solid rgba(251, 191, 36, 0.2);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meet-the-crew::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .crew-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .crew-label {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-sunny-yellow);
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .crew-avatars {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .crew-avatar {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: visible;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+    }
+
+    .crew-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, rgba(107, 78, 230, 0.5), rgba(236, 72, 153, 0.5));
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .crew-avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .crew-avatar img {
+      width: 130%;
+      height: 130%;
+      object-fit: cover;
+      object-position: top center;
+      position: absolute;
+      top: -5%;
+      left: -15%;
+    }
+
+    .crew-avatar:hover {
+      transform: scale(1.25) translateY(-15px);
+      z-index: 10;
+    }
+
+    .crew-avatar:hover .crew-avatar-inner {
+      border-color: var(--color-sunny-yellow);
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+    }
+
+    .crew-avatar-name {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-deep-space);
+      color: var(--color-white);
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: var(--transition-smooth);
+      border: 2px solid var(--color-sunny-yellow);
+    }
+
+    .crew-avatar:hover .crew-avatar-name {
+      opacity: 1;
+    }
+
+    /* Stagger the avatar positions for visual interest */
+    .crew-avatar:nth-child(2) { transform-origin: bottom; }
+    .crew-avatar:nth-child(3) { margin-bottom: 8px; }
+    .crew-avatar:nth-child(4) { margin-bottom: 4px; }
+    .crew-avatar:nth-child(5) { margin-bottom: 10px; }
+    .crew-avatar:nth-child(6) { margin-bottom: 2px; }
+    .crew-avatar:nth-child(7) { margin-bottom: 6px; }
+
+    .crew-avatar:nth-child(2):hover { transform: scale(1.25) translateY(-15px); }
+    .crew-avatar:nth-child(3):hover { transform: scale(1.25) translateY(-23px); }
+    .crew-avatar:nth-child(4):hover { transform: scale(1.25) translateY(-19px); }
+    .crew-avatar:nth-child(5):hover { transform: scale(1.25) translateY(-25px); }
+    .crew-avatar:nth-child(6):hover { transform: scale(1.25) translateY(-17px); }
+    .crew-avatar:nth-child(7):hover { transform: scale(1.25) translateY(-21px); }
+
+    /* ========================================
+       FOOTER CHARACTER PARADE
+    ======================================== */
+    .character-parade {
+      padding: 2.5rem 0;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(180deg, transparent 0%, rgba(251, 191, 36, 0.05) 50%, transparent 100%);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .parade-label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .parade-label span {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .parade-track-wrapper {
+      position: relative;
+    }
+
+    .parade-track-wrapper::before,
+    .parade-track-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .parade-track-wrapper::before {
+      left: 0;
+      background: linear-gradient(90deg, #0A0820 0%, transparent 100%);
+    }
+
+    .parade-track-wrapper::after {
+      right: 0;
+      background: linear-gradient(270deg, #0A0820 0%, transparent 100%);
+    }
+
+    .parade-track {
+      display: flex;
+      gap: 4rem;
+      animation: parade-march 35s linear infinite;
+      width: max-content;
+      align-items: flex-end;
+      padding: 0 2rem;
+    }
+
+    .parade-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes parade-march {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .parade-character {
+      flex-shrink: 0;
+      height: 90px;
+      opacity: 0.7;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .parade-character img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+    }
+
+    .parade-character:hover {
+      opacity: 1;
+      transform: scale(1.2) translateY(-10px);
+    }
+
+    .parade-character::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      color: var(--color-sunny-yellow);
+      white-space: nowrap;
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .parade-character:hover::after {
+      opacity: 1;
+    }
+
+    /* Different walking animations for each character */
+    .parade-character:nth-child(odd) {
+      animation: char-walk-a 1s ease-in-out infinite;
+    }
+
+    .parade-character:nth-child(even) {
+      animation: char-walk-b 1.2s ease-in-out infinite;
+    }
+
+    @keyframes char-walk-a {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes char-walk-b {
+      0%, 100% { transform: translateY(-3px); }
+      50% { transform: translateY(2px); }
+    }
+
+    .parade-character:hover {
+      animation: none;
+      transform: scale(1.2) translateY(-10px);
+    }
+
+    /* Responsive adjustments for characters */
+    @media (max-width: 1200px) {
+      .hero-character.captain { height: 180px; left: 2%; }
+      .hero-character.astro { height: 130px; }
+      .hero-character.bunny { height: 150px; right: 2%; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-character.captain { height: 140px; bottom: 5%; }
+      .hero-character.astro { height: 100px; top: 12%; right: 3%; }
+      .hero-character.bunny { height: 120px; bottom: 8%; }
+      .hero-character .speech-bubble { display: none; }
+
+      .crew-content {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .crew-avatars {
+        gap: 0.6rem;
+      }
+
+      .crew-avatar {
+        width: 55px;
+        height: 55px;
+      }
+
+      .parade-character {
+        height: 70px;
+      }
+
+      .parade-track {
+        gap: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-character.captain { height: 100px; left: 1%; }
+      .hero-character.astro { height: 70px; }
+      .hero-character.bunny { height: 90px; right: 1%; }
+
+      .crew-avatar {
+        width: 45px;
+        height: 45px;
+      }
+
+      .crew-label {
+        font-size: 1.1rem;
+      }
+
+      .parade-character {
+        height: 55px;
+      }
+    }
+
+    /* ========================================
+       SPLASH LOADING SCREEN WITH VIDEO
+    ======================================== */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color-deep-space);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      overflow: hidden;
+    }
+
+    .splash-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .splash-video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(ellipse at center, rgba(107, 78, 230, 0.2) 0%, var(--color-deep-space) 70%);
+    }
+
+    .splash-video {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 60px rgba(251, 191, 36, 0.3);
+      opacity: 0;
+      animation: video-fade-in 0.6s ease-out 0.3s forwards;
+    }
+
+    @keyframes video-fade-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .splash-content {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+      width: 90%;
+      max-width: 600px;
+      opacity: 0;
+      animation: splash-text-in 0.8s ease-out 1s forwards;
+    }
+
+    .splash-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4rem);
+      letter-spacing: 4px;
+      margin-bottom: 0.5rem;
+      text-shadow: 3px 3px 0 var(--color-magic-purple), 0 0 30px rgba(251, 191, 36, 0.5);
+      line-height: 1.1;
+    }
+
+    .splash-line {
+      display: block;
+    }
+
+    .splash-title .highlight {
+      background: linear-gradient(135deg, var(--color-sunny-yellow), var(--color-sunset-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .splash-tagline {
+      font-family: var(--font-heading);
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 1rem;
+    }
+
+    @keyframes splash-text-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .splash-loader {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .splash-loader-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-sunny-yellow);
+      animation: loader-bounce 1.4s ease-in-out infinite;
+    }
+
+    .splash-loader-dot:nth-child(2) {
+      animation-delay: 0.2s;
+      background: var(--color-playful-pink);
+    }
+
+    .splash-loader-dot:nth-child(3) {
+      animation-delay: 0.4s;
+      background: var(--color-adventure-teal);
+    }
+
+    @keyframes loader-bounce {
+      0%, 80%, 100% {
+        transform: scale(0.6);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .splash-sparkles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .splash-sparkle {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0;
+      animation: sparkle-float 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle-float {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(0) scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-30px) scale(1);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .splash-video {
+        max-width: 95%;
+        max-height: 70%;
+        border-radius: 16px;
+      }
+
+      .splash-content {
+        bottom: 8%;
+      }
+
+      .splash-title {
+        font-size: clamp(1.5rem, 5vw, 3rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .splash-video {
+        max-width: 98%;
+        max-height: 60%;
+        border-radius: 12px;
+      }
+
+      .splash-content {
+        bottom: 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Splash Loading Screen with Fox Biking Video -->
+  <div class="splash-screen" id="splash-screen">
+    <div class="splash-sparkles" id="splash-sparkles"></div>
+    <div class="splash-video-container">
+      <video 
+        id="splash-video" 
+        class="splash-video" 
+        autoplay 
+        muted 
+        playsinline
+        preload="auto"
+      >
+        <source src="/assets/Videos/Fox_Biking_Animation_Video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="splash-content">
+      <h1 class="splash-title">
+        <span class="splash-line">PLAY</span>
+        <span class="splash-line highlight">POWER</span>
+        <span class="splash-line">GAMES</span>
+      </h1>
+      <p class="splash-tagline">Get ready for adventure...</p>
+      <div class="splash-loader">
+        <div class="splash-loader-dot"></div>
+        <div class="splash-loader-dot"></div>
+        <div class="splash-loader-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Magical Particles Background -->
+  <div class="particles-container" id="particles"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-content">
+      <a href="#" class="logo" aria-label="Play Power Games Home">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+            <rect x="2" y="6" width="20" height="12" rx="2"/>
+            <line x1="6" y1="12" x2="10" y2="12"/>
+            <line x1="8" y1="10" x2="8" y2="14"/>
+            <circle cx="17" cy="10" r="1" fill="currentColor"/>
+            <circle cx="15" cy="12" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="logo-text">PLAY POWER GAMES</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#lands">Explore Lands</a></li>
+        <li><a href="#attractions">Attractions</a></li>
+        <li><a href="#showcase">Adventures</a></li>
+        <li><a href="#parents">For Parents</a></li>
+      </ul>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+        <svg id="menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="24" height="24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg id="menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="24" height="24" style="display:none;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section - Grand Entrance -->
+  <header class="hero" id="main-content">
+    <div class="hero-gates">
+      <div class="gate gate-left"></div>
+      <div class="gate gate-right"></div>
+      <div class="gate-arch"></div>
+    </div>
+
+    <div class="floating-elements" id="floating-elements">
+      <span class="floating-star" style="top: 15%; left: 12%;">
+        <svg viewBox="0 0 24 24" fill="#FBBF24" width="32" height="32"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      </span>
+      <span class="floating-star" style="top: 30%; right: 18%; animation-delay: 0.5s;">
+        <svg viewBox="0 0 24 24" fill="#EC4899" width="28" height="28"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
+      </span>
+      <span class="floating-star" style="top: 55%; left: 15%; animation-delay: 1s;">
+        <svg viewBox="0 0 24 24" fill="#14B8A6" width="36" height="36"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      </span>
+      <span class="floating-star" style="top: 65%; right: 15%; animation-delay: 1.5s;">
+        <svg viewBox="0 0 24 24" fill="#6B4EE6" width="30" height="30"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
+      </span>
+      <span class="floating-star" style="top: 35%; left: 18%; animation-delay: 0.3s;">
+        <svg viewBox="0 0 24 24" fill="#F97316" width="26" height="26"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+      </span>
+      <span class="floating-star" style="top: 45%; right: 18%; animation-delay: 0.8s;">
+        <svg viewBox="0 0 24 24" fill="#3B82F6" width="24" height="24"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
+      </span>
+    </div>
+
+    <!-- Hero Welcome Characters -->
+    <div class="hero-characters">
+      <!-- Captain Pelican - Waving from left -->
+      <div class="hero-character captain">
+        <img src="/assets/images/characters/captain-pelican.png" alt="Captain Pelican welcoming you">
+        <div class="speech-bubble">Welcome aboard! 🎉</div>
+      </div>
+      
+      <!-- Astro Bot - Floating top right -->
+      <div class="hero-character astro">
+        <img src="/assets/images/characters/astro-bot.png" alt="Astro Bot floating">
+      </div>
+      
+      <!-- Carrot Bunny - Hopping bottom right -->
+      <div class="hero-character bunny">
+        <img src="/assets/images/characters/carrot-bunny.png" alt="Carrot Bunny hopping">
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2 2 2 0 012 2v3a2 2 0 01-2 2m14-14a2 2 0 012 2v3a2 2 0 01-2 2 2 2 0 00-2 2v3a2 2 0 002 2"/>
+        </svg>
+        <span>Welcome to the Adventure!</span>
+      </div>
+
+      <h1 class="hero-title">
+        WHERE <span class="highlight">MATH</span><br>
+        BECOMES MAGIC
+      </h1>
+
+      <p class="hero-subtitle">
+        Step into Play Power Games — a magical theme park of K-8 math games
+        where every equation is an adventure and learning feels like play!
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#lands" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M20.5 3L20.34 3.03L15 5.1L9 3L3.36 4.9C3.15 4.97 3 5.15 3 5.38V20.5C3 20.78 3.22 21 3.5 21L3.66 20.97L9 18.9L15 21L20.64 19.1C20.85 19.03 21 18.85 21 18.62V3.5C21 3.22 20.78 3 20.5 3ZM10 5.47L14 6.87V18.53L10 17.13V5.47ZM5 6.46L8 5.45V17.15L5 18.31V6.46ZM19 17.54L16 18.55V6.86L19 5.7V17.54Z"/></svg>
+          <span>Explore the Park Map</span>
+        </a>
+        <a href="#attractions" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><circle cx="12" cy="12" r="9"/><path d="M12 3C12 3 15 8 15 12C15 16 12 21 12 21M12 3C12 3 9 8 9 12C9 16 12 21 12 21M3 12H21"/></svg>
+          <span>View All Attractions</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span class="scroll-text">Scroll to Begin Your Adventure</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </header>
+
+  <!-- Meet the Crew Strip -->
+  <section class="meet-the-crew">
+    <div class="crew-content">
+      <span class="crew-label">MEET THE CREW</span>
+      <div class="crew-avatars">
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/carrot-bunny.png" alt="Carrot Bunny">
+          </div>
+          <span class="crew-avatar-name">Carrot Bunny</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/captain-pelican.png" alt="Captain Pelican">
+          </div>
+          <span class="crew-avatar-name">Captain Pelican</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/astro-bot.png" alt="Astro Bot">
+          </div>
+          <span class="crew-avatar-name">Astro Bot</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/chompy-dino.png" alt="Chompy Dino">
+          </div>
+          <span class="crew-avatar-name">Chompy Dino</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/professor-cat.png" alt="Professor Cat">
+          </div>
+          <span class="crew-avatar-name">Professor Cat</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/biker-fox.png" alt="Biker Fox">
+          </div>
+          <span class="crew-avatar-name">Biker Fox</span>
+        </div>
+        <div class="crew-avatar">
+          <div class="crew-avatar-inner">
+            <img src="/assets/images/characters/temple-bird.png" alt="Temple Bird">
+          </div>
+          <span class="crew-avatar-name">Temple Bird</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Park Map Section -->
+  <section class="park-map-section" id="lands">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Navigate Your Journey</span>
+      <h2 class="section-title">EXPLORE THE LANDS</h2>
+      <p class="section-subtitle">
+        Each land is designed for a different age group, filled with magical math adventures waiting to be discovered!
+      </p>
+    </div>
+
+    <div class="park-map">
+      <div class="land-card kindergarten reveal" data-grade="k">
+        <div class="land-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+            <path d="M21 10V21H3V10L7 6V3H9V5L12 2L15 5V3H17V6L21 10ZM10 14H8V21H10V14ZM16 14H14V21H16V14ZM12 7C10.9 7 10 7.9 10 9C10 10.1 10.9 11 12 11C13.1 11 14 10.1 14 9C14 7.9 13.1 7 12 7Z"/>
+          </svg>
+        </div>
+        <h3 class="land-name">STARTER CASTLE</h3>
+        <p class="land-grades">Kindergarten</p>
+        <p class="land-description">
+          A magical kingdom where young adventurers begin their math journey with counting, shapes, and number fun!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Space Party</span>
+          <span class="attraction-tag">Bunny Jumping</span>
+          <span class="attraction-tag">Count the Crew</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-1-2 reveal" data-grade="1-2">
+        <div class="land-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+            <path d="M12 2C13.5 2 15 3.2 15 5.5C15 7.8 13.5 11 12 14C10.5 11 9 7.8 9 5.5C9 3.2 10.5 2 12 2ZM4 13L7 14.5V17.5L4 19V13ZM20 13V19L17 17.5V14.5L20 13ZM12 16C12.8 16 13.5 16.6 13.5 17.5V21.5C13.5 21.8 13.3 22 13 22H11C10.7 22 10.5 21.8 10.5 21.5V17.5C10.5 16.6 11.2 16 12 16Z"/>
+          </svg>
+        </div>
+        <h3 class="land-name">DISCOVERY STATION</h3>
+        <p class="land-grades">Grades 1-2</p>
+        <p class="land-description">
+          Blast off into addition, subtraction, and early multiplication in this cosmic adventure zone!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Astro Math</span>
+          <span class="attraction-tag">Emoji Battle</span>
+          <span class="attraction-tag">Fact Racer</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-3-4 reveal" data-grade="3-4">
+        <div class="land-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+            <path d="M12 2L7 9H9L5 16H9V22H15V16H19L15 9H17L12 2Z"/>
+          </svg>
+        </div>
+        <h3 class="land-name">ADVENTURE FOREST</h3>
+        <p class="land-grades">Grades 3-4</p>
+        <p class="land-description">
+          Explore the enchanted forest where fractions, multiplication, and division come alive!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Fraction Frenzy</span>
+          <span class="attraction-tag">Dino Muncher</span>
+          <span class="attraction-tag">Robo Pirates</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-5-6 reveal" data-grade="5-6">
+        <div class="land-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+            <path d="M12 2C15.3 2 18 4.7 18 8C18 11.3 15.3 14 12 14C8.7 14 6 11.3 6 8C6 4.7 8.7 2 12 2ZM12 4C9.8 4 8 5.8 8 8C8 10.2 9.8 12 12 12C14.2 12 16 10.2 16 8C16 5.8 14.2 4 12 4ZM9 6L11 8L9 10M10 15.5L8 22H10L11 18.5L12 22H14L13 18.5L14 22H16L14 15.5C13.4 15.8 12.7 16 12 16C11.3 16 10.6 15.8 10 15.5Z"/>
+          </svg>
+        </div>
+        <h3 class="land-name">WIZARD'S ACADEMY</h3>
+        <p class="land-grades">Grades 5-6</p>
+        <p class="land-description">
+          Master the mystical arts of decimals, algebra basics, and coordinate geometry!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Digit Drive</span>
+          <span class="attraction-tag">Grid Lock</span>
+          <span class="attraction-tag">Algebra Trials</span>
+        </div>
+      </div>
+
+      <div class="land-card grade-7-8 reveal" data-grade="7-8">
+        <div class="land-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+            <path d="M11 21H7L13 3H15L13 10H17L9 22H11V21ZM14 11H10L13.5 4.5L10 11H14L9.5 19.5L14 11Z"/>
+          </svg>
+        </div>
+        <h3 class="land-name">SUMMIT SPIRE</h3>
+        <p class="land-grades">Grades 7-8</p>
+        <p class="land-description">
+          Reach the peak of mathematical mastery with pre-algebra, geometry, and advanced problem-solving!
+        </p>
+        <div class="land-attractions">
+          <span class="attraction-tag">Number Knockout</span>
+          <span class="attraction-tag">Pythagoras Path</span>
+          <span class="attraction-tag">Multiverse</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Attractions Carousel -->
+  <section class="attractions-section" id="attractions">
+    <div class="attractions-wrapper">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Featured Attractions</span>
+        <h2 class="section-title">RIDE THE GAMES!</h2>
+        <p class="section-subtitle">
+          Our most popular attractions — where math concepts come alive through play!
+        </p>
+      </div>
+
+      <div class="carousel-container">
+        <div class="carousel-track" id="carousel-track">
+          <!-- Carousel items will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Lands Showcase -->
+  <section class="lands-showcase" id="showcase">
+    <div class="showcase-container">
+      <!-- Discovery Station Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-1/astro-math-topic-2-en.png" alt="Astro Math game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Astro Math</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-2/emoji-battle-topic-3-en.png" alt="Emoji Battle game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Emoji Battle</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-1/robo-pirates-topic-9-en.png" alt="Robo Pirates game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Robo Pirates</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-2/fact-racer-topic-4-en.png" alt="Fact Racer game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Fact Racer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag teal">Discovery Station</span>
+          <h3 class="showcase-title">BLAST OFF INTO NUMBERS!</h3>
+          <p class="showcase-description">
+            Young mathematicians embark on cosmic quests through addition, subtraction, and early multiplication.
+            Race through space, battle with emojis, and master math facts in this action-packed adventure zone!
+          </p>
+          <ul class="showcase-features">
+            <li>Interactive space-themed challenges</li>
+            <li>Competitive multiplayer modes</li>
+            <li>Progress tracking for parents</li>
+            <li>Adaptive difficulty levels</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Adventure Forest Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-3/fraction-frenzy-topic-10-en.png" alt="Fraction Frenzy game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Fraction Frenzy</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-4/dino-muncher-topic-6-en.png" alt="Dino Muncher game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Dino Muncher</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-3/multiverse-topic-3-en.png" alt="Multiverse game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Multiverse</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-4/robo-pirates-topic-7-en.png" alt="Robo Pirates game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Robo Pirates</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag green">Adventure Forest</span>
+          <h3 class="showcase-title">EXPLORE THE ENCHANTED MATH!</h3>
+          <p class="showcase-description">
+            Journey deep into the magical forest where fractions become friendly, multiplication tables turn into treasure hunts,
+            and division puzzles unlock ancient secrets. Every path leads to discovery!
+          </p>
+          <ul class="showcase-features">
+            <li>Immersive story-driven gameplay</li>
+            <li>Visual fraction manipulatives</li>
+            <li>Dinosaur-themed challenges</li>
+            <li>Achievement badges and rewards</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Wizard's Academy Showcase -->
+      <div class="land-showcase reveal">
+        <div class="showcase-visual">
+          <div class="showcase-games-grid">
+            <div class="showcase-game">
+              <img src="/assets/images/grade-5/digit-drive-topic-1-en.png" alt="Digit Drive game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Digit Drive</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-6/algebra-trials-topic-4-en.png" alt="Algebra Trials game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Algebra Trials</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-5/grid-lock-topic-10-en.png" alt="Grid Lock game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Grid Lock</span>
+              </div>
+            </div>
+            <div class="showcase-game">
+              <img src="/assets/images/grade-6/multiverse-topic-1-en.png" alt="Multiverse game screenshot">
+              <div class="showcase-game-overlay">
+                <span class="showcase-game-title">Multiverse</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase-info">
+          <span class="showcase-land-tag purple">Wizard's Academy</span>
+          <h3 class="showcase-title">MASTER THE MYSTICAL ARTS!</h3>
+          <p class="showcase-description">
+            Step into the prestigious academy where young wizards learn the arcane secrets of decimals,
+            the ancient formulas of algebra, and the geometric spells that shape our world!
+          </p>
+          <ul class="showcase-features">
+            <li>High-speed racing challenges</li>
+            <li>Logic and reasoning puzzles</li>
+            <li>Coordinate plane adventures</li>
+            <li>Pre-algebra preparation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parent Trust Section -->
+  <section class="trust-section" id="parents">
+    <div class="trust-container">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">For Parents</span>
+        <h2 class="section-title">WHY CHOOSE PLAY POWER?</h2>
+        <p class="section-subtitle">
+          Designed by educators, loved by kids, trusted by parents
+        </p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M19 2L14 6.5V17.5L19 13V2ZM6.5 5C4.55 5 2.45 5.4 1 6.5V21.16C1 21.41 1.25 21.66 1.5 21.66C1.6 21.66 1.65 21.59 1.75 21.59C3.1 20.94 5.05 20.5 6.5 20.5C8.45 20.5 10.55 20.9 12 22C13.35 21.15 15.8 20.5 17.5 20.5C19.15 20.5 20.85 20.81 22.25 21.56C22.35 21.61 22.4 21.59 22.5 21.59C22.75 21.59 23 21.34 23 21.09V6.5C22.4 6.05 21.75 5.75 21 5.5V19C19.9 18.65 18.7 18.5 17.5 18.5C15.8 18.5 13.35 19.15 12 20V6.5C10.55 5.4 8.45 5 6.5 5Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">CURRICULUM ALIGNED</h3>
+          <p class="trust-description">
+            Every game aligns with Common Core and state standards, ensuring your child practices exactly what they're learning in school.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 20C7.6 20 4 16.4 4 12C4 7.6 7.6 4 12 4C16.4 4 20 7.6 20 12C20 16.4 16.4 20 12 20ZM12 6C8.7 6 6 8.7 6 12C6 15.3 8.7 18 12 18C15.3 18 18 15.3 18 12C18 8.7 15.3 6 12 6ZM12 16C9.8 16 8 14.2 8 12C8 9.8 9.8 8 12 8C14.2 8 16 9.8 16 12C16 14.2 14.2 16 12 16ZM12 10C10.9 10 10 10.9 10 12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12C14 10.9 13.1 10 12 10Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">ADAPTIVE LEARNING</h3>
+          <p class="trust-description">
+            Our games automatically adjust difficulty based on your child's performance, keeping them challenged but never frustrated.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">SAFE & AD-FREE</h3>
+          <p class="trust-description">
+            A completely safe environment with no ads, no in-app purchases, and no external links. Just pure learning fun!
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M3 13H7V21H3V13ZM10 9H14V21H10V9ZM17 3H21V21H17V3Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">PROGRESS TRACKING</h3>
+          <p class="trust-description">
+            Monitor your child's progress with detailed reports showing skills mastered, time spent, and areas for growth.
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M5 4V2H19V4H17V6L15 8V10L17 12V14H7V12L9 10V8L7 6V4H5ZM9 4V6L11 8V10L9 12H15L13 10V8L15 6V4H9ZM11 16H13V18H15V20H9V18H11V16Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">PROVEN RESULTS</h3>
+          <p class="trust-description">
+            Research shows that game-based learning improves retention and engagement. Our students show measurable improvement!
+          </p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.44 4 16.08 4 12C4 11.38 4.08 10.79 4.21 10.21L9 15V16C9 17.1 9.9 18 11 18V19.93ZM17.9 17.39C17.64 16.58 16.9 16 16 16H15V13C15 12.45 14.55 12 14 12H8V10H10C10.55 10 11 9.55 11 9V7H13C14.1 7 15 6.1 15 5V4.59C17.93 5.78 20 8.65 20 12C20 14.08 19.2 15.97 17.9 17.39Z"/>
+            </svg>
+          </div>
+          <h3 class="trust-title">BILINGUAL SUPPORT</h3>
+          <p class="trust-description">
+            Full support for English and Spanish, making math accessible to more learners and supporting bilingual education.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="final-cta">
+    <div class="cta-content reveal">
+      <h2 class="cta-title">READY FOR THE ADVENTURE?</h2>
+      <p class="cta-subtitle">
+        Join thousands of families who've discovered that math doesn't have to be boring.
+        Start your journey through Play Power Games today!
+      </p>
+      <div class="hero-cta-group">
+        <a href="#lands" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M6 8C6 5.79 7.79 4 10 4H14C16.21 4 18 5.79 18 8C18 9.5 17.2 10.77 16.02 11.45L18 20H6L7.98 11.45C6.8 10.77 6 9.5 6 8ZM10 6C8.9 6 8 6.9 8 8C8 9.1 8.9 10 10 10H14C15.1 10 16 9.1 16 8C16 6.9 15.1 6 14 6H10Z"/></svg>
+          <span>Start Exploring</span>
+        </a>
+        <a href="#parents" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M16 4C16 2.9 15.1 2 14 2C12.9 2 12 2.9 12 4C12 5.1 12.9 6 14 6C15.1 6 16 5.1 16 4ZM20 13C21.1 13 22 12.1 22 11C22 9.9 21.1 9 20 9C18.9 9 18 9.9 18 11C18 12.1 18.9 13 20 13ZM20 14.5C18.33 14.5 15 15.34 15 17V19H22C23.1 19 24 18.1 24 17C24 15.34 21.67 14.5 20 14.5ZM4 13C5.1 13 6 12.1 6 11C6 9.9 5.1 9 4 9C2.9 9 2 9.9 2 11C2 12.1 2.9 13 4 13ZM4 14.5C2.33 14.5 0 15.34 0 17C0 18.1 0.9 19 2 19H9V17C9 15.34 5.67 14.5 4 14.5ZM14 7C12.33 7 9 7.84 9 9.5V12H19V9.5C19 7.84 15.67 7 14 7Z"/></svg>
+          <span>Learn More</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12" stroke="#0A0820" stroke-width="2"/><line x1="8" y1="10" x2="8" y2="14" stroke="#0A0820" stroke-width="2"/><circle cx="17" cy="10" r="1.5"/><circle cx="15" cy="12" r="1.5"/></svg>
+          </div>
+          <span class="footer-logo-text">PLAY POWER GAMES</span>
+        </div>
+        <p class="footer-tagline">
+          Where math becomes an adventure! K-8 educational games that make learning feel like play.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#lands">Park Map</a></li>
+          <li><a href="#attractions">Attractions</a></li>
+          <li><a href="#showcase">Adventures</a></li>
+          <li><a href="#parents">For Parents</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Grade Levels</h4>
+        <ul>
+          <li><a href="#lands">Kindergarten</a></li>
+          <li><a href="#lands">Grades 1-2</a></li>
+          <li><a href="#lands">Grades 3-4</a></li>
+          <li><a href="#lands">Grades 5-8</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Character Parade -->
+    <div class="character-parade">
+      <div class="parade-label">
+        <span>Your Adventure Guides</span>
+      </div>
+      <div class="parade-track-wrapper">
+        <div class="parade-track" id="parade-track">
+          <!-- Characters populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 Play Power Games. All rights reserved. Making math magical for K-8 learners everywhere.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ========================================
+    // SPLASH SCREEN WITH FOX BIKING VIDEO
+    // ========================================
+    function initSplashScreen() {
+      const splashScreen = document.getElementById('splash-screen');
+      const video = document.getElementById('splash-video');
+      const sparklesContainer = document.getElementById('splash-sparkles');
+
+      // Set correct video path based on environment
+      const isLocal = window.location.protocol === 'file:';
+      const videoPath = isLocal 
+        ? '../../../Fox_Biking_Animation_Video.mp4' 
+        : '/Fox_Biking_Animation_Video.mp4';
+      
+      // Update video source
+      const source = video.querySelector('source');
+      if (source) {
+        source.src = videoPath;
+        video.load();
+      }
+
+      // Create floating sparkles
+      const sparkleSvgs = [
+        '<svg viewBox="0 0 24 24" fill="#FBBF24" width="24" height="24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="#EC4899" width="20" height="20"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3Z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="#14B8A6" width="22" height="22"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="#6B4EE6" width="18" height="18"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3Z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="#F97316" width="16" height="16"><path d="M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z"/></svg>'
+      ];
+
+      for (let i = 0; i < 15; i++) {
+        const sparkle = document.createElement('span');
+        sparkle.className = 'splash-sparkle';
+        sparkle.innerHTML = sparkleSvgs[Math.floor(Math.random() * sparkleSvgs.length)];
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.animationDelay = `${Math.random() * 2}s`;
+        sparklesContainer.appendChild(sparkle);
+      }
+
+      // Handle video end event
+      function handleVideoEnd() {
+        // Wait a moment, then fade out
+        setTimeout(() => {
+          splashScreen.classList.add('fade-out');
+          setTimeout(() => {
+            splashScreen.remove();
+          }, 800);
+        }, 500);
+      }
+
+      // Listen for video end
+      video.addEventListener('ended', handleVideoEnd);
+
+      // Fallback: If video doesn't load or play within 10 seconds, still transition
+      const fallbackTimeout = setTimeout(() => {
+        console.log('Splash fallback triggered - transitioning to main content');
+        handleVideoEnd();
+      }, 10000);
+
+      // Clear fallback if video ends normally
+      video.addEventListener('ended', () => {
+        clearTimeout(fallbackTimeout);
+      });
+
+      // Handle video load error
+      video.addEventListener('error', (e) => {
+        console.error('Video load error:', e);
+        // Transition after a brief moment if video fails
+        setTimeout(() => {
+          handleVideoEnd();
+        }, 1500);
+      });
+
+      // Try to play video (needed for some browsers)
+      const playPromise = video.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.log('Video autoplay prevented:', err);
+          // If autoplay is blocked, still show content after delay
+          setTimeout(() => {
+            handleVideoEnd();
+          }, 3000);
+        });
+      }
+    }
+
+    // Initialize splash immediately
+    initSplashScreen();
+
+    // ========================================
+    // MAGICAL PARTICLES
+    // ========================================
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#FBBF24', '#EC4899', '#6B4EE6', '#14B8A6', '#3B82F6'];
+
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 8 + 4;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const duration = Math.random() * 20 + 15;
+        const delay = Math.random() * 20;
+
+        particle.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          background: ${color};
+          left: ${left}%;
+          animation-duration: ${duration}s;
+          animation-delay: -${delay}s;
+        `;
+
+        container.appendChild(particle);
+      }
+    }
+
+    // ========================================
+    // NAVIGATION SCROLL EFFECT
+    // ========================================
+    function handleNavScroll() {
+      const nav = document.querySelector('.nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+    }
+
+    // ========================================
+    // MOBILE MENU TOGGLE
+    // ========================================
+    function setupMobileMenu() {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const navLinks = document.getElementById('nav-links');
+      const openIcon = document.getElementById('menu-icon-open');
+      const closeIcon = document.getElementById('menu-icon-close');
+
+      function toggleMenuIcon(isOpen) {
+        openIcon.style.display = isOpen ? 'none' : 'block';
+        closeIcon.style.display = isOpen ? 'block' : 'none';
+      }
+
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const isExpanded = navLinks.classList.contains('active');
+        menuBtn.setAttribute('aria-expanded', isExpanded);
+        toggleMenuIcon(isExpanded);
+      });
+
+      // Close menu when clicking a link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          menuBtn.setAttribute('aria-expanded', 'false');
+          toggleMenuIcon(false);
+        });
+      });
+    }
+
+    // ========================================
+    // REVEAL ON SCROLL
+    // ========================================
+    function setupRevealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      reveals.forEach(reveal => observer.observe(reveal));
+    }
+
+    // ========================================
+    // ATTRACTIONS CAROUSEL
+    // ========================================
+    function populateCarousel() {
+      const track = document.getElementById('carousel-track');
+
+      // Detect if running locally or on server
+      const isLocal = window.location.protocol === 'file:';
+      const basePath = isLocal ? '../../public/assets/images/' : '/assets/images/';
+
+      const attractions = [
+        { image: basePath + 'grade-k/space-party-topic-1-en.png', title: 'Space Party', grade: 'Kindergarten', desc: 'Count and celebrate with alien friends!' },
+        { image: basePath + 'grade-1/astro-math-topic-2-en.png', title: 'Astro Math', grade: 'Grade 1', desc: 'Addition adventures among the stars!' },
+        { image: basePath + 'grade-2/emoji-battle-topic-3-en.png', title: 'Emoji Battle', grade: 'Grade 2', desc: 'Math battles with expressive fun!' },
+        { image: basePath + 'grade-2/fact-racer-topic-4-en.png', title: 'Fact Racer', grade: 'Grade 2', desc: 'Race to master math facts!' },
+        { image: basePath + 'grade-3/fraction-frenzy-topic-10-en.png', title: 'Fraction Frenzy', grade: 'Grade 3', desc: 'Fractions made fun and fast!' },
+        { image: basePath + 'grade-3/robo-pirates-topic-9-en.png', title: 'Robo Pirates', grade: 'Grade 3', desc: 'Pirate adventures with numbers!' },
+        { image: basePath + 'grade-4/dino-muncher-topic-6-en.png', title: 'Dino Muncher', grade: 'Grade 4', desc: 'Feed dinos with correct answers!' },
+        { image: basePath + 'grade-5/digit-drive-topic-1-en.png', title: 'Digit Drive', grade: 'Grade 5', desc: 'High-speed decimal racing!' },
+        { image: basePath + 'grade-5/grid-lock-topic-10-en.png', title: 'Grid Lock', grade: 'Grade 5', desc: 'Coordinate plane puzzles!' },
+        { image: basePath + 'grade-6/algebra-trials-topic-4-en.png', title: 'Algebra Trials', grade: 'Grade 6', desc: 'Conquer algebraic challenges!' },
+        { image: basePath + 'grade-7/number-knockout-topic-3-en.png', title: 'Number Knockout', grade: 'Grade 7', desc: 'Knock out math problems!' },
+        { image: basePath + 'grade-8/pythagoras-path-topic-7-en.png', title: 'Pythagoras Path', grade: 'Grade 8', desc: 'Master geometric theorems!' },
+      ];
+
+      // Double the items for seamless loop
+      const doubledAttractions = [...attractions, ...attractions];
+
+      doubledAttractions.forEach(attraction => {
+        const card = document.createElement('div');
+        card.className = 'attraction-card';
+        card.innerHTML = `
+          <div class="attraction-image">
+            <img src="${attraction.image}" alt="${attraction.title} game screenshot" loading="lazy">
+            <span class="attraction-badge">Popular</span>
+          </div>
+          <div class="attraction-content">
+            <h3 class="attraction-title">${attraction.title}</h3>
+            <p class="attraction-grade">${attraction.grade}</p>
+            <p class="attraction-desc">${attraction.desc}</p>
+          </div>
+        `;
+        track.appendChild(card);
+      });
+    }
+
+    // ========================================
+    // LAND CARD INTERACTIONS
+    // ========================================
+    function setupLandCards() {
+      const landCards = document.querySelectorAll('.land-card');
+
+      landCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Scroll to showcase section
+          document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+    }
+
+    // ========================================
+    // SMOOTH SCROLL FOR ANCHOR LINKS
+    // ========================================
+    function setupSmoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    // ========================================
+    // FIX IMAGE PATHS FOR LOCAL/SERVER
+    // ========================================
+    function fixImagePaths() {
+      const isLocal = window.location.protocol === 'file:';
+      if (!isLocal) return; // Only fix for local file access
+
+      // Fix all images with /assets/ paths - use getAttribute to get original HTML attribute
+      const images = document.querySelectorAll('img[src^="/assets/"]');
+      
+      images.forEach((img) => {
+        const oldAttr = img.getAttribute('src');
+        const newPath = oldAttr.replace('/assets/', '../../public/assets/');
+        img.setAttribute('src', newPath);
+      });
+    }
+
+    // ========================================
+    // FOOTER CHARACTER PARADE
+    // ========================================
+    function populateCharacterParade() {
+      const track = document.getElementById('parade-track');
+      if (!track) return;
+
+      const isLocal = window.location.protocol === 'file:';
+      const basePath = isLocal ? '../../public/assets/images/characters/' : '/assets/images/characters/';
+
+      const characters = [
+        { name: 'Carrot Bunny', file: 'carrot-bunny.png' },
+        { name: 'Captain Pelican', file: 'captain-pelican.png' },
+        { name: 'Astro Bot', file: 'astro-bot.png' },
+        { name: 'Chompy Dino', file: 'chompy-dino.png' },
+        { name: 'Professor Cat', file: 'professor-cat.png' },
+        { name: 'Biker Fox', file: 'biker-fox.png' },
+        { name: 'Temple Bird', file: 'temple-bird.png' }
+      ];
+
+      // Triple the characters for seamless infinite scroll
+      const allCharacters = [...characters, ...characters, ...characters];
+
+      allCharacters.forEach(char => {
+        const charDiv = document.createElement('div');
+        charDiv.className = 'parade-character';
+        charDiv.setAttribute('data-name', char.name);
+        charDiv.innerHTML = `<img src="${basePath}${char.file}" alt="${char.name}" loading="lazy">`;
+        track.appendChild(charDiv);
+      });
+    }
+
+    // ========================================
+    // INITIALIZE ALL FEATURES
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      fixImagePaths();
+      createParticles();
+      handleNavScroll();
+      setupMobileMenu();
+      setupRevealOnScroll();
+      populateCarousel();
+      setupLandCards();
+      setupSmoothScroll();
+      populateCharacterParade();
+    });
+  </script>
+</body>
+</html>

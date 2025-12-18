@@ -26,6 +26,15 @@
       "createdDate": "2024-12-08",
       "lastUpdated": "2024-12-08",
       "tags": ["3d", "interactive", "threejs", "space"]
+    },
+    {
+      "path": "/playpower-park-vid-1-manan",
+      "name": "PlayPower Park (Video Splash)",
+      "description": "Disneyland-inspired magical theme park landing page with Fox Biking video splash screen, animated attractions carousel, themed grade lands, and immersive scroll experience",
+      "owner": "Manan Shah",
+      "createdDate": "2024-12-18",
+      "lastUpdated": "2024-12-18",
+      "tags": ["theme-park", "animated", "carousel", "immersive", "magical", "video-splash"]
     }
   ]
 }
