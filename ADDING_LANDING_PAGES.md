@@ -20,14 +20,14 @@ touch apps/landing-[your-page-name]/index.html
 ### 3. Update Build Script
 Edit `build.sh` to include your new landing page:
 
-**Add mkdir command** (around line 14):
+**Add mkdir command** (in the directory creation section):
 ```bash
-mkdir -p public-build/[your-page-name]
+mkdir -p dist/[your-page-name]
 ```
 
-**Add copy command** (around line 26):
+**Add copy command** (in the copy section):
 ```bash
-cp -r apps/landing-[your-page-name]/* public-build/[your-page-name]/
+cp -r apps/landing-[your-page-name]/* dist/[your-page-name]/
 ```
 
 ### 4. Update Vercel Configuration
@@ -77,8 +77,8 @@ mkdir -p apps/landing-games-dashboard
 # (edit apps/landing-games-dashboard/index.html)
 
 # 3. Update build.sh
-# Add: mkdir -p public-build/games-dashboard
-# Add: cp -r apps/landing-games-dashboard/* public-build/games-dashboard/
+# Add: mkdir -p dist/games-dashboard
+# Add: cp -r apps/landing-games-dashboard/* dist/games-dashboard/
 
 # 4. Update vercel.json
 # Add rewrite: "/games-dashboard" -> "/games-dashboard/index.html"

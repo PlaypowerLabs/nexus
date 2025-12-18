@@ -1549,7 +1549,7 @@
     }
 
     /* ========================================
-       SPLASH LOADING SCREEN
+       SPLASH LOADING SCREEN WITH VIDEO
     ======================================== */
     .splash-screen {
       position: fixed;
@@ -1564,6 +1564,7 @@
       justify-content: center;
       align-items: center;
       transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+      overflow: hidden;
     }
 
     .splash-screen.fade-out {
@@ -1571,70 +1572,57 @@
       visibility: hidden;
     }
 
-    .splash-content {
-      text-align: center;
+    .splash-video-container {
       position: relative;
-      z-index: 10;
-    }
-
-    .splash-mosaic {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      max-width: 500px;
-      margin: 0 auto 2rem;
-      padding: 1rem;
-      perspective: 1000px;
-    }
-
-    .splash-tile {
-      width: 110px;
-      height: 75px;
-      border-radius: 12px;
-      overflow: hidden;
-      opacity: 0;
-      transform: scale(0) rotateY(180deg);
-      animation: tile-flip-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      position: relative;
-    }
-
-    .splash-tile::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .splash-tile img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(ellipse at center, rgba(107, 78, 230, 0.2) 0%, var(--color-deep-space) 70%);
     }
 
-    @keyframes tile-flip-in {
+    .splash-video {
+      max-width: 90%;
+      max-height: 90%;
+      width: auto;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 60px rgba(251, 191, 36, 0.3);
+      opacity: 0;
+      animation: video-fade-in 0.6s ease-out 0.3s forwards;
+    }
+
+    @keyframes video-fade-in {
       0% {
         opacity: 0;
-        transform: scale(0) rotateY(180deg) translateY(50px);
-      }
-      60% {
-        transform: scale(1.1) rotateY(0deg) translateY(-10px);
+        transform: scale(0.9) translateY(30px);
       }
       100% {
         opacity: 1;
-        transform: scale(1) rotateY(0deg) translateY(0);
+        transform: scale(1) translateY(0);
       }
+    }
+
+    .splash-content {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+      width: 90%;
+      max-width: 600px;
+      opacity: 0;
+      animation: splash-text-in 0.8s ease-out 1s forwards;
     }
 
     .splash-title {
       font-family: var(--font-display);
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      letter-spacing: 6px;
+      font-size: clamp(2rem, 6vw, 4rem);
+      letter-spacing: 4px;
       margin-bottom: 0.5rem;
-      opacity: 0;
-      animation: splash-text-in 0.8s ease-out 1s forwards;
-      text-shadow: 3px 3px 0 var(--color-magic-purple);
+      text-shadow: 3px 3px 0 var(--color-magic-purple), 0 0 30px rgba(251, 191, 36, 0.5);
       line-height: 1.1;
     }
 
@@ -1651,35 +1639,32 @@
 
     .splash-tagline {
       font-family: var(--font-heading);
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
-      opacity: 0;
-      animation: splash-text-in 0.8s ease-out 1.2s forwards;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 1rem;
     }
 
     @keyframes splash-text-in {
       0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateX(-50%) translateY(20px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
       }
     }
 
     .splash-loader {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       display: flex;
       gap: 8px;
       justify-content: center;
-      opacity: 0;
-      animation: splash-text-in 0.5s ease-out 1.4s forwards;
     }
 
     .splash-loader-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--color-sunny-yellow);
       animation: loader-bounce 1.4s ease-in-out infinite;
@@ -1712,6 +1697,7 @@
       height: 100%;
       pointer-events: none;
       overflow: hidden;
+      z-index: 1;
     }
 
     .splash-sparkle {
@@ -1732,49 +1718,60 @@
       }
     }
 
-    @media (max-width: 550px) {
-      .splash-mosaic {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        max-width: 350px;
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .splash-video {
+        max-width: 95%;
+        max-height: 70%;
+        border-radius: 16px;
       }
 
-      .splash-tile {
-        width: 100px;
-        height: 68px;
+      .splash-content {
+        bottom: 8%;
       }
 
-      .splash-tile:nth-child(n+10) {
-        display: none;
+      .splash-title {
+        font-size: clamp(1.5rem, 5vw, 3rem);
       }
     }
 
-    @media (max-width: 380px) {
-      .splash-mosaic {
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 240px;
+    @media (max-width: 480px) {
+      .splash-video {
+        max-width: 98%;
+        max-height: 60%;
+        border-radius: 12px;
       }
 
-      .splash-tile:nth-child(n+7) {
-        display: none;
+      .splash-content {
+        bottom: 5%;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Splash Loading Screen with Game Thumbnails -->
+  <!-- Splash Loading Screen with Fox Biking Video -->
   <div class="splash-screen" id="splash-screen">
     <div class="splash-sparkles" id="splash-sparkles"></div>
+    <div class="splash-video-container">
+      <video 
+        id="splash-video" 
+        class="splash-video" 
+        autoplay 
+        muted
+        playsinline
+        preload="auto"
+      >
+        <source src="/assets/Videos/fox_fast_speed.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
     <div class="splash-content">
-      <div class="splash-mosaic" id="splash-mosaic">
-        <!-- Tiles populated by JavaScript -->
-      </div>
       <h1 class="splash-title">
         <span class="splash-line">PLAY</span>
         <span class="splash-line highlight">POWER</span>
         <span class="splash-line">GAMES</span>
       </h1>
-      <p class="splash-tagline">Opening the gates to adventure...</p>
+      <p class="splash-tagline">Get ready for adventure...</p>
       <div class="splash-loader">
         <div class="splash-loader-dot"></div>
         <div class="splash-loader-dot"></div>
@@ -1826,24 +1823,43 @@
     </div>
 
     <div class="floating-elements" id="floating-elements">
-      <span class="floating-star" style="top: 15%; left: 10%;">
+      <span class="floating-star" style="top: 15%; left: 12%;">
         <svg viewBox="0 0 24 24" fill="#FBBF24" width="32" height="32"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 25%; right: 15%; animation-delay: 0.5s;">
+      <span class="floating-star" style="top: 30%; right: 18%; animation-delay: 0.5s;">
         <svg viewBox="0 0 24 24" fill="#EC4899" width="28" height="28"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 60%; left: 8%; animation-delay: 1s;">
+      <span class="floating-star" style="top: 55%; left: 15%; animation-delay: 1s;">
         <svg viewBox="0 0 24 24" fill="#14B8A6" width="36" height="36"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 70%; right: 10%; animation-delay: 1.5s;">
+      <span class="floating-star" style="top: 65%; right: 15%; animation-delay: 1.5s;">
         <svg viewBox="0 0 24 24" fill="#6B4EE6" width="30" height="30"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 40%; left: 5%; animation-delay: 0.3s;">
+      <span class="floating-star" style="top: 35%; left: 18%; animation-delay: 0.3s;">
         <svg viewBox="0 0 24 24" fill="#F97316" width="26" height="26"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
       </span>
-      <span class="floating-star" style="top: 50%; right: 5%; animation-delay: 0.8s;">
+      <span class="floating-star" style="top: 45%; right: 18%; animation-delay: 0.8s;">
         <svg viewBox="0 0 24 24" fill="#3B82F6" width="24" height="24"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3ZM19 15L20 17L22 18L20 19L19 21L18 19L16 18L18 17L19 15Z"/></svg>
       </span>
+    </div>
+
+    <!-- Hero Welcome Characters -->
+    <div class="hero-characters">
+      <!-- Captain Pelican - Waving from left -->
+      <div class="hero-character captain">
+        <img src="/assets/images/characters/captain-pelican.png" alt="Captain Pelican welcoming you">
+        <div class="speech-bubble">Welcome aboard! 🎉</div>
+      </div>
+      
+      <!-- Astro Bot - Floating top right -->
+      <div class="hero-character astro">
+        <img src="/assets/images/characters/astro-bot.png" alt="Astro Bot floating">
+      </div>
+      
+      <!-- Carrot Bunny - Hopping bottom right -->
+      <div class="hero-character bunny">
+        <img src="/assets/images/characters/carrot-bunny.png" alt="Carrot Bunny hopping">
+      </div>
     </div>
 
     <div class="hero-content">
@@ -2371,106 +2387,27 @@
 
   <script>
     // ========================================
-    // SPLASH SCREEN WITH THUMBNAIL MOSAIC
+    // SPLASH SCREEN WITH FOX BIKING VIDEO
     // ========================================
     function initSplashScreen() {
-      const mosaic = document.getElementById('splash-mosaic');
-      const sparklesContainer = document.getElementById('splash-sparkles');
       const splashScreen = document.getElementById('splash-screen');
+      const video = document.getElementById('splash-video');
+      const sparklesContainer = document.getElementById('splash-sparkles');
 
-      // Detect if running locally or on server
+      // Set correct video path based on environment
       const isLocal = window.location.protocol === 'file:';
-      const basePath = isLocal ? '../../public/assets/images/' : '/assets/images/';
-
-      // Game thumbnails for the mosaic
-      const thumbnailPaths = [
-        'grade-k/space-party-topic-1-en.png',
-        'grade-1/astro-math-topic-2-en.png',
-        'grade-2/emoji-battle-topic-3-en.png',
-        'grade-3/robo-pirates-topic-9-en.png',
-        'grade-4/dino-muncher-topic-6-en.png',
-        'grade-5/digit-drive-topic-1-en.png',
-        'grade-6/algebra-trials-topic-4-en.png',
-        'grade-7/number-knockout-topic-3-en.png',
-        'grade-2/fact-racer-topic-4-en.png',
-        'grade-3/fraction-frenzy-topic-10-en.png',
-        'grade-5/grid-lock-topic-10-en.png',
-        'grade-8/pythagoras-path-topic-7-en.png'
-      ];
-
-      const thumbnails = thumbnailPaths.map(path => basePath + path);
-
-      // Preload all images before showing animation
-      let loadedCount = 0;
-      const totalImages = thumbnails.length;
-      const preloadedImages = [];
-      let animationStarted = false;
-
-      function startAnimation() {
-        if (animationStarted) return;
-        animationStarted = true;
-
-        // Create mosaic tiles with preloaded images
-        preloadedImages.forEach((img, index) => {
-          const tile = document.createElement('div');
-          tile.className = 'splash-tile';
-          tile.style.animationDelay = `${index * 0.06}s`;
-          tile.appendChild(img);
-          mosaic.appendChild(tile);
-        });
-
-        // Fade out splash screen after animation completes
-        setTimeout(() => {
-          splashScreen.classList.add('fade-out');
-          setTimeout(() => {
-            splashScreen.remove();
-          }, 600);
-        }, 1800);
+      const videoPath = isLocal 
+        ? '../../public/assets/Videos/fox_fast_speed.mp4' 
+        : '/assets/Videos/fox_fast_speed.mp4';
+      
+      // Update video source
+      const source = video.querySelector('source');
+      if (source) {
+        source.src = videoPath;
+        video.load();
       }
 
-      // Preload images
-      thumbnails.forEach((src, index) => {
-        const img = document.createElement('img');
-        img.alt = 'Game thumbnail';
-
-        img.onload = () => {
-          loadedCount++;
-          preloadedImages[index] = img;
-          if (loadedCount === totalImages) {
-            startAnimation();
-          }
-        };
-
-        img.onerror = () => {
-          loadedCount++;
-          // Create placeholder for failed images
-          const placeholder = document.createElement('div');
-          placeholder.style.cssText = 'width:100%;height:100%;background:linear-gradient(135deg,#6B4EE6,#EC4899);';
-          preloadedImages[index] = placeholder;
-          if (loadedCount === totalImages) {
-            startAnimation();
-          }
-        };
-
-        img.src = src;
-      });
-
-      // Fallback: start animation after 800ms even if not all images loaded
-      setTimeout(() => {
-        if (!animationStarted) {
-          // Fill remaining slots with placeholders
-          for (let i = 0; i < totalImages; i++) {
-            if (!preloadedImages[i]) {
-              const placeholder = document.createElement('div');
-              placeholder.style.cssText = 'width:100%;height:100%;background:linear-gradient(135deg,#6B4EE6,#EC4899);';
-              preloadedImages[i] = placeholder;
-            }
-          }
-          startAnimation();
-        }
-      }, 800);
-
-      // Create floating sparkles immediately with SVG
+      // Create floating sparkles
       const sparkleSvgs = [
         '<svg viewBox="0 0 24 24" fill="#FBBF24" width="24" height="24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>',
         '<svg viewBox="0 0 24 24" fill="#EC4899" width="20" height="20"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3Z"/></svg>',
@@ -2478,7 +2415,8 @@
         '<svg viewBox="0 0 24 24" fill="#6B4EE6" width="18" height="18"><path d="M12 3L13.5 8.5L19 10L13.5 11.5L12 17L10.5 11.5L5 10L10.5 8.5L12 3ZM5 3L6 5L8 6L6 7L5 9L4 7L2 6L4 5L5 3Z"/></svg>',
         '<svg viewBox="0 0 24 24" fill="#F97316" width="16" height="16"><path d="M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z"/></svg>'
       ];
-      for (let i = 0; i < 12; i++) {
+
+      for (let i = 0; i < 15; i++) {
         const sparkle = document.createElement('span');
         sparkle.className = 'splash-sparkle';
         sparkle.innerHTML = sparkleSvgs[Math.floor(Math.random() * sparkleSvgs.length)];
@@ -2486,6 +2424,53 @@
         sparkle.style.top = `${Math.random() * 100}%`;
         sparkle.style.animationDelay = `${Math.random() * 2}s`;
         sparklesContainer.appendChild(sparkle);
+      }
+
+      // Handle video end event
+      function handleVideoEnd() {
+        // Wait a moment, then fade out
+        setTimeout(() => {
+          splashScreen.classList.add('fade-out');
+          setTimeout(() => {
+            splashScreen.remove();
+          }, 800);
+        }, 500);
+      }
+
+      // Listen for video end
+      video.addEventListener('ended', handleVideoEnd);
+
+      // Fallback: If video doesn't load or play within 10 seconds, still transition
+      const fallbackTimeout = setTimeout(() => {
+        console.log('Splash fallback triggered - transitioning to main content');
+        handleVideoEnd();
+      }, 10000);
+
+      // Clear fallback if video ends normally
+      video.addEventListener('ended', () => {
+        clearTimeout(fallbackTimeout);
+      });
+
+      // Handle video load error
+      video.addEventListener('error', (e) => {
+        console.error('Video load error:', e);
+        // Transition after a brief moment if video fails
+        setTimeout(() => {
+          handleVideoEnd();
+        }, 1500);
+      });
+
+      // Try to play video (needed for some browsers)
+      const playPromise = video.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.log('Video autoplay prevented:', err);
+          // If autoplay is blocked, still show content after delay
+          setTimeout(() => {
+            handleVideoEnd();
+          }, 3000);
+        });
       }
     }
 
